@@ -1,0 +1,343 @@
+
+
+<div class="row list">
+    <div class="col-lg-12">
+        <div class="kt-portlet">
+            <div class="kt-portlet__head">
+                <div class="kt-portlet__head-label">
+                    <h3 class="kt-portlet__head-title">
+                        PurchaseRetrun List
+                    </h3>
+                </div>
+                <div class="kt-portlet__head-toolbar">
+                    <div class="kt-portlet__head-actions">
+
+                        <button type="button" class="btn btn-bold btn-success-grn btn-sm" data-toggle="modal" data-target="#kt_modal_4" onclick="Show()"><i class="fa fa-plus-circle"></i> Add New</button>
+
+                    </div>
+                </div>
+            </div>
+            <div class="cust-tab kt-portlet__body">
+                <table class="table text-center table-sm table-striped- table-bordered table-hover table-checkable" id="gvpurchaselist">
+                    <thead>
+                        <tr>
+                            <th>Suppliername</th>
+                            <th style="border-left: 0.03rem solid #b3b3b4 !important;border-bottom: 0.05rem solid #b3b3b4 !important;border-top: 0.05rem solid #b3b3b4 !important;">
+                                Purchase Date</th>
+                            <th>Purchasereturn No</th>
+
+                            <th>Retrun Date</th>
+
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div class="row entry">
+    <div class="col-lg-12">
+        <!--begin::Portlet-->
+        <div class="kt-portlet kt-portlet--last kt-portlet--head-lg kt-portlet--responsive-mobile" id="kt_page_portlet">
+            <div class="kt-portlet__head kt-portlet__head--lg">
+                <div class="kt-portlet__head-label">
+                    <h3 class="kt-portlet__head-title">PurchaseRetrun Entry </h3>
+                </div>
+                <div class="kt-portlet__head-toolbar">
+                    <a href="#" onclick="Close()" class="btn btn-danger kt-margin-r-10">
+                        <i class="la la-arrow-left"></i>
+                        <span class="kt-hidden-mobile">Back</span>
+                    </a>
+                    <div class="btn-group" id="btnsavegroup">
+                        <button type="button" onclick="save_process()" class="btn btn-brand">
+                            <i class="la la-save"></i>
+                            <span class="kt-hidden-mobile">Save</span>
+                        </button>
+                        <button type="button" class="btn btn-brand dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        </button>
+                        <div class="dropdown-menu dropdown-menu-right">
+                            <ul class="kt-nav">
+                                <li class="kt-nav__item">
+                                    <a href="#" onclick="saveexit()" class="kt-nav__link">
+                                        <i class="kt-nav__link-icon flaticon2-edit-interface-symbol-of-pencil-tool"></i>
+                                        <span class="kt-nav__link-text">Save & exit</span>
+                                    </a>
+                                </li>
+                                <li class="kt-nav__item">
+                                    <a href="#" onclick="save_process()" class="kt-nav__link">
+                                        <i class="kt-nav__link-icon flaticon2-add-1"></i>
+                                        <span class="kt-nav__link-text">Save & add new</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="kt-portlet__body">
+                <form class="kt-form" id="kt_form">
+                    <div class="row ">
+                        <div class="col-md-2">
+                            <h6 class="kt-font">PurchaseReturn No</h6>
+                          
+                            <br>
+                            <div class="kt-input-icon">
+                                <h3 class="kt-callout__title lblinvoiceno kt-font-primary kt-font-bold">
+                                    <lable id="lblpurchaseretrun_no"></lable>
+                                </h3>
+                            </div>
+
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                
+                                <h6 class="kt-font">Type</h6>
+                               <select id="ddltype" class="form-control">
+                                   <option value="WrongGoods">WrongGoods</option>
+                                   <option value="Damaged">Damaged</option>
+                               </select>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <h6 class="kt-font">Purchase No</h6>  
+                                <div class="col-lg-12 col-md-9 col-sm-12">
+                                    <div class="typehead">
+                                        <input class="form-control dark-border bg-white" id="txtpurchaseno" type="text" dir="ltr" placeholder="Enter purchaseno">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <h6 class="kt-font">Purchase Date</h6>
+                            <!-- <label class="control-label">Purchase Date</label> -->
+                            <div class="kt-input-icon">
+                                <input type="text" style="background-color: #fff;" disabled="disabled" id="txtpurchasedate" onblur="Cal_Duedate()" class="form-control kt_datepicker_1 dark-border" placeholder="DD-MM-YYYY">
+                                <span class="kt-input-icon__icon kt-input-icon__icon--right"><span><i
+                                            class="flaticon2-calendar"></i></span></span>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="row" >
+                        <div class="col-md-3">
+                            <h6 class="kt-font">Supplier</h6>
+                            <!-- <label class="col-form-label">Supplier</label> -->
+                            <div class="col-lg-12 col-md-9 col-sm-12" >
+                                <div class="typehead">
+                                    <input class="form-control dark-border bg-white" disabled="disabled" id="txtsupplier" type="text" dir="ltr" placeholder="Enter suppliername">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-3 supplierdetails">
+                            <label class="control-label  kt-font-success kt-font-bold">GST IN</label>
+                            <input type="text" disabled="disabled" style="background-color: #fff;" id="txtgstno" class="form-control">
+                        </div>
+                        <div class="col-md-3 supplierdetails">
+                            <label class="control-label  kt-font-success kt-font-bold">Source of Supply</label>
+                            <select id="ddlcompanystate" style="background-color: #fff;" disabled="disabled" class="form-control"></select>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="cust-tab table-responsive">
+                        <table class="table table-bordered" id="detailsTable">
+                            <thead>
+                                <tr>
+
+                                </tr>
+                            </thead>
+                            <tbody class="trbody">
+
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- <div class="row">
+                        <div class="col-lg-3"></div>
+                        <div class="col-lg-3"></div>
+                        <div class="col-lg-3"></div>
+                        <div class="col-lg-3">
+                            <label>SubTotal:</label>
+                            <label style="margin-left:10px" id="subtotal"> 0</label>
+                            <div class="gstdetails">
+
+                            </div>
+                        </div>
+                    </div> -->
+                    <!-- <div class="row">
+                        <div class="col-lg-3"></div>
+                        <div class="col-lg-3"></div>
+                        <div class="col-lg-3"></div>
+                        <div class="col-lg-3">
+                            <div class="row">
+                                
+                                <h6 class="kt-font">Actual Total:</h6>
+                                <div class="col-sm-6">
+                                    <input type="text" id="txtactualtotal" disabled="disabled" style=" margin-left: -27px;" class="form-control form-control-sm">
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </div>
+                    </br> -->
+
+                    <div class="row">
+                        <div class="col-lg-8">
+
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="kt-section">
+                                <div style="border: 1px solid #c2c1c1;" class="kt-section__content kt-section__content--border kt-section__content--fit">
+
+                                    
+                                  
+                                    <div class="row mt-2">
+                                        <div class="col-sm-6">
+                                            <h6 class="kt-font" style="margin-left: 7%;"> Sub Total:</h6>
+    
+                                        </div>
+    
+                                        <div class="col-sm-6">
+                                            <label id="subtotal"> 0</label>
+                                        </div>
+                                    </div>
+                                    <div class="row mt-2">
+                                        <div class="col-sm-6">
+                                            <h6 class="kt-font" style="margin-left: 7%;"> Round Off:</h6>
+    
+                                        </div>
+    
+                                        <div class="col-sm-6">
+                                            <div class="input-group" style="width:90%;">
+                                                <select id="ddlroundofftype" onchange="Cal_Roundoff()"
+                                                    class="btn btn-secondary dark-border form-control">
+                                                    <option value="plus">+</option>
+                                                    <option value="negative">-</option>
+                                                </select>
+    
+                                                <input type="text" value="0" id="txtrounoffvalue" onkeyup="Cal_Roundoff()"
+                                                    class="form-control ">
+    
+                                            </div>
+    
+                                        </div>
+                                    </div>
+                                    <div class="row mt-2">
+                                        <div class="col-sm-6">
+                                            <h6 class="kt-font" style="margin-left: 7%;"> Net Payable:</h6>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <label id="txttotal"> 0</label>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                </div>
+                        </div>
+                      
+                    </div>
+                
+                    <hr>
+                    </hr>
+                    <div class="row">
+                        <div class="col-lg-4">
+
+                            <label class="form-control-label">Note:</label>
+                            <textarea rows="4" class="form-control"></textarea>
+
+                        </div>
+                        <div class="col-lg-4"></div>
+
+
+                    </div>
+                    <div class="row">
+                        <div class="modal" id="kt_modal_4" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+                            <div class="modal-dialog modal-sm" role="document" style="width: 500px;">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel">Manage Custom Field </h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+
+                                        <div class="form-group">
+                                            <div class="kt-checkbox-list">
+                                                <label class="kt-checkbox kt-checkbox--tick kt-checkbox--brand">
+                                                    <input type="checkbox" id="chhsn"> HSN/SAC
+                                                    <span></span>
+                                                </label>
+                                                <label class="kt-checkbox kt-checkbox--tick kt-checkbox--brand">
+                                                    <input type="checkbox" id="chunit"> UNIT
+                                                    <span></span>
+                                                </label>
+                                                <label class="kt-checkbox kt-checkbox--tick kt-checkbox--brand">
+                                                    <input type="checkbox" id="chdiscount"> Discount
+                                                    <span></span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="kt-portlet__foot">
+                                            <div class="text-center">
+                                                <div class="col-lg-12">
+                                                    <input type="hidden" id="hf_id">
+                                                    <button type="button" onclick="Changetable()" class="btn btn-brand btn-sm">Save</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="modal fade" id="kt_modal_5" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+                            <div class="modal-dialog modal-sm" role="document" style="width: 500px;">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel">Attribute Details</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <!--begin::Form-->
+                                        <div class="attributedetails">
+
+                                        </div>
+                                        <div class="kt-portlet__foot">
+                                            <div class="text-center">
+                                                <div class="col-lg-12">
+
+                                                    <button type="button" onclick="Changetable()" class="btn btn-brand btn-sm">Save</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--end::Form-->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <input type="hidden" id="hfsupplierid">
+                    <input type="hidden" id="hfpurchaseid">
+                    <input type="hidden" id="hf_id">
+                    <input type="hidden" id="hfsuppliername">
+                    <input type="hidden" id="hfsuppliertype">
+                    <input type="hidden" id="hfemail">
+                    <input type="hidden" id="hfshippingaddress">
+                    <input type="hidden" id="hfbillingaddress">
+                    <input type="hidden" id="hfgstin">
+                    <input type="hidden" id="hfgsttype">
+                    <input type="hidden" id="hf_companystate">
+            </div>
+            </form>
+        </div>
+    </div>
+    <!--end::Portlet-->
+</div>

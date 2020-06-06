@@ -1,0 +1,659 @@
+<div class="row" style="display: none;">
+
+    <div class="col-md-3">
+        <label class="control-label">From Date</label>
+        <div class="kt-input-icon">
+            <input type="text" id="txtfromdate" class="form-control kt_datepicker_1 dark-border"
+                placeholder="DD-MM-YYYY">
+            <span class="kt-input-icon__icon kt-input-icon__icon--right"><span><i
+                        class="flaticon2-calendar"></i></span></span>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <label class="control-label">To Date</label>
+        <div class="kt-input-icon">
+            <input type="text" id="txttodate" class="form-control kt_datepicker_1 dark-border" placeholder="DD-MM-YYYY">
+            <span class="kt-input-icon__icon kt-input-icon__icon--right">
+                <span><i onclick="GetDashboard_Date()" class="flaticon2-calendar"></i></span></span>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <button type="button" class="btn btn-primary btn-font-sm mt-4">Search
+            <!-- <button type="button" onclick="loaddashboard()" class="btn btn-primary btn-font-sm mt-4">Search -->
+        </button>
+    </div>
+</div>
+<div class="row">
+    <div class="col-xl-12">
+        <div class="kt-widget kt-widget--user-profile-3">
+
+            <div class="kt-widget__bottom" style="margin-top: 0px;">
+
+
+                <div class="kt-widget__item">
+                    <div class="kt-widget__icon">
+                        <i class="flaticon-confetti"></i>
+                    </div>
+                    <div class="kt-widget__details">
+                        <span class="kt-widget__title">Sales</span>
+                        <span class="kt-widget__value"><span><i class="la la-rupee"></i></span><label
+                                id="lblsales">0</label></span>
+                    </div>
+                </div>
+
+                <div class="kt-widget__item">
+                    <div class="kt-widget__icon">
+                        <i class="flaticon2-shopping-cart-1"></i>
+
+                    </div>
+                    <div class="kt-widget__details">
+                        <span class="kt-widget__title">Purchase</span>
+                        <span class="kt-widget__value"><span><i class="la la-rupee"></i></span><label
+                                id="lblpurchase">0</label></span>
+                    </div>
+                </div>
+
+                <div class="kt-widget__item">
+                    <div class="kt-widget__icon">
+                        <i class="flaticon-file-2"></i>
+                    </div>
+                    <div class="kt-widget__details">
+                        <span class="kt-widget__title">Expense</span>
+                        <span class="kt-widget__value"><span><i class="la la-rupee"></i></span><label
+                                id="lblexpense">0</label></span>
+                    </div>
+                </div>
+                <div class="kt-widget__item">
+                    <div class="kt-widget__icon">
+                        <i class="flaticon-piggy-bank"></i>
+                    </div>
+                    <div class="kt-widget__details">
+                        <span class="kt-widget__title">Profit</span>
+                        <span class="kt-widget__value"><span><i class="la la-rupee"></i></span><label
+                                id="lblprofit">0</label></span>
+                    </div>
+                </div>
+
+                <div class="kt-widget__item">
+                    <div class="kt-widget__icon">
+                        <i class="flaticon2-avatar"></i>
+                    </div>
+                    <div class="kt-widget__details">
+                        <span class="kt-widget__title">Receivables</span>
+                        <span class="kt-widget__value"><span></span><label id="lblpendingamount">0</label></span>
+                    </div>
+                </div>
+
+                <div class="kt-widget__item">
+                    <div class="kt-widget__icon">
+                        <i class="flaticon-avatar"></i>
+                    </div>
+                    <div class="kt-widget__details">
+                        <span class="kt-widget__title">Payables</span>
+                        <span class="kt-widget__value"><span></span><label id="lblbalancepaidamount">0</label></span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+<div class="row mt-5">
+    <div class="col-md-8">
+
+
+        <div class="kt-portlet kt-portlet--height-fluid">
+            <div class="kt-portlet__head">
+                <div class="kt-portlet__head-label">
+                    <h3 class="kt-portlet__head-title">
+                        Income Vs Expense
+                    </h3>
+                </div>
+                <div class="kt-portlet__head-toolbar">
+
+
+                </div>
+            </div>
+            <div class="kt-portlet__body kt-portlet__body--fluid">
+                <div class="kt-widget12">
+                    <div class="kt-widget12__content">
+                        <div class="kt-widget12__item">
+                            <div class="kt-widget12__info">
+                                <span class="kt-widget12__desc">Income</span>
+                                <span class="kt-widget12__value kt-font-primary"> <i class="la la-rupee"></i><label
+                                        id="lblsales_income_expense" class=" kt-font-primary"></label></span>
+                            </div>
+
+                            <div class="kt-widget12__info">
+                                <span class="kt-widget12__desc">Expense</span>
+                                <span class="kt-widget12__value kt-font-danger"> <i class="la la-rupee"></i><label
+                                        id="lblexpense_income_expense" class=" kt-font-danger"></label></span>
+
+                            </div>
+                            <div class="kt-widget12__info">
+                                <span class="kt-widget12__desc">Profit</span>
+
+
+                                <span class="kt-widget12__value kt-font-success"> <i class="la la-rupee"></i><label
+                                        id="lblrevenue_income_expense" class=" kt-font-success"></label></span>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="kt-widget12__chart" style="height:250px;">
+                        <div class="chartjs-size-monitor">
+                            <div class="chartjs-size-monitor-expand">
+                                <div class="">
+
+                                </div>
+                            </div>
+                            <div class="chartjs-size-monitor-shrink">
+                                <div class=""></div>
+                            </div>
+                        </div>
+                        <div id="chart_income_expense_content">
+                            <canvas id="chart_income_expense" width="1594" height="375" class="chartjs-render-monitor"
+                                style="display: block; height: 250px; width: 1063px;"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+
+        <div class="kt-portlet kt-portlet--height-fluid">
+            <div class="kt-widget14">
+                <div class="kt-widget14__header">
+                    <h3 class="kt-widget14__title">
+                        Top 3 Expenses
+                    </h3>
+
+                </div>
+                <div class="kt-widget16">
+                    <div class="row">
+                        <div class="col-md-12 col-xs-6">
+                            <div class="kt-widget16__stats" style="width: 100% !important;margin-left: 5rem;">
+                                <div class="kt-widget16__visual">
+                                    <div class="kt-widget16__chart">
+                                        <div class="chartjs-size-monitor">
+                                            <div class="chartjs-size-monitor-expand">
+                                                <div class=""></div>
+                                            </div>
+                                            <div class="chartjs-size-monitor-shrink">
+                                                <div class=""></div>
+                                            </div>
+                                        </div>
+
+                                        <canvas id="top3_expense_chart"
+                                            style="height: 140px; width: 140px; display: block;" width="210"
+                                            height="210" class="chartjs-render-monitor"></canvas>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="col-md-12 col-xs-6">
+                            <div class="kt-widget16__items" style="width: 100% !important;">
+                                <!-- <div class="kt-widget16__item">
+                                    <span class="kt-widget16__sceduled">
+                                        -
+                                    </span>
+                                    <span class="kt-widget16__amount">
+                                       -
+                                    </span>
+                                </div> -->
+                                <div class="kt-widget16__item">
+                                    <span id="expense1" class="kt-widget16__date">
+                                        -
+                                    </span>
+                                    <span id="expense1amount" class="kt-widget16__price kt-font-success">
+                                       -
+                                    </span>
+                                </div>
+                                <div class="kt-widget16__item">
+                                    <span id="expense2" class="kt-widget16__date">
+                                       -
+                                    </span>
+                                    <span id="expense2amount" class="kt-widget16__price  kt-font-danger">
+                                        -
+                                    </span>
+                                </div>
+                                <div class="kt-widget16__item">
+                                    <span id="expense3" class="kt-widget16__date">
+                                        -
+                                    </span>
+                                    <span id="expense3amount" class="kt-widget16__price  kt-font-brand">
+                                       -
+                                    </span>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-6">
+        <div class="kt-portlet kt-portlet--head--noborder kt-portlet--height-fluid">
+            <div class="kt-portlet__head kt-portlet__head--noborder" style="border-bottom: 1px solid #ebedf2;">
+                <div class="kt-portlet__head-label">
+                    <h3 class="kt-portlet__head-title">
+                        Sales Chart
+                    </h3>
+                </div>
+
+            </div>
+
+            <div class="kt-portlet__body">
+                <!--begin::Widget 6-->
+                <div class="kt-widget15">
+                    <div class="kt-widget15__chart">
+                        <div class="chartjs-size-monitor">
+                            <div class="chartjs-size-monitor-expand">
+                                <div class=""></div>
+                            </div>
+                            <div class="chartjs-size-monitor-shrink">
+                                <div class=""></div>
+                            </div>
+                        </div>
+                        <div id="saleschartcontent">
+                            <canvas id="saleschart" style="height: 160px; display: block; width: 355px;" width="479"
+                                height="215" class="chartjs-render-monitor"></canvas>
+
+                        </div>
+
+                    </div>
+                    <div class="kt-widget15__items kt-margin-t-40">
+                        <div class="row">
+                            <div class="col">
+                                <div class="kt-widget15__item">
+                                    <span id="txttotal_salesamount" class="kt-widget15__stats">
+                                        0
+                                    </span>
+                                    <span class="kt-widget15__text">
+                                        Total Sales
+                                    </span>
+                                    <div class="kt-space-10"></div>
+                                    <div class="progress kt-widget15__chart-progress--sm">
+                                        <div class="progress-bar bg-danger" role="progressbar" style="width: 25%;"
+                                            aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="kt-widget15__item">
+                                    <span id="txtpaid_salesamount" class="kt-widget15__stats">
+                                        0
+                                    </span>
+                                    <span class="kt-widget15__text">
+                                        Paid Amount
+                                    </span>
+                                    <div class="kt-space-10"></div>
+                                    <div class="progress kt-progress--sm">
+                                        <div class="progress-bar bg-warning" role="progressbar" style="width: 40%;"
+                                            aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <div class="kt-widget15__item">
+                                    <span id="txtdue_salesamount" class="kt-widget15__stats">
+                                        0
+                                    </span>
+                                    <span class="kt-widget15__text">
+                                        Due Amount
+                                    </span>
+                                    <div class="kt-space-10"></div>
+                                    <div class="progress kt-progress--sm">
+                                        <div class="progress-bar bg-success" role="progressbar" style="width: 55%;"
+                                            aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="kt-widget15__item">
+                                    <span id="txtoverdue_salesamount" class="kt-widget15__stats">
+                                        0
+                                    </span>
+                                    <span class="kt-widget15__text">
+                                        OverDue Amount
+                                    </span>
+                                    <div class="kt-space-10"></div>
+                                    <div class="progress kt-progress--sm">
+                                        <div class="progress-bar bg-primary" role="progressbar" style="width: 60%;"
+                                            aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <!--end::Widget 6-->
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="kt-portlet kt-portlet--head--noborder kt-portlet--height-fluid">
+            <div class="kt-portlet__head kt-portlet__head--noborder" style="border-bottom: 1px solid #ebedf2;">
+                <div class="kt-portlet__head-label">
+                    <h3 class="kt-portlet__head-title">
+                        Purchase Chart
+                    </h3>
+                </div>
+
+            </div>
+            <div class="kt-portlet__body">
+                <!--begin::Widget 6-->
+                <div class="kt-widget15">
+                    <div class="kt-widget15__chart">
+                        <div class="chartjs-size-monitor">
+                            <div class="chartjs-size-monitor-expand">
+                                <div class=""></div>
+                            </div>
+                            <div class="chartjs-size-monitor-shrink">
+                                <div class=""></div>
+                            </div>
+                        </div>
+                        <div id="purchasechartcontent">
+
+
+                            <canvas id="purchasechart" style="height: 160px; display: block; width: 355px;" width="479"
+                                height="215" class="chartjs-render-monitor"></canvas>
+                        </div>
+                    </div>
+                    <div class="kt-widget15__items kt-margin-t-40">
+                        <div class="row">
+                            <div class="col">
+                                <div class="kt-widget15__item">
+                                    <span id="txttotal_purchaseamount" class="kt-widget15__stats">
+                                        0
+                                    </span>
+                                    <span class="kt-widget15__text">
+                                        Total Purchase
+                                    </span>
+                                    <div class="kt-space-10"></div>
+                                    <div class="progress kt-widget15__chart-progress--sm">
+                                        <div class="progress-bar bg-danger" role="progressbar" style="width: 25%;"
+                                            aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="kt-widget15__item">
+                                    <span id="txtpaid_purchaseamount" class="kt-widget15__stats">
+                                        0
+                                    </span>
+                                    <span class="kt-widget15__text">
+                                        Paid Amount
+                                    </span>
+                                    <div class="kt-space-10"></div>
+                                    <div class="progress kt-progress--sm">
+                                        <div class="progress-bar bg-warning" role="progressbar" style="width: 40%;"
+                                            aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <div class="kt-widget15__item">
+                                    <span id="txtdue_purchaseamount" class="kt-widget15__stats">
+                                        0
+                                    </span>
+                                    <span class="kt-widget15__text">
+                                        Due Amount
+                                    </span>
+                                    <div class="kt-space-10"></div>
+                                    <div class="progress kt-progress--sm">
+                                        <div class="progress-bar bg-success" role="progressbar" style="width: 55%;"
+                                            aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="kt-widget15__item">
+                                    <span id="txtoverdue_purchaseamount" class="kt-widget15__stats">
+                                        0
+                                    </span>
+                                    <span class="kt-widget15__text">
+                                        OverDue Amount
+                                    </span>
+                                    <div class="kt-space-10"></div>
+                                    <div class="progress kt-progress--sm">
+                                        <div class="progress-bar bg-primary" role="progressbar" style="width: 60%;"
+                                            aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <!--end::Widget 6-->
+            </div>
+        </div>
+    </div>
+
+</div>
+<div class="row">
+    <!-- <div class="col-md-6">
+
+        <div class="kt-portlet" style="height: 95%;">
+
+            <div class="kt-portlet__head kt-portlet__head--right kt-portlet__head--noborder  kt-ribbon kt-ribbon--clip kt-ribbon--left kt-ribbon--success"
+                style="border-bottom: 1px solid #ebedf2;">
+                <div class="kt-ribbon__target" style="top: 12px;">
+                    <span class="kt-ribbon__inner" style="background-color: #5AB412;"></span> Receivables
+
+
+                </div>
+                <div class="kt-portlet__head-label">
+                    <h3 class="kt-portlet__head-title">
+                      Sales List
+                    </h3>
+                </div>
+            </div>
+
+
+
+            <div class="kt-portlet__body kt-portlet__body--fit">
+                <div class="kt-scroll" data-scroll="true" data-height="350">
+                <div class="kt-datatable kt-datatable--default kt-datatable--brand kt-datatable--scroll kt-datatable--loaded"
+                    id="kt_datatable_latest_orders">
+                    <table class="kt-datatable__table text-center" id="gvCustomerbalancelist"
+                        style="display: block; max-height: 500px;">
+                        <thead class="kt-datatable__head">
+                            <tr class="kt-datatable__row">
+
+                                <th class="kt-datatable__cell">Customer</th>
+                                <th class="kt-datatable__cell">Invoice No</th>
+                                <th class="kt-datatable__cell">Total</th>
+                                <th class="kt-datatable__cell">Balance</th>
+                                <th class="kt-datatable__cell">Status</th>
+
+                            </tr>
+                        </thead>
+                        <tbody class="kt-datatable__body ps ps--active-y" style="max-height: 446px;">
+                            <tr data-row="0" class="kt-datatable__row">
+
+
+
+                            </tr>
+
+
+                        </tbody>
+                    </table>
+
+                </div>
+                </div>
+            </div>
+
+
+
+        </div>
+
+    </div> -->
+    <div class="col-md-6">
+
+        <div class="kt-portlet" style="height: 95%;">
+
+            <div class="kt-portlet__head kt-portlet__head--right kt-portlet__head--noborder  kt-ribbon kt-ribbon--clip kt-ribbon--left kt-ribbon--success"
+                style="border-bottom: 1px solid #ebedf2;">
+                <div class="kt-ribbon__target" style="top: 12px;">
+                    <span class="kt-ribbon__inner" style="background-color: #5AB412;"></span> Receivables
+
+
+                </div>
+                <div class="kt-portlet__head-label">
+                    <h3 class="kt-portlet__head-title">
+                        Sales List
+                    </h3>
+                </div>
+            </div>
+
+
+
+            <div class="kt-portlet__body kt-portlet__body--fit">
+                <div class="kt-scroll" data-scroll="true" data-height="350">
+
+                    <div class="table-responsive">
+                        <table class="table text-center" id="gvCustomerbalancelist">
+
+                            <thead>
+                                <tr>
+
+                                    <th>Customer</th>
+                                    <th>Invoice No</th>
+                                    <th>Due Days</th>
+                                    <th>Balance</th>
+                                    <th>Status</th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+
+
+                            </tbody>
+                        </table>
+
+                    </div>
+
+
+
+                </div>
+            </div>
+
+
+
+        </div>
+
+    </div>
+    <div class="col-md-6">
+
+        <div class="kt-portlet" style="height: 95%;">
+            <div class="kt-portlet__head kt-portlet__head--right kt-portlet__head--noborder  kt-ribbon kt-ribbon--clip kt-ribbon--left kt-ribbon--success"
+                style="border-bottom: 1px solid #ebedf2;">
+
+
+                <div class="kt-ribbon__target" style="top: 12px;">
+                    <span class="kt-ribbon__inner" style="background-color:   #e73737;"></span> Payables
+
+
+                </div>
+                <div class="kt-portlet__head-label">
+                    <h3 class="kt-portlet__head-title">
+                        Supplier Balance
+                    </h3>
+                </div>
+            </div>
+            <div class="kt-portlet__body kt-portlet__body--fit">
+                <div class="kt-scroll" data-scroll="true" data-height="350">
+                    <div class="table-responsive">
+                        <table class="table text-center" id="gvsupplierbalancelist">
+
+                            <thead>
+                                <tr>
+
+                                    <th>Supplier</th>
+                                    <th>Purchase No</th>
+                                    <th>Due Days</th>
+                                    <th>Balance</th>
+                                    <th>Status</th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+
+
+                            </tbody>
+                        </table>
+
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-4">
+
+        <div class="kt-portlet kt-portlet--height-fluid">
+            <div class="kt-widget14">
+                <div class="kt-widget14__header">
+                    <h3 class="kt-widget14__title">
+                        Top 3 Selling Products
+                    </h3>
+
+                </div>
+                <div class="kt-widget14__content">
+                    <div class="kt-widget14__chart">
+                        <div class="chartjs-size-monitor">
+                            <div class="chartjs-size-monitor-expand">
+                                <div class=""></div>
+                            </div>
+                            <div class="chartjs-size-monitor-shrink">
+                                <div class=""></div>
+                            </div>
+                        </div>
+
+                        <canvas id="top3_profit_share" style="height: 140px; width: 140px; display: block;" width="210"
+                            height="210" class="chartjs-render-monitor"></canvas>
+                    </div>
+                    <div class="kt-widget14__legends">
+                        <div class="kt-widget14__legend">
+                            <span class="kt-widget14__bullet kt-bg-success"></span>
+                            <span class="kt-widget14__stats" id="product1">37% Sport </span>
+                        </div>
+                        <div class="kt-widget14__legend">
+                            <span class="kt-widget14__bullet kt-bg-danger" id="product2bullet"></span>
+                            <span class="kt-widget14__stats" id="product2">47% Business </span>
+                        </div>
+                        <div class="kt-widget14__legend">
+                            <span class="kt-widget14__bullet kt-bg-brand" id="product3bullet"></span>
+                            <span class="kt-widget14__stats" id="product3">19% Others</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+
+</div>

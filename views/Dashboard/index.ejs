@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <base href="">
+    <meta charset="utf-8" />
+    <title>Zerobugz | Company</title>
+    <meta name="description" content="Latest updates and statistic charts">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <%include ../templates/css/commoncss.ejs%>
+    <style>
+        .kt-user-card-v2 .kt-user-card-v2__pic .kt-badge {
+            width: 30px;
+            height: 30px;
+        }
+
+        @media (max-width: 900px) {
+            .kt-subheader__main {
+                margin-right: -15px !important;
+
+            }
+
+            .kt-subheader__title {
+                margin-left: 0px !important;
+            }
+
+            .kt_daterangepicker_6 {
+                width: 177px;
+                padding-right: 5px;
+            }
+        }
+    </style>
+</head>
+
+<body
+    class="kt-quick-panel--right kt-demo-panel--right kt-offcanvas-panel--right kt-header--fixed kt-header-mobile--fixed kt-subheader--enabled kt-subheader--solid kt-aside--enabled kt-aside--fixed kt-aside--minimize kt-page--loading">
+    <%include ../templates/top.ejs%>
+    <!-- begin:: Content -->
+    <div class="kt-container  kt-container--fluid  kt-grid__item kt-grid__item--fluid">
+        <div class="kt-subheader  kt-grid__item" id="kt_subheader" style="margin:0px">
+            <div class="kt-container  kt-container--fluid ">
+                <div class="kt-subheader__main">
+                    <h3 class="kt-subheader__title">Dashboard</h3>
+                </div>
+                <div class="kt-subheader__toolbar">
+                  
+                    <div class="kt_daterangepicker_6">
+                        <input type="text" id="txtdaterange" class="form-control" readonly=""
+                            placeholder="Select date range">
+                    </div>
+                    <button class="btn btn-primary" onclick="loaddashboard()"><i class="fa fa-search"></i></button>
+
+
+
+                </div>
+            </div>
+        </div>
+        <%include ./dashboard.ejs%>
+    </div>
+    <!-- end:: Content -->
+    <%include ../templates/bottom.ejs%>
+    <%include ../templates/js/commonjs.ejs%>
+
+    <script src="/pagescripts/datediff.js"></script>
+
+    <script src="assets/js/pages/crud/forms/widgets/bootstrap-daterangepicker.js" type="text/javascript"></script>
+    <script src="/pagescripts/Master.js"></script>
+    <script src="/pagescripts/Dashboard/dashboard.js"></script>
+
+</body>
+
+</html>

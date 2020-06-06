@@ -1,0 +1,919 @@
+<div class="row list">
+    <div class="col-lg-12">
+
+        <div class="kt-portlet">
+            <div class="kt-portlet__head">
+                <div class="kt-portlet__head-label">
+                    <h3 class="kt-portlet__head-title">
+                        Role Map List
+                    </h3>
+                </div>
+                <div class="kt-portlet__head-toolbar">
+                    <div class="kt-portlet__head-actions">
+                        <button type="button" class="btn btn-bold btn-success-grn btn-sm" data-toggle="modal"
+                            data-target="#kt_modal_4" onclick="Show()"
+                            style="background-color: #5AB412;border-color: #5AB412;"><i class="fa fa-plus-circle"></i>
+                            Add New</button>
+                    </div>
+                </div>
+            </div>
+            <div class="cust-tab kt-portlet__body">
+
+
+                <table class="table text-center table-sm table-striped- table-bordered table-hover table-checkable"
+                    id="gvlist">
+                    <thead>
+                        <tr>
+
+
+
+
+                            <th>Name</th>
+
+                            <th></th>
+                        </tr>
+                    </thead>
+                </table>
+
+
+
+
+
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div class="row entry">
+    <div class="col-lg-12">
+        <!--begin::Portlet-->
+        <div class="kt-portlet kt-portlet--last kt-portlet--head-lg kt-portlet--responsive-mobile" id="kt_page_portlet">
+            <div class="kt-portlet__head kt-portlet__head--lg">
+                <div class="kt-portlet__head-label">
+                    <h3 class="kt-portlet__head-title">Role Map Entry </h3>
+                </div>
+                <div class="kt-portlet__head-toolbar">
+                    <a href="#" onclick="Close()" class="btn btn-danger kt-margin-r-10">
+                        <i class="la la-arrow-left"></i>
+                        <span class="kt-hidden-mobile">Back</span>
+                    </a>
+                    <div class="btn-group">
+                        <button type="button" onclick="save_process()" class="btn btn-brand">
+                            <i class="la la-save"></i>
+                            <span class="kt-hidden-mobile">Save</span>
+                        </button>
+                        <button type="button" class="btn btn-brand dropdown-toggle dropdown-toggle-split"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        </button>
+                       
+                    </div>
+                </div>
+            </div>
+            <div class="kt-portlet__body">
+                <form class="kt-form" id="kt_form">
+                    <div class="row ">
+
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label>Role</label>
+                                <select name="role" class="form-control form-control-sm" id="ddlrole">
+                                    <option value="">select</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                    <br>
+                    <div class="cust-tab table-responsive">
+                        <table class="table table-bordered  text-center" id="detailsTable">
+                            <thead>
+                                <tr>
+                                    <th>Page Name</th>
+                                    <th>View Rights</th>
+                                    <th>Insert</th>
+                                    <th>Edit</th>
+                                    <th>Delete</th>
+
+                                </tr>
+                            </thead>
+                            <tbody class="trbody">
+                                <tr>
+                                    <td>
+                                        <label class="lblpagename">Branch</label>
+                                    </td>
+                                    <td>
+                                        <span class="kt-switch kt-switch--outline kt-switch--icon kt-switch--success">
+                                            <label>
+                                                <input type="checkbox" class="viewrights" name="">
+                                                <span></span>
+                                            </label>
+                                        </span>
+
+                                    </td>
+                                    <td>
+                                        <span class="kt-switch kt-switch--outline kt-switch--icon kt-switch--success">
+                                            <label>
+                                                <input type="checkbox" class="insert" name="">
+                                                <span></span>
+                                            </label>
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <span class="kt-switch kt-switch--outline kt-switch--icon kt-switch--success">
+                                            <label>
+                                                <input type="checkbox" class="edit" name="">
+                                                <span></span>
+                                            </label>
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <span class="kt-switch kt-switch--outline kt-switch--icon kt-switch--success">
+                                            <label>
+                                                <input type="checkbox" class="delete" name="">
+                                                <span></span>
+                                            </label>
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <label class="lblpagename">Bank</label>
+                                    </td>
+                                    <td>
+                                        <span class="kt-switch kt-switch--outline kt-switch--icon kt-switch--success">
+                                            <label>
+                                                <input type="checkbox" class="viewrights" name="">
+                                                <span></span>
+                                            </label>
+                                        </span>
+
+                                    </td>
+                                    <td>
+                                        <span class="kt-switch kt-switch--outline kt-switch--icon kt-switch--success">
+                                            <label>
+                                                <input type="checkbox" class="insert" name="">
+                                                <span></span>
+                                            </label>
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <span class="kt-switch kt-switch--outline kt-switch--icon kt-switch--success">
+                                            <label>
+                                                <input type="checkbox" class="edit" name="">
+                                                <span></span>
+                                            </label>
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <span class="kt-switch kt-switch--outline kt-switch--icon kt-switch--success">
+                                            <label>
+                                                <input type="checkbox" class="delete" name="">
+                                                <span></span>
+                                            </label>
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <label class="lblpagename">Tax</label>
+                                    </td>
+                                    <td>
+                                        <span class="kt-switch kt-switch--outline kt-switch--icon kt-switch--success">
+                                            <label>
+                                                <input type="checkbox" class="viewrights" name="">
+                                                <span></span>
+                                            </label>
+                                        </span>
+
+                                    </td>
+                                    <td>
+                                        <span class="kt-switch kt-switch--outline kt-switch--icon kt-switch--success">
+                                            <label>
+                                                <input type="checkbox" class="insert" name="">
+                                                <span></span>
+                                            </label>
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <span class="kt-switch kt-switch--outline kt-switch--icon kt-switch--success">
+                                            <label>
+                                                <input type="checkbox" class="edit" name="">
+                                                <span></span>
+                                            </label>
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <span class="kt-switch kt-switch--outline kt-switch--icon kt-switch--success">
+                                            <label>
+                                                <input type="checkbox" class="delete" name="">
+                                                <span></span>
+                                            </label>
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <label class="lblpagename">Department</label>
+                                    </td>
+                                    <td>
+                                        <span class="kt-switch kt-switch--outline kt-switch--icon kt-switch--success">
+                                            <label>
+                                                <input type="checkbox" class="viewrights" name="">
+                                                <span></span>
+                                            </label>
+                                        </span>
+
+                                    </td>
+                                    <td>
+                                        <span class="kt-switch kt-switch--outline kt-switch--icon kt-switch--success">
+                                            <label>
+                                                <input type="checkbox" class="insert" name="">
+                                                <span></span>
+                                            </label>
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <span class="kt-switch kt-switch--outline kt-switch--icon kt-switch--success">
+                                            <label>
+                                                <input type="checkbox" class="edit" name="">
+                                                <span></span>
+                                            </label>
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <span class="kt-switch kt-switch--outline kt-switch--icon kt-switch--success">
+                                            <label>
+                                                <input type="checkbox" class="delete" name="">
+                                                <span></span>
+                                            </label>
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <label class="lblpagename">Employee</label>
+                                    </td>
+                                    <td>
+                                        <span class="kt-switch kt-switch--outline kt-switch--icon kt-switch--success">
+                                            <label>
+                                                <input type="checkbox" class="viewrights" name="">
+                                                <span></span>
+                                            </label>
+                                        </span>
+
+                                    </td>
+                                    <td>
+                                        <span class="kt-switch kt-switch--outline kt-switch--icon kt-switch--success">
+                                            <label>
+                                                <input type="checkbox" class="insert" name="">
+                                                <span></span>
+                                            </label>
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <span class="kt-switch kt-switch--outline kt-switch--icon kt-switch--success">
+                                            <label>
+                                                <input type="checkbox" class="edit" name="">
+                                                <span></span>
+                                            </label>
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <span class="kt-switch kt-switch--outline kt-switch--icon kt-switch--success">
+                                            <label>
+                                                <input type="checkbox" class="delete" name="">
+                                                <span></span>
+                                            </label>
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <label class="lblpagename">Customer & Supplier</label>
+                                    </td>
+                                    <td>
+                                        <span class="kt-switch kt-switch--outline kt-switch--icon kt-switch--success">
+                                            <label>
+                                                <input type="checkbox" class="viewrights" name="">
+                                                <span></span>
+                                            </label>
+                                        </span>
+
+                                    </td>
+                                    <td>
+                                        <span class="kt-switch kt-switch--outline kt-switch--icon kt-switch--success">
+                                            <label>
+                                                <input type="checkbox" class="insert" name="">
+                                                <span></span>
+                                            </label>
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <span class="kt-switch kt-switch--outline kt-switch--icon kt-switch--success">
+                                            <label>
+                                                <input type="checkbox" class="edit" name="">
+                                                <span></span>
+                                            </label>
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <span class="kt-switch kt-switch--outline kt-switch--icon kt-switch--success">
+                                            <label>
+                                                <input type="checkbox" class="delete" name="">
+                                                <span></span>
+                                            </label>
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <label class="lblpagename">Product</label>
+                                    </td>
+                                    <td>
+                                        <span class="kt-switch kt-switch--outline kt-switch--icon kt-switch--success">
+                                            <label>
+                                                <input type="checkbox" class="viewrights" name="">
+                                                <span></span>
+                                            </label>
+                                        </span>
+
+                                    </td>
+                                    <td>
+                                        <span class="kt-switch kt-switch--outline kt-switch--icon kt-switch--success">
+                                            <label>
+                                                <input type="checkbox" class="insert" name="">
+                                                <span></span>
+                                            </label>
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <span class="kt-switch kt-switch--outline kt-switch--icon kt-switch--success">
+                                            <label>
+                                                <input type="checkbox" class="edit" name="">
+                                                <span></span>
+                                            </label>
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <span class="kt-switch kt-switch--outline kt-switch--icon kt-switch--success">
+                                            <label>
+                                                <input type="checkbox" class="delete" name="">
+                                                <span></span>
+                                            </label>
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <label class="lblpagename">Expense Master</label>
+                                    </td>
+                                    <td>
+                                        <span class="kt-switch kt-switch--outline kt-switch--icon kt-switch--success">
+                                            <label>
+                                                <input type="checkbox" class="viewrights" name="">
+                                                <span></span>
+                                            </label>
+                                        </span>
+
+                                    </td>
+                                    <td>
+                                        <span class="kt-switch kt-switch--outline kt-switch--icon kt-switch--success">
+                                            <label>
+                                                <input type="checkbox" class="insert" name="">
+                                                <span></span>
+                                            </label>
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <span class="kt-switch kt-switch--outline kt-switch--icon kt-switch--success">
+                                            <label>
+                                                <input type="checkbox" class="edit" name="">
+                                                <span></span>
+                                            </label>
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <span class="kt-switch kt-switch--outline kt-switch--icon kt-switch--success">
+                                            <label>
+                                                <input type="checkbox" class="delete" name="">
+                                                <span></span>
+                                            </label>
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <label class="lblpagename">Expense </label>
+                                    </td>
+                                    <td>
+                                        <span class="kt-switch kt-switch--outline kt-switch--icon kt-switch--success">
+                                            <label>
+                                                <input type="checkbox" class="viewrights" name="">
+                                                <span></span>
+                                            </label>
+                                        </span>
+
+                                    </td>
+                                    <td>
+                                        <span class="kt-switch kt-switch--outline kt-switch--icon kt-switch--success">
+                                            <label>
+                                                <input type="checkbox" class="insert" name="">
+                                                <span></span>
+                                            </label>
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <span class="kt-switch kt-switch--outline kt-switch--icon kt-switch--success">
+                                            <label>
+                                                <input type="checkbox" class="edit" name="">
+                                                <span></span>
+                                            </label>
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <span class="kt-switch kt-switch--outline kt-switch--icon kt-switch--success">
+                                            <label>
+                                                <input type="checkbox" class="delete" name="">
+                                                <span></span>
+                                            </label>
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <label class="lblpagename">Sales Entry</label>
+                                    </td>
+                                    <td>
+                                        <span class="kt-switch kt-switch--outline kt-switch--icon kt-switch--success">
+                                            <label>
+                                                <input type="checkbox" class="viewrights" name="">
+                                                <span></span>
+                                            </label>
+                                        </span>
+
+                                    </td>
+                                    <td>
+                                        <span class="kt-switch kt-switch--outline kt-switch--icon kt-switch--success">
+                                            <label>
+                                                <input type="checkbox" class="insert" name="">
+                                                <span></span>
+                                            </label>
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <span class="kt-switch kt-switch--outline kt-switch--icon kt-switch--success">
+                                            <label>
+                                                <input type="checkbox" class="edit" name="">
+                                                <span></span>
+                                            </label>
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <span class="kt-switch kt-switch--outline kt-switch--icon kt-switch--success">
+                                            <label>
+                                                <input type="checkbox" class="delete" name="">
+                                                <span></span>
+                                            </label>
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <label class="lblpagename">Sales Return</label>
+                                    </td>
+                                    <td>
+                                        <span class="kt-switch kt-switch--outline kt-switch--icon kt-switch--success">
+                                            <label>
+                                                <input type="checkbox" class="viewrights" name="">
+                                                <span></span>
+                                            </label>
+                                        </span>
+
+                                    </td>
+                                    <td>
+                                        <span class="kt-switch kt-switch--outline kt-switch--icon kt-switch--success">
+                                            <label>
+                                                <input type="checkbox" class="insert" name="">
+                                                <span></span>
+                                            </label>
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <span class="kt-switch kt-switch--outline kt-switch--icon kt-switch--success">
+                                            <label>
+                                                <input type="checkbox" class="edit" name="">
+                                                <span></span>
+                                            </label>
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <span class="kt-switch kt-switch--outline kt-switch--icon kt-switch--success">
+                                            <label>
+                                                <input type="checkbox" class="delete" name="">
+                                                <span></span>
+                                            </label>
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <label class="lblpagename">Receipt Entry</label>
+                                    </td>
+                                    <td>
+                                        <span class="kt-switch kt-switch--outline kt-switch--icon kt-switch--success">
+                                            <label>
+                                                <input type="checkbox" class="viewrights" name="">
+                                                <span></span>
+                                            </label>
+                                        </span>
+
+                                    </td>
+                                    <td>
+                                        <span class="kt-switch kt-switch--outline kt-switch--icon kt-switch--success">
+                                            <label>
+                                                <input type="checkbox" class="insert" name="">
+                                                <span></span>
+                                            </label>
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <span class="kt-switch kt-switch--outline kt-switch--icon kt-switch--success">
+                                            <label>
+                                                <input type="checkbox" class="edit" name="">
+                                                <span></span>
+                                            </label>
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <span class="kt-switch kt-switch--outline kt-switch--icon kt-switch--success">
+                                            <label>
+                                                <input type="checkbox" class="delete" name="">
+                                                <span></span>
+                                            </label>
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <label class="lblpagename">Purchase Entry</label>
+                                    </td>
+                                    <td>
+                                        <span class="kt-switch kt-switch--outline kt-switch--icon kt-switch--success">
+                                            <label>
+                                                <input type="checkbox" class="viewrights" name="">
+                                                <span></span>
+                                            </label>
+                                        </span>
+
+                                    </td>
+                                    <td>
+                                        <span class="kt-switch kt-switch--outline kt-switch--icon kt-switch--success">
+                                            <label>
+                                                <input type="checkbox" class="insert" name="">
+                                                <span></span>
+                                            </label>
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <span class="kt-switch kt-switch--outline kt-switch--icon kt-switch--success">
+                                            <label>
+                                                <input type="checkbox" class="edit" name="">
+                                                <span></span>
+                                            </label>
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <span class="kt-switch kt-switch--outline kt-switch--icon kt-switch--success">
+                                            <label>
+                                                <input type="checkbox" class="delete" name="">
+                                                <span></span>
+                                            </label>
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <label class="lblpagename">Purchase Return</label>
+                                    </td>
+                                    <td>
+                                        <span class="kt-switch kt-switch--outline kt-switch--icon kt-switch--success">
+                                            <label>
+                                                <input type="checkbox" class="viewrights" name="">
+                                                <span></span>
+                                            </label>
+                                        </span>
+
+                                    </td>
+                                    <td>
+                                        <span class="kt-switch kt-switch--outline kt-switch--icon kt-switch--success">
+                                            <label>
+                                                <input type="checkbox" class="insert" name="">
+                                                <span></span>
+                                            </label>
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <span class="kt-switch kt-switch--outline kt-switch--icon kt-switch--success">
+                                            <label>
+                                                <input type="checkbox" class="edit" name="">
+                                                <span></span>
+                                            </label>
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <span class="kt-switch kt-switch--outline kt-switch--icon kt-switch--success">
+                                            <label>
+                                                <input type="checkbox" class="delete" name="">
+                                                <span></span>
+                                            </label>
+                                        </span>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>
+                                        <label class="lblpagename">Balance Payment Entry</label>
+                                    </td>
+                                    <td>
+                                        <span class="kt-switch kt-switch--outline kt-switch--icon kt-switch--success">
+                                            <label>
+                                                <input type="checkbox" class="viewrights" name="">
+                                                <span></span>
+                                            </label>
+                                        </span>
+
+                                    </td>
+                                    <td>
+                                        <span class="kt-switch kt-switch--outline kt-switch--icon kt-switch--success">
+                                            <label>
+                                                <input type="checkbox" class="insert" name="">
+                                                <span></span>
+                                            </label>
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <span class="kt-switch kt-switch--outline kt-switch--icon kt-switch--success">
+                                            <label>
+                                                <input type="checkbox" class="edit" name="">
+                                                <span></span>
+                                            </label>
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <span class="kt-switch kt-switch--outline kt-switch--icon kt-switch--success">
+                                            <label>
+                                                <input type="checkbox" class="delete" name="">
+                                                <span></span>
+                                            </label>
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <label class="lblpagename">Sales Report</label>
+                                    </td>
+                                    <td>
+                                        <span class="kt-switch kt-switch--outline kt-switch--icon kt-switch--success">
+                                            <label>
+                                                <input type="checkbox" class="viewrights" name="">
+                                                <span></span>
+                                            </label>
+                                        </span>
+
+                                    </td>
+                                    <td>
+                                        <!-- <span class="kt-switch kt-switch--outline kt-switch--icon kt-switch--success">
+                                            <label>
+                                                <input type="checkbox" class="insert"  name="">
+                                                <span></span>
+                                            </label>
+                                        </span> -->
+                                    </td>
+                                    <td>
+                                        <!-- <span class="kt-switch kt-switch--outline kt-switch--icon kt-switch--success">
+                                            <label>
+                                                <input type="checkbox" class="edit"  name="">
+                                                <span></span>
+                                            </label>
+                                        </span> -->
+                                    </td>
+                                    <td>
+                                        <!-- <span class="kt-switch kt-switch--outline kt-switch--icon kt-switch--success">
+                                            <label>
+                                                <input type="checkbox" class="delete" name="">
+                                                <span></span>
+                                            </label>
+                                        </span> -->
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <label class="lblpagename">Purchase Report</label>
+                                    </td>
+                                    <td>
+                                        <span class="kt-switch kt-switch--outline kt-switch--icon kt-switch--success">
+                                            <label>
+                                                <input type="checkbox" class="viewrights" name="">
+                                                <span></span>
+                                            </label>
+                                        </span>
+
+                                    </td>
+                                    <td>
+                                        <!-- <span class="kt-switch kt-switch--outline kt-switch--icon kt-switch--success">
+                                            <label>
+                                                <input type="checkbox" class="insert"  name="">
+                                                <span></span>
+                                            </label>
+                                        </span> -->
+                                    </td>
+                                    <td>
+                                        <!-- <span class="kt-switch kt-switch--outline kt-switch--icon kt-switch--success">
+                                            <label>
+                                                <input type="checkbox" class="edit"  name="">
+                                                <span></span>
+                                            </label>
+                                        </span> -->
+                                    </td>
+                                    <td>
+                                        <!-- <span class="kt-switch kt-switch--outline kt-switch--icon kt-switch--success">
+                                            <label>
+                                                <input type="checkbox" class="delete" name="">
+                                                <span></span>
+                                            </label>
+                                        </span> -->
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <label class="lblpagename">Customer Outstanding Report</label>
+                                    </td>
+                                    <td>
+                                        <span class="kt-switch kt-switch--outline kt-switch--icon kt-switch--success">
+                                            <label>
+                                                <input type="checkbox" class="viewrights" name="">
+                                                <span></span>
+                                            </label>
+                                        </span>
+
+                                    </td>
+                                    <td>
+                                        <!-- <span class="kt-switch kt-switch--outline kt-switch--icon kt-switch--success">
+                                            <label>
+                                                <input type="checkbox" class="insert"  name="">
+                                                <span></span>
+                                            </label>
+                                        </span> -->
+                                    </td>
+                                    <td>
+                                        <!-- <span class="kt-switch kt-switch--outline kt-switch--icon kt-switch--success">
+                                            <label>
+                                                <input type="checkbox" class="edit"  name="">
+                                                <span></span>
+                                            </label>
+                                        </span> -->
+                                    </td>
+                                    <td>
+                                        <!-- <span class="kt-switch kt-switch--outline kt-switch--icon kt-switch--success">
+                                            <label>
+                                                <input type="checkbox" class="delete" name="">
+                                                <span></span>
+                                            </label>
+                                        </span> -->
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <label class="lblpagename">Supplier Outstanding Report</label>
+                                    </td>
+                                    <td>
+                                        <span class="kt-switch kt-switch--outline kt-switch--icon kt-switch--success">
+                                            <label>
+                                                <input type="checkbox" class="viewrights" name="">
+                                                <span></span>
+                                            </label>
+                                        </span>
+
+                                    </td>
+                                    <td>
+                                        <!-- <span class="kt-switch kt-switch--outline kt-switch--icon kt-switch--success">
+                                            <label>
+                                                <input type="checkbox" class="insert"  name="">
+                                                <span></span>
+                                            </label>
+                                        </span> -->
+                                    </td>
+                                    <td>
+                                        <!-- <span class="kt-switch kt-switch--outline kt-switch--icon kt-switch--success">
+                                            <label>
+                                                <input type="checkbox" class="edit"  name="">
+                                                <span></span>
+                                            </label>
+                                        </span> -->
+                                    </td>
+                                    <td>
+                                        <!-- <span class="kt-switch kt-switch--outline kt-switch--icon kt-switch--success">
+                                            <label>
+                                                <input type="checkbox" class="delete" name="">
+                                                <span></span>
+                                            </label>
+                                        </span> -->
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <label class="lblpagename">Purchase Gst Report</label>
+                                    </td>
+                                    <td>
+                                        <span class="kt-switch kt-switch--outline kt-switch--icon kt-switch--success">
+                                            <label>
+                                                <input type="checkbox" class="viewrights" name="">
+                                                <span></span>
+                                            </label>
+                                        </span>
+
+                                    </td>
+                                    <td>
+                                        <!-- <span class="kt-switch kt-switch--outline kt-switch--icon kt-switch--success">
+                                            <label>
+                                                <input type="checkbox" class="insert"  name="">
+                                                <span></span>
+                                            </label>
+                                        </span> -->
+                                    </td>
+                                    <td>
+                                        <!-- <span class="kt-switch kt-switch--outline kt-switch--icon kt-switch--success">
+                                            <label>
+                                                <input type="checkbox" class="edit"  name="">
+                                                <span></span>
+                                            </label>
+                                        </span> -->
+                                    </td>
+                                    <td>
+                                        <!-- <span class="kt-switch kt-switch--outline kt-switch--icon kt-switch--success">
+                                            <label>
+                                                <input type="checkbox" class="delete" name="">
+                                                <span></span>
+                                            </label>
+                                        </span> -->
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <label class="lblpagename">Sales Gst Report</label>
+                                    </td>
+                                    <td>
+                                        <span class="kt-switch kt-switch--outline kt-switch--icon kt-switch--success">
+                                            <label>
+                                                <input type="checkbox" class="viewrights" name="">
+                                                <span></span>
+                                            </label>
+                                        </span>
+
+                                    </td>
+                                    <td>
+                                        <!-- <span class="kt-switch kt-switch--outline kt-switch--icon kt-switch--success">
+                                            <label>
+                                                <input type="checkbox" class="insert"  name="">
+                                                <span></span>
+                                            </label>
+                                        </span> -->
+                                    </td>
+                                    <td>
+                                        <!-- <span class="kt-switch kt-switch--outline kt-switch--icon kt-switch--success">
+                                            <label>
+                                                <input type="checkbox" class="edit"  name="">
+                                                <span></span>
+                                            </label>
+                                        </span> -->
+                                    </td>
+                                    <td>
+                                        <!-- <span class="kt-switch kt-switch--outline kt-switch--icon kt-switch--success">
+                                            <label>
+                                                <input type="checkbox" class="delete" name="">
+                                                <span></span>
+                                            </label>
+                                        </span> -->
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <hr>
+                    </hr>
+
+            </div>
+
+<input type="hidden" id="hfprocess">
+
+        </div>
+        </form>
+    </div>
+</div>
+<!--end::Portlet-->
+</div>

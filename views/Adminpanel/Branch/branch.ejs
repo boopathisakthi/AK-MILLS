@@ -1,0 +1,165 @@
+<div class="kt-portlet list">
+    <div class="kt-portlet__head">
+        <div class="kt-portlet__head-label">
+            <h3 class="kt-portlet__head-title">
+                Branch List
+            </h3>
+        </div>
+        <div class="kt-portlet__head-toolbar">
+            <button type="button" onclick="show()" id="btnshow" class="btn btn-primary btn-sm"><i
+                    class="fa fa-plus"></i>&nbsp;Add</button>
+        </div>
+    </div>
+    <div class="kt-portlet__body">
+        <table class="table table-sm table-striped- table-bordered table-hover table-checkable" id="gvlist">
+            <thead>
+                <tr>
+                   
+                    <th>companyname</th>
+                    <th>gstno</th>
+                    <th>panno</th>
+                    <th>Mobile</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+        </table>
+    </div>
+</div>
+
+<div class="modal fade" id="kt_modal_4" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+
+    <div class="modal-dialog modal-xl" role="document">
+
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Branch Entry</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                </button>
+            </div>
+            <div class="modal-body">
+                <!--begin::Form-->
+                <form class="kt-form kt-form--label-right" id="kt_form_3">
+
+                    <div class="row">
+                      
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label>Branch Name:</label>
+                                <input class="form-control" name="companyname" placeholder="Enter Company Name"
+                                    type="text" id="txtcompanyname">
+                            </div>
+
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label>Gstno:</label>
+                                <input class="form-control" name="gstno" placeholder="Enter Gstno" type="text"
+                                    id="txtgstno">
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label>Panno:</label>
+                                <input class="form-control" name="panno" placeholder="Enter Panno" type="text"
+                                    id="txtpanno">
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label>Email:</label>
+                                <input class="form-control" name="email" placeholder="Enter Email" type="text" id="txtemail">
+
+                            </div>
+                        </div>
+
+
+
+                    </div>
+
+                    <div class="accordion accordion-solid accordion-toggle-plus" id="accordionExample6">
+
+                        <div class="card">
+                            <div class="card-header" id="headingTwo6">
+                                <div class="card-title collapsed" data-toggle="collapse" data-target="#collapseTwo6"
+                                    aria-expanded="false" aria-controls="collapseTwo6" style="padding:4px;">
+                                    <i class="flaticon2-notification"></i> Other Details
+                                </div>
+                            </div>
+                            <div id="collapseTwo6" class="collapse" aria-labelledby="headingTwo6"
+                                data-parent="#accordionExample6">
+                                <div class="card-body" style="padding: 10px;">
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label>Phone:</label>
+                                                <input class="form-control" name="telephoneno" placeholder="Enter Phone"
+                                                    type="text" id="txtphone">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label>Mobile No:</label>
+                                                <input class="form-control" name="mobile" placeholder="Enter Mobile No"
+                                                    type="text" id="txtmobile">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label>Address 1:</label>
+                                                <input class="form-control" name="address" placeholder="Enter Address"
+                                                    type="text" id="txtaddress">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label>State:</label>
+                                                <select id="ddlstate" name="state" class="form-control"></select>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label>City:</label>
+                                                <select id="ddlcity" name="city" class="form-control"></select>
+                                            </div>
+                                        </div>
+
+
+
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label>Postal Code:</label>
+                                                <input class="form-control" name="pincode" placeholder="Enter Pin Code" type="text"
+                                                    id="txtpincode">
+                                            </div>
+                                        </div>
+
+
+
+
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <br>
+                    <div class="kt-portlet__foot">
+                        <div class="kt-form__actions">
+                            <div class="text-center">
+                                <div class="col-lg-12">
+                                    <input type="hidden" id="hf_id">
+                                    <button type="submit" class="btn btn-brand">Save</button>
+                                    <button type="reset" onclick="cleardata()" class="btn btn-secondary">Clear</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <!--end::Form-->
+            </div>
+
+        </div>
+    </div>
+</div>

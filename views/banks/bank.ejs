@@ -1,0 +1,270 @@
+<div class="row banks_main_list">
+
+    <div class="col-md-12">
+        <div class="kt-portlet kt-portlet--tabs kt-portlet--height-fluid">
+            <div class="kt-portlet__head">
+                <div class="kt-portlet__head-label">
+                    <h3 class="kt-portlet__head-title">
+                        Banks/Cash
+                    </h3>
+                </div>
+             
+            </div>
+            <div class="kt-portlet__body">
+                <div class="row banks_main_list">
+                    <table class="table" id="bankslist">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Type</th>
+                                <th>Account</th>
+                                <th>Total Transaction Amount</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+
+                </div>
+               
+
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div class="kt-grid kt-grid--desktop kt-grid--ver-desktop  kt-inbox banks_side_list" id="kt_inbox">
+
+    <!--Begin::Aside Mobile Toggle-->
+    <button class="kt-inbox__aside-close" id="kt_inbox_aside_close">
+        <i class="la la-close"></i>
+    </button>
+
+    <!--End:: Aside Mobile Toggle-->
+
+    <!--Begin:: Inbox Aside-->
+    <div class="kt-grid__item   kt-portlet  kt-inbox__aside" id="kt_inbox_aside">
+        <button type="button" class="btn btn-brand  btn-upper btn-bold  kt-inbox__compose" onclick="show()">Add New
+            transaction</button>
+
+        <div class="kt-inbox__nav">
+            <table id="bankslist2">
+                <tbody>
+                </tbody>
+            </table>
+
+
+        </div>
+    </div>
+
+    <!--End::Aside-->
+
+    <!--Begin:: Inbox List-->
+    <div class="kt-grid__item kt-grid__item--fluid    kt-portlet    kt-inbox__list kt-inbox__list--shown"
+        id="kt_inbox_list">
+        <div class="kt-portlet__head">
+            <div class="kt-inbox__toolbar kt-inbox__toolbar--extended">
+
+                <div class="col-md-2" style="display: none;">
+                    <div class="form-group">
+                        <input type="text" id="txtfromdate" disabled="disabled" style="background-color: #fff;"
+                            onblur="Cal_Duedate()" class="form-control kt_datepicker_1 dark-border"
+                            placeholder="DD-MM-YYYY">
+
+                    </div>
+
+                </div>
+                <div class="col-md-2" style="display: none;">
+                    <div class="form-group">
+                        <input type="text" disabled="disabled" style="background-color: #fff;" placeholder="DD-MM-YYYY"
+                            id="txttodate" class="form-control dark-border kt_datepicker_1">
+                    </div>
+                </div>
+                <div class="col-md-7">
+
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <select id="ddldays" onchange="bind_date()" class="form-control">
+                        </select>
+                        <input type="hidden" id="hfbankid">
+                          
+                    </div>
+                  
+
+                </div>
+                <div class="col-md-2">
+                  
+                    <button type="button" style="margin-top:-30%" class="btn btn-bold btn-success-grn btn-sm" onclick="Close()">
+                        Close</button>
+                </div>
+               
+            </div>
+        </div>
+        <div class="kt-portlet__body kt-portlet__body--fit-x">
+            <div class="kt-inbox__items" data-type="inbox">
+                <table class="table" id="transactiondetails">
+                    <thead>
+                        <tr>
+                            <th>Transaction Date</th>
+                            <th>Particulars</th>
+                            <th>Withdraw</th>
+                            <th>Deposit</th>
+                            <th>Balance</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!--End:: Inbox List-->
+
+
+</div>
+
+
+
+<div class="modal fade" id="modelpaymentdetails" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+    <div class="modal-dialog modal-xxl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Payment Transaction </h5>
+
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                </button>
+
+            </div>
+            <div class="modal-body">
+                <div class="kt-portlet__body">
+                    <form class="kt-form" id="kt_form">
+                        <div class="row ">
+                            <div class="col-md-3">
+                                <label class="control-label">Pay Mode</label><br>
+                                <select id="ddlpaymode" onchange="transactiontype()" class="form-control">
+
+                                </select>
+
+                            </div>
+                            <div class="col-md-3">
+                                <label class="control-label">Transaction Type</label><br>
+                                <select id="ddltransactiontype" onchange=" Fn_type()" class="form-control">
+
+                                </select>
+
+                            </div>
+                            <div class="col-md-3">
+                                <label class="control-label">Transaction Date</label>
+                                <div class="kt-input-icon">
+                                    <input type="text" id="txt_transaction_date"
+                                        class="form-control kt_datepicker_1 dark-border" placeholder="DD-MM-YYYY">
+                                    <span class="kt-input-icon__icon kt-input-icon__icon--right"><span><i
+                                                class="flaticon2-calendar"></i></span></span>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <label class="control-label">Type</label>
+                                <select id="ddltype" onchange="Fn_Loadcontacts()" class="form-control">
+
+                                </select>
+                            </div>
+
+
+                        </div>
+                        <br>
+                        <div class="row">
+                            <div class="col-md-3">
+                                <label class="col-form-label" style="margin-top: -7%;">Contact</label>
+                                <div class="col-lg-12 col-md-9 col-sm-12 typeheadsupplier invalidfields"
+                                    style="margin-left: -10px;">
+                                    <div class="typehead">
+                                        <input autocomplete="off" class="form-control dark-border bg-white"
+                                            id="txtsuppliers" type="text" dir="ltr" placeholder="Enter supplier">
+                                    </div>
+                                </div>
+                                <div class="col-lg-12 col-md-9 col-sm-12 typeheadcustomers invalidfields"
+                                    style="margin-left: -10px;">
+                                    <div class="typehead">
+                                        <input autocomplete="off" class="form-control dark-border bg-white"
+                                            id="txtcustomers" type="text" dir="ltr" placeholder="Enter customer">
+                                    </div>
+                                </div>
+                                <select id="ddlaccounts" class="form-control ddlaccounts">
+
+                                </select>
+
+                            </div>
+                            <div class="col-md-3">
+                                <label class="control-label">Amount</label>
+                                <input type="text" class="form-control" onblur="Closing_Amount()" id="txtpaidamount">
+                            </div>
+                            <div class="col-md-3 customersupplierfields">
+                                <label class="control-label">Reference</label>
+                                <select id="ddlrefercencemode" class="form-control">
+                                    <option value="other">other</option>
+                                    <option value="chequedd">Cheque / DD</option>
+                                    <option value="debitcreditcard">Debit /Credit Card</option>
+                                    <option value="electronictransfer">Electronic Transfer</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3 customersupplierfields">
+                                <label class="control-label">Note</label>
+                                <input type="text" class="form-control" id="txtnote"></input>
+
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row">
+
+                            <div class="customersupplierfields col-lg-6">
+
+
+                                <div class="kt-section">
+
+                                    <div style="border: 1px solid #c2c1c1;"
+                                        class="kt-section__content kt-section__content--border kt-section__content--fit">
+                                        <div class="row" style="margin:5px">
+                                            <table class="table" id="paymentdetails">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Sno</th>
+                                                        <th></th>
+                                                        <th>Date</th>
+                                                        <th>Transaction description</th>
+                                                        <th>payment</th>
+                                                        <th>Balance</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody class="trbody">
+
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+
+
+
+                        <input type="hidden" id="hfcustomerid">
+                        <input type="hidden" id="hfsupplierid">
+                        <input type="hidden" id="hf_id">
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" onclick="save_payment_process()" class="btn btn-primary">Save</button>
+            </div>
+
+        </div>
+    </div>
+</div>

@@ -1,0 +1,691 @@
+<div class="row list">
+    <div class="col-md-12">
+        <div class="kt-widget25 mt-0">
+
+            <div class="kt-widget25__items mt-0">
+                <div class="kt-widget25__item">
+
+                    <span class="kt-widget25__stats m-font-brand">
+                        <i class="la la-rupee"></i> <label id="lblpurchaseamount">0</label>
+                    </span>
+
+                    <span class="kt-widget25__subtitle">
+                        Total Sales
+                    </span>
+                </div>
+                <div class="kt-widget25__item">
+                    <span id="lbltotalpaidamount" class="kt-widget25__number">
+                        0
+                    </span>
+                    <div class="progress kt-progress--sm">
+                        <div class="progress-bar kt-bg-danger" role="progressbar" style="width: 63%;" aria-valuenow="50"
+                            aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                    <span class="kt-widget25__desc">
+                        Paid Amount
+                    </span>
+                </div>
+
+                <div class="kt-widget25__item">
+                    <span id="lbltotaldueamount" class="kt-widget25__number">
+                        0
+                    </span>
+                    <div class="progress m-progress--sm">
+                        <div class="progress-bar kt-bg-success" role="progressbar" style="width: 39%;"
+                            aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                    <span class="kt-widget25__desc">
+                        Due Amount
+                    </span>
+                </div>
+
+                <div class="kt-widget25__item">
+                    <span id="lbltotaloverdueamount" class="kt-widget25__number">
+                        0
+                    </span>
+                    <div class="progress m-progress--sm">
+                        <div class="progress-bar kt-bg-warning" role="progressbar" style="width: 54%;"
+                            aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                    <span class="kt-widget25__desc">
+                        Over Due Amount
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row list">
+    <div class="col-lg-12">
+        <div class="kt-portlet">
+            <div class="kt-portlet__head">
+                <div class="kt-portlet__head-label">
+                    <h3 class="kt-portlet__head-title">
+                        All Sales Orders
+                    </h3>
+                </div>
+                <div class="kt-portlet__head-toolbar">
+                    <div class="kt-portlet__head-actions">
+                        <button type="button" class="btn btn-bold btn-success-grn btn-sm" data-toggle="modal"
+                            data-target="#kt_modal_4" onclick="Show()"><i class="fa fa-plus"></i>
+                            Add New</button>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="table-responsive cust-tab kt-portlet__body">
+
+
+                <table class="table text-center table-sm table-striped- table-bordered table-hover table-checkable"
+                    id="gvsaleslist">
+                    <thead>
+                        <tr>
+                            <!-- <th>sno</th> -->
+                            <th>Invoice Date</th>
+                            <th>Invoice No</th>
+                            <th>Customer Name</th>
+                            <th>Total</th>
+                            <th>Due Amount</th>
+                            <th>Status</th>
+
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                </table>
+
+                
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div class="row entry">
+    <div class="col-lg-12">
+        <!--begin::Portlet-->
+        <div class="kt-portlet kt-portlet--last kt-portlet--head-lg kt-portlet--responsive-mobile" id="kt_page_portlet">
+            <div class="kt-portlet__head kt-portlet__head--lg">
+                <div class="kt-portlet__head-label">
+                    <h3 class="kt-portlet__head-title">Sales Entry </h3>
+                </div>
+                <div class="kt-portlet__head-toolbar">
+                    <a href="#" onclick="Close()" class="btn btn-danger kt-margin-r-10">
+                        <i class="la la-arrow-left"></i>
+                        <span class="kt-hidden-mobile">Back</span>
+                    </a>
+                    <div id="btnsavegroup" class="btn-group">
+                        <button type="button" onclick="save_process()" class="btn btn-brand">
+                            <i class="la la-save"></i>
+                            <span class="kt-hidden-mobile">Save</span>
+                        </button>
+                        <button type="button" class="btn btn-brand dropdown-toggle dropdown-toggle-split"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        </button>
+                        <div class="dropdown-menu dropdown-menu-right">
+                            <ul class="kt-nav">
+                                <li class="kt-nav__item">
+                                    <a href="#" onclick="saveexit()" class="kt-nav__link">
+                                        <i class="kt-nav__link-icon flaticon2-edit-interface-symbol-of-pencil-tool"></i>
+                                        <span class="kt-nav__link-text">Save & exit</span>
+                                    </a>
+                                </li>
+                                <li class="kt-nav__item">
+                                    <a href="#" onclick="save_process()" class="kt-nav__link">
+                                        <i class="kt-nav__link-icon flaticon2-add-1"></i>
+                                        <span class="kt-nav__link-text">Save & add new</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="kt-portlet__body">
+                <form class="kt-form" id="kt_form">
+                    <div class="row" style="margin-top: -20px;padding-bottom: 15px;">
+                        <div class="col-md-2">
+                            <h6 class="kt-font">Invoice No</h6>
+
+                            <div class="kt-input-icon">
+                                <h3 class="kt-callout__title lblinvoiceno kt-font-primary kt-font-bold"></h3>
+                                <input type="hidden" id="hfinvoiceno">
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <h6 class="kt-font">Customer Name</h6>
+
+                            <div class="col-lg-12 col-md-12 col-sm-12" style="margin-left: -10px;">
+                                <div class="typehead">
+                                    <input class="form-control dark-border bg-white" autocomplete="off" id="txtcustomer"
+                                        type="text" dir="ltr" placeholder="Ente Customername">
+                                </div>
+                            </div>
+                            <input type="hidden" id="hfcustomerid">
+                        </div>
+                        <div class="col-md-3">
+                            <h6 class="kt-font">Invoice Date</h6>
+
+                            <div class="kt-input-icon">
+                                <input type="text" id="txtinvoicedate" class="form-control kt_datepicker_1 dark-border"
+                                    placeholder="DD-MM-YYYY">
+                                <span class="kt-input-icon__icon kt-input-icon__icon--right"><span><i
+                                            class="flaticon2-calendar"></i></span></span>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <h6 class="kt-font">Valid Till</h6>
+
+                                <div class="input-group">
+                                    <select id="ddlduedays" onchange="Cal_Duedate()"
+                                        class="btn btn-secondary dark-border">
+                                        <option value="0">None</option>
+                                        <option value="7">7 Days</option>
+                                        <option value="30">30 Days</option>
+                                        <option value="45">45 Days</option>
+                                        <option value="60">60 Days</option>
+                                        <option value="Custom"> Custom</option>
+                                    </select>
+                                    <input type="text" placeholder="DD-MM-YYYY" id="txtduedate"
+                                        class="form-control dark-border kt_datepicker_1">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <h6 class="kt-font">Reference</h6>
+
+                            <input type="textbox" class="form-control dark-border" id="txtreference ">
+                        </div>
+                        <!-- </div>
+                    <div class="row" > -->
+                      
+                    </div>
+                    <div class="row ">
+
+                      
+                    </div>
+
+
+                    <br />
+                    <div class="cust-tab table-responsive">
+                        <table class="table table-bordered" id="detailsTable">
+                            <thead>
+                                <tr>
+
+                                </tr>
+                            </thead>
+                            <tbody class="trbody">
+
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- <table class="table table-hover ">
+                        <tr>
+                            <td>teet</td>
+                            <td>tet</td>
+                        </tr>
+                    </table> -->
+                    <div class="row">
+
+
+                        <div class="col-lg-8">
+
+                          
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="kt-section">
+
+                                <div style="border: 1px solid #c2c1c1;"
+                                    class="kt-section__content kt-section__content--border kt-section__content--fit">
+                                    <div class="row mt-2">
+                                        <div class="col-sm-6">
+                                            <h6 class="kt-font" style="margin-left: 7%;"> Actual Total:</h6>
+
+                                        </div>
+
+                                        <div class="col-sm-6">
+                                            <label id="txtsubtotal"> 0</label>
+
+                                        </div>
+                                    </div>
+                                    <div class="row mt-2">
+                                        <div class="col-sm-6">
+                                            <h6 class="kt-font" style="margin-left: 7%;"> Round Off:</h6>
+
+                                        </div>
+
+                                        <div class="col-sm-6">
+                                            <div class="input-group" style="width:90%">
+                                                <select id="ddlroundofftype" onchange="Cal_Roundoff()"
+                                                    class="btn btn-secondary dark-border form-control">
+                                                    <option value="plus">+</option>
+                                                    <option value="negative">-</option>
+                                                </select>
+
+                                                <input type="text" value="0" id="txtrounoffvalue"
+                                                    onkeyup="Cal_Roundoff()" class="form-control ">
+
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <div class="row mt-2">
+                                        <div class="col-sm-6">
+                                            <h6 class="kt-font" style="margin-left: 7%;"> Net Payable:</h6>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <label id="txttotal"> 0</label>
+                                        </div>
+                                    </div>
+                                    <div class="row mt-2">
+                                        <div class="col-sm-6">
+                                            <h6 class="kt-font" style="margin-left: 7%;"> Paid Amount:</h5>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <input type="text" id="txtpayamount" onkeyup="Cal_Balance()"  style="width:90%"
+                                                 class="form-control">
+                                        </div>
+                                    </div>
+                                    <div class="row mt-2">
+                                        <div class="col-sm-6" >
+                                            <h6 class="kt-font" style="margin-left: 7%;">Balance Payable:</h5>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <label id="lblbalance"> 0</label>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+
+                            </div>
+                        </div>
+                     
+                    </div>
+                    <hr>
+                    </hr>
+                    <div class="row">
+                        <div class="col-lg-4">
+                            <label class="form-control-label">Note:</label>
+                            <textarea rows="3" id="txtnote" class="form-control"></textarea>
+                        </div>
+                        <div class="col-lg-4">
+                            <label class="form-control-label">Terms & Conditions:</label>
+                            <textarea rows="3" id="txttermsandcondition" class="form-control"></textarea>
+                        </div>
+                        <div class="col-lg-4">
+                            <label class="form-control-label">Sales.Rep:</label>
+                            <select class="form-control" id="ddlsalesrep">
+                            </select>
+                        </div>
+
+
+                    </div>
+                    <div class="row">
+                        <div class="modal" id="kt_modal_4" tabindex="-1" role="dialog"
+                            aria-labelledby="exampleModalLabel">
+                            <div class="modal-dialog modal-sm" role="document" style="width: 500px;">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel">Manage Custom Field </h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+
+                                        <div class="form-group">
+                                            <div class="kt-checkbox-list">
+                                                <label class="kt-checkbox kt-checkbox--tick kt-checkbox--brand">
+                                                    <input type="checkbox" id="chhsn"> HSN/SAC
+                                                    <span></span>
+                                                </label>
+                                                <label class="kt-checkbox kt-checkbox--tick kt-checkbox--brand">
+                                                    <input type="checkbox" id="chunit"> UNIT
+                                                    <span></span>
+                                                </label>
+                                                <label class="kt-checkbox kt-checkbox--tick kt-checkbox--brand">
+                                                    <input type="checkbox" id="chdiscount" > Discount
+                                                    <span></span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="kt-portlet__foot">
+                                            <div class="text-center">
+                                                <div class="col-lg-12">
+                                                    <input type="hidden" id="hf_id">
+                                                    <button type="button" onclick="Changetable()"
+                                                        class="btn btn-brand btn-sm">Save</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="modal fade" id="kt_modal_5" tabindex="-1" role="dialog"
+                            aria-labelledby="exampleModalLabel">
+                            <div class="modal-dialog modal-sm" role="document" style="width: 500px;">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel">Attribute Details</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <!--begin::Form-->
+                                        <div class="attributedetails">
+
+                                        </div>
+                                        <div class="kt-portlet__foot">
+                                            <div class="text-center">
+                                                <div class="col-lg-12">
+                                                    <input type="hidden" id="hf_id">
+                                                    <input type="hidden" id="hfcustomername">
+                                                    <input type="hidden" id="hfcustomertype">
+                                                    <input type="hidden" id="hfemail">
+                                                    <input type="hidden" id="hfmobile">
+                                                    <input type="hidden" id="hfshippingaddress">
+                                                    <input type="hidden" id="hfbillingaddress">
+                                                    <input type="hidden" id="hfgstin">
+                                                    <input type="hidden" id="hfgsttype">
+                                                    <input type="hidden" id="hfgstno">
+                                                    <input type="hidden" id="hf_companystate">
+
+                                                    <button type="button" onclick="Changetable()"
+                                                        class="btn btn-brand btn-sm">Save</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--end::Form-->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+            </div>
+            </form>
+        </div>
+    </div>
+    <!--end::Portlet-->
+</div>
+
+<div class="kt-portlet printTable" id="printTable">
+    <!-- <%include ../../Sales/SalesEntry/invoice.ejs%> -->
+</div>
+
+<div class="modal fade" id="customermadal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Customer Entry</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                </button>
+            </div>
+            <div class="modal-body">
+                <!--begin::Form-->
+                <div class="kt-portlet__body">
+                    <div class="kt-section">
+                        <div class="kt-section__content">
+                            <form class="kt-form kt-form--label-right" id="formcustsub">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label>Name</label>
+                                            <input type="text" name="name" placeholder="Enter Name"
+                                                class="form-control form-control-md" id="txtname"
+                                                style="border: solid grey 1px !important;">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label>Mobile</label>
+                                            <input type="text" name="mobile" placeholder="Enter Mobile "
+                                                class="form-control form-control-md" id="txtmobile"
+                                                style="border: solid grey 1px !important;">
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="kt-portlet__foot">
+                                    <div class="kt-form__actions">
+                                        <div class="row">
+                                            <div class="col-lg-12">
+                                                <div class="float-right">
+                                                    <button type="submit" class="btn btn-brand">Save</button>
+                                                    <button type="submit" onclick="cleardata()"
+                                                        class="btn btn-secondary">Clear</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <!--end::Form-->
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="modal fade" id="receiptpaymentdetails" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+        <div class="modal-dialog modal-xxl" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Receipt Payment </h5>
+
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    </button>
+
+                </div>
+                <div class="modal-body">
+                    <div class="kt-portlet__body">
+                        <form class="kt-form" id="kt_form">
+                            <div class="row ">
+                                <div class="col-md-2">
+                                    <label class="control-label">Receipt No</label><br>
+                                    <div class="kt-input-icon">
+                                        <h3 class="kt-callout__title  kt-font-primary kt-font-bold">
+                                            <lable id="lblreceiptno"></lable>
+                                        </h3>
+                                    </div>
+
+                                </div>
+
+                                <div class="col-md-3">
+                                    <label class="control-label">Receipt Date</label>
+                                    <div class="kt-input-icon">
+                                        <input type="text" id="txtreceiptdate"
+                                            class="form-control kt_datepicker_1 dark-border" placeholder="DD-MM-YYYY">
+                                        <span class="kt-input-icon__icon kt-input-icon__icon--right"><span><i
+                                                    class="flaticon2-calendar"></i></span></span>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="col-form-label" style="margin-top: -7%;">Customer</label>
+                                    <div class="col-lg-12 col-md-9 col-sm-12" style="margin-left: -10px;">
+                                        <div class="typehead">
+                                            <input class="form-control dark-border bg-white" id="txtreceipt_customer"
+                                                type="text" dir="ltr" placeholder="Enter CustomerName">
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <div class="row">
+
+                                        <div class="kt-section">
+
+                                            <div style="border: 1px solid #c2c1c1;"
+                                                class="kt-section__content kt-section__content--border kt-section__content--fit">
+
+                                                <div class="row" style="margin:5px">
+                                                    <table id="tblpayment_pay" class="table table-bordered">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>Mode</th>
+                                                                <th>Paidfrom</th>
+                                                                <th>Amount</th>
+                                                                <th>Description</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr>
+                                                                <td>
+                                                                    <select class="form-control ddltype dark-border">
+                                                                        <option value="Cash"> Cash</option>
+                                                                        <option value="Cheque/DD"> Cheque/DD</option>
+                                                                        <option value="Debit/Credit Card">Debit/Credit
+                                                                            Card
+                                                                        </option>
+                                                                        <option value="Electronic Transfer">Electronic
+                                                                            Transfer
+                                                                        </option>
+                                                                        <option value="Other">Other</option>
+                                                                    </select>
+                                                                    <input type="hidden" class="hfpaymentid">
+                                                                </td>
+                                                                <td><select
+                                                                        class="form-control ddlpaymode paidfrom dark-border"></select>
+                                                                </td>
+                                                                <td><input type="text" onblur="Cal_BP_Balance()"
+                                                                        value="0"
+                                                                        class="form-control payamount dark-border"></td>
+                                                                <td><input type="text" value="0"
+                                                                        class="form-control description dark-border">
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                        <tfoot>
+                                                            <tr>
+                                                                <td colspan="4">
+                                                                    <div class="fa-pull-right">
+                                                                        <button type="button" id="InsertRow"
+                                                                            class="btn btn-sm btn-success Footer"
+                                                                            onclick="Add_BP_paymentRow()"><i
+                                                                                class="fa fa-plus-circle"></i>&nbsp;Add
+                                                                            Item</button>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                        </tfoot>
+                                                    </table>
+
+                                                </div>
+
+
+
+
+
+                                                <div class="row mt-2" style="margin:5px">
+                                                    <div class="col-sm-6">
+                                                        <h6 class="kt-font" style="margin-left: 7%;"> Paid Amount:</h5>
+                                                    </div>
+                                                    <div class="col-sm-6">
+                                                        <div class="input-group">
+                                                            <div class="input-group-prepend"><span
+                                                                    class="input-group-text"><i
+                                                                        class="la la-rupee"></i></span></div>
+                                                            <input type="text" disabled="disabled" class="form-control"
+                                                                id="txt_bp_paidamount" placeholder="Enter Paid amount">
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="transactiondetails col-lg-6" style="margin-left: 52%;margin-top:-21.3%">
+                                    <div class="row">
+
+                                        <div class="kt-section">
+
+                                            <div style="border: 1px solid #c2c1c1;"
+                                                class="kt-section__content kt-section__content--border kt-section__content--fit">
+                                                <div class="row" style="margin:5px">
+                                                    <table class="table" id="paymentdetails">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>Sno</th>
+                                                                <th></th>
+                                                                <th>Date</th>
+                                                                <th>Transaction description</th>
+                                                                <th>payment</th>
+                                                                <th>Balance</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody class="trbody">
+
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <input type="hidden" id="hfcustomerid">
+                            <input type="hidden" id="hf_balancepayment" value="0">
+                            <input type="hidden" id="hf_id">
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" onclick="save_payment_process()" class="btn btn-primary">Save</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</div>
+<div class="modal fade" id="modal_email" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel"> Send Mail To Customer </h5>
+
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                </button>
+
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                        <label  class="form-control-label">Recipient:</label>
+                        <input type="text" class="form-control" id="txtcustomermailaddress">
+                    </div>
+                    <div class="form-group">
+                        <label  class="form-control-label">Subject:</label>
+                        <input type="text" class="form-control" id="txcustomertsubject">
+                    </div>
+                    <div class="form-group">
+                        <label  class="form-control-label">Message:</label>
+                        <textarea class="form-control" id="txtmailcontent"></textarea>
+                    </div>
+                </form>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" onclick="send_mail_process()" class="btn btn-primary">Send Message</button>
+            </div>
+
+        </div>
+    </div>
+</div>

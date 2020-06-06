@@ -1,0 +1,161 @@
+<div class="row list">
+    <div class="col-lg-12">
+
+        <div class="kt-portlet">
+            <div class="kt-portlet__head">
+                <div class="kt-portlet__head-label">
+                    <h3 class="kt-portlet__head-title">
+                        Stock Transfer List
+                    </h3>
+                </div>
+                <div class="kt-portlet__head-toolbar">
+                    <div class="kt-portlet__head-actions">
+                        <button type="button" class="btn btn-bold btn-success-grn btn-sm" data-toggle="modal"
+                            data-target="#kt_modal_4" onclick="Show()"
+                            style="background-color: #5AB412;border-color: #5AB412;"><i class="fa fa-plus-circle"></i>
+                            Add New</button>
+                    </div>
+                </div>
+            </div>
+            <div class="cust-tab kt-portlet__body">
+
+                <table class="table text-center table-sm table-striped- table-bordered table-hover table-checkable"
+                    id="gvpurchaselist">
+                    <thead>
+                        <tr>
+                            <th
+                                style="border-left: 0.03rem solid #b3b3b4 !important;border-bottom: 0.05rem solid #b3b3b4 !important;border-top: 0.05rem solid #b3b3b4 !important;">
+                                Entry Date</th>
+                            <th>From Branch</th>
+                            <th>To Branch</th>
+                         
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                </table>
+
+
+
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div class="row entry">
+    <div class="col-lg-12">
+        <!--begin::Portlet-->
+        <div class="kt-portlet kt-portlet--last kt-portlet--head-lg kt-portlet--responsive-mobile" id="kt_page_portlet">
+            <div class="kt-portlet__head kt-portlet__head--lg">
+                <div class="kt-portlet__head-label">
+                    <h3 class="kt-portlet__head-title">Stock Transfer Entry </h3>
+                </div>
+                <div class="kt-portlet__head-toolbar">
+                    <a href="#" onclick="Close()" class="btn btn-danger kt-margin-r-10">
+                        <i class="la la-arrow-left"></i>
+                        <span class="kt-hidden-mobile">Back</span>
+                    </a>
+                    <div class="btn-group" id="btnsavegroup">
+                        <button type="button" onclick="save_process()" class="btn btn-brand">
+                            <i class="la la-save"></i>
+                            <span class="kt-hidden-mobile">Save</span>
+                            <input type="hidden" id="hf_id">
+                        </button>
+                        <button type="button" class="btn btn-brand dropdown-toggle dropdown-toggle-split"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        </button>
+                        <div class="dropdown-menu dropdown-menu-right">
+                            <ul class="kt-nav">
+                                <li class="kt-nav__item">
+                                    <a href="#" onclick="saveexit()" class="kt-nav__link">
+                                        <i class="kt-nav__link-icon flaticon2-edit-interface-symbol-of-pencil-tool"></i>
+                                        <span class="kt-nav__link-text">Save & exit</span>
+                                    </a>
+                                </li>
+
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="kt-portlet__body">
+                <form class="kt-form" id="kt_form">
+                    <div class="row ">
+                        <div class="col-md-3">
+                            <h6 class="kt-font">Entry Date</h6>
+
+                            <div class="kt-input-icon">
+                                <input type="text" id="txtentrydate" class="form-control kt_datepicker_1 dark-border"
+                                    placeholder="DD-MM-YYYY">
+                                <span class="kt-input-icon__icon kt-input-icon__icon--right"><span><i
+                                            class="flaticon2-calendar"></i></span></span>
+                            </div>
+                        </div>
+
+                        <div class="col-md-3">
+                            <h6 class="kt-font">From Branch</h6>
+
+                            <div class="col-lg-12 col-md-9 col-sm-12">
+                                <select id="ddlfrombranch" class="form-control"></select>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <h6 class="kt-font">To Branch</h6>
+
+                            <div class="col-lg-12 col-md-9 col-sm-12">
+                                <select id="ddltobranch" class="form-control"></select>
+                            </div>
+                        </div>
+
+
+
+
+
+                    </div>
+
+
+
+                    <br>
+                    <div class="cust-tab table-responsive">
+                        <table class="table table-bordered" id="detailsTable">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        S.No
+                                    </th>
+                                    <th>
+                                        Product 
+                                    </th>
+                                    <th>
+                                        HSN/SAC Code
+                                    </th>
+                                    <th>
+                                        Qty
+                                    </th>
+                                    <th>
+                                        Del
+                                    </th>
+
+
+                                </tr>
+                            </thead>
+                            <tbody class="trbody">
+                              
+
+                            </tbody>
+                        </table>
+                    </div>
+
+
+            </div>
+
+
+
+
+        </div>
+        </form>
+    </div>
+</div>
+<!--end::Portlet-->
+</div>

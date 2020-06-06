@@ -1,0 +1,724 @@
+<!-- Template : export/salinv -->
+<style>
+    /** {
+   all: initial;
+  }*/
+    html,
+    body,
+    page,
+    pre {
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 13px !important;
+        line-height: 1.2;
+        color: #222;
+    }
+
+    page {
+        width: 100%;
+        display: inline-block;
+        height: auto;
+
+    }
+
+    h1,
+    .h1 {
+        font-size: 29.25px;
+    }
+
+    h2,
+    .h2 {
+        font-size: 19.5px;
+    }
+
+    h3,
+    .h3 {
+        font-size: 14.625px;
+    }
+
+    h4,
+    .h4 {
+        font-size: 11.375px;
+    }
+
+    table {
+        width: 100%;
+        font-size: 13px !important;
+        border-bottom: 0.5px solid #b7b7b7;
+        border-left: 0.5px solid #b7b7b7;
+    }
+
+    table th,
+    table td {
+        vertical-align: middle;
+        padding: 5px;
+        border-bottom: 0px;
+        border-left: 0px;
+        border-right: 0.5px solid #b7b7b7;
+        border-top: 0.5px solid #b7b7b7;
+        line-height: 1.2;
+    }
+
+    table.inv_details th {
+        border-bottom: 0.5px solid #b7b7b7;
+        border-top: 0px;
+    }
+
+    table.inv_details td {
+        border-bottom: 0.5px solid #b7b7b7;
+        border-top: 0px;
+    }
+
+    table.inv_details th {
+        /*border-top: 0.5px solid #b7b7b7;*/
+    }
+
+    table th {
+        font-weight: bold;
+    }
+
+    table.noborder {
+        border-bottom: 0px;
+        border-left: 0px;
+    }
+
+    table.noborder th,
+    table.noborder td {
+        border-right: 0px;
+        border-top: 0px;
+        border-bottom: 0px;
+    }
+
+    .nbh,
+    table.nbh,
+    table.nbh th,
+    table.nbh td,
+    table.nbh2 th,
+    table.nbh2 td {
+        border-bottom: 0px;
+        border-top: 0px;
+    }
+
+    .nbv,
+    table.nbv,
+    table.nbv th,
+    table.nbv td {
+        border-left: 0px;
+        border-right: 0px;
+    }
+
+    .nb,
+    table.nb,
+    table.nb th,
+    table.nb td {
+        border-top: 0px;
+        border-right: 0px;
+        border-bottom: 0px;
+        border-left: 0px;
+    }
+
+    .taxbob td {
+        border-top: none;
+    }
+
+    table.nopadding th,
+    table.nopadding td {
+        padding: 0px;
+    }
+
+    table.auto {
+        width: auto;
+    }
+
+    table.vat th,
+    table.vat td {
+        vertical-align: top;
+        border-color: #000000;
+    }
+
+    table.vam th,
+    table.vam td,
+    thead.vam th,
+    tr.vam td {
+        vertical-align: middle;
+    }
+
+    table.wpw td {
+        white-space: pre-wrap;
+    }
+
+    /*
+h1 { font-size: 2.25em;}
+h2 { font-size: 1.5em;}
+h3 { font-size: 1.125em;}
+h4 { font-size: 0.875em;}
+*/
+    .hr {
+        color: #b7b7b7;
+        border-color: #b7b7b7;
+        margin: 0px;
+        padding: 0px;
+        line-height: 0.5px;
+    }
+
+    tr.hrtag td {
+        padding: 0px;
+    }
+
+    .dib {
+        display: inline-block;
+    }
+
+    .nm {
+        margin: 0px;
+    }
+
+    .nmt {
+        margin-top: 0px;
+    }
+
+    .nmb {
+        margin-bottom: 0px;
+    }
+
+    .nmr {
+        margin-right: 0px;
+    }
+
+    .nml {
+        margin-left: 0px;
+    }
+
+    .al {
+        text-align: left;
+    }
+
+    .ar {
+        text-align: right;
+    }
+
+    .ac {
+        text-align: center;
+    }
+
+    .nb {
+        border: 0px;
+    }
+
+    .nbt,
+    table.nbt,
+    table.nbt th,
+    table.nbt td {
+        border-top: 0px;
+    }
+
+    .nbr,
+    table tr td.nbr {
+        border-right: 0px;
+    }
+
+    .nbb {
+        border-bottom: 0px;
+    }
+
+    .nbl {
+        border-left: 0px;
+    }
+
+    .np {
+        padding: 0px;
+    }
+
+    .npl {
+        padding-left: 0px;
+    }
+
+    .npt {
+        padding-top: 0px;
+    }
+
+    .npr {
+        padding-right: 0px;
+    }
+
+    .npb {
+        padding-bottom: 0px;
+    }
+
+    .npv {
+        padding-left: 0px;
+        padding-right: 0px;
+    }
+
+    .nph,
+    table td.nph {
+        padding-top: 0px;
+        padding-bottom: 0px;
+    }
+
+    .fw {
+        width: 100%;
+        display: block;
+    }
+
+    .detailTable table tr.odd {
+        background: #EAEAEA;
+    }
+
+    .detailTable table tr.even {
+        background: #FFFFFF;
+    }
+
+    .vat,
+    table tbody tr td.vat,
+    table.vat tbody tr td {
+        vertical-align: top;
+        border-color: #000000;
+    }
+
+    .vam,
+    table tbody tr td.vam {
+        vertical-align: middle;
+    }
+
+    .vab,
+    table tbody tr td.vab {
+        vertical-align: bottom;
+    }
+
+    .noside {
+        float: left;
+        clear: both;
+    }
+
+    .fltlt {
+        float: left;
+    }
+
+    .fltrt {
+        float: right;
+    }
+
+    .clrbth {
+        clear: both;
+    }
+
+    .bob {
+        border-bottom: 0.5px solid #b7b7b7 !important;
+    }
+
+    .bol {
+        border-left: 0.5px solid #b7b7b7 !important;
+    }
+
+    .bor {
+        border-right: 0.5px solid #b7b7b7 !important;
+    }
+
+    .bot {
+        border-top: 0.5px solid #b7b7b7 !important;
+    }
+
+    .pretxt {
+        white-space: pre-wrap;
+    }
+
+    /*
+.bol {
+	border-left: 1px solid #b7b7b7;
+}
+.bob, table.noborder tbody tr td.bob {
+	border-bottom: 1px solid #b7b7b7;
+}
+.bot {
+	border-top: 1px solid #b7b7b7;
+}
+*/
+    .b {
+        font-weight: bold;
+    }
+
+    .asterisk {
+        color: black;
+        font-weight: bold;
+    }
+
+    .imgDiv {
+        display: inline-block;
+        /*max-height: 90px;*/
+        padding: 5px;
+        text-align: center;
+    }
+
+    .sign img {
+        max-width: 120px;
+        width: 120px;
+    }
+
+    .imgDiv img {
+        max-width: 120px;
+        width: 120px;
+        /*height: auto;
+	max-height: 80px;*/
+        display: inline-block;
+    }
+
+    .fnt-small,
+    table tr td.fnt-small {
+        font-size: smaller;
+    }
+
+    .fnt-11,
+    table tr td.fnt-11 {
+        font-size: 11.375px;
+        line-height: 13px;
+    }
+
+    .genby,
+    .footerTxt {
+        text-align: center;
+        font-size: 11.375px;
+        width: 100%;
+        display: inline-block;
+        padding: 10px 0;
+    }
+
+    .watermark {
+        text-align: center;
+        font-size: 11.375px;
+        width: 100%;
+        display: inline-block;
+        color: gray;
+    }
+
+    .watermark a {
+        color: gray;
+        text-decoration: none;
+    }
+
+    .headtxt {
+        background-color: #9a9a9a;
+        color: #FFFFFF;
+        font-weight: bold;
+        padding: 7px;
+        display: inline-block;
+        width: 100%;
+    }
+
+    td.headtd {
+        background-color: #9a9a9a;
+        color: #FFFFFF;
+        font-weight: bold;
+        padding: 7px !important;
+        ;
+        width: 100%;
+        font-size: 17px !important;
+    }
+
+    td.headtd2 {
+        font-weight: bold;
+        padding: 7px !important;
+        ;
+        width: 100%;
+        font-size: 17px !important;
+    }
+
+    .bgColor {
+        color: #9a9a9a;
+    }
+
+    /*
+td.headtd2 small {
+	font-weight: normal;
+}
+*/
+    .total {
+        font-size: 16.9px;
+    }
+
+    /*
+td.subTotal {
+	height: 36px;
+}
+*/
+    table tbody tr.includetax td,
+    table tbody tr.includetax td b {
+        /*color: #888;
+	font-weight: normal;*/
+        font-style: italic;
+    }
+</style>
+<htmlpageheader name="">
+    <div class="trans">
+        <a name="INV2"></a>
+        <table border="0" cellspacing="0" cellpadding="0" class="noborder nopadding vat">
+            <!--<col style="width: 30%">-->
+            <tbody>
+                <tr>
+                    <td>
+                        <p class="address nm"><b><big><span id="companyname25"></span></big></b><br><span
+                                id="companyaddress"></span>,<br> <span id="companycity"></span> -
+                            <span id="companypincode"></span>, <span id="companystate"></span>, <span
+                                id="companycountry"></span>.<br>Phone : <span id="companyphone"></span><br>Email : <span
+                                id="companyemail"></span><br>GSTIN :
+                            <span id="companygstno"></span></p>
+                    </td>
+                    <td class="vat" width="35%">
+                        <table class="noborder invMeta" style="width:100%">
+                            <tbody>
+                                <tr>
+                                    <td colspan="2" style='padding:10px !important' class="headtd">&nbsp;Tax Invoice
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="label">Invoice Number</td>
+                                    <td>: <b><span id="invoiceno"></span></b></td>
+                                </tr>
+
+                                <tr>
+                                    <td class="label">Invoice Date</td>
+                                    <td>: <b><span id="invoicedate"></span></b></td>
+                                </tr>
+                              
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+                <tr class="vam">
+                    <td class="bot ac vam" style="border-bottom:0.5px solid #000000" colspan="2"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="trans">
+        <table cellspacing="0" cellpadding="0" class="noborder vat" style="padding-top:5px;padding-bottom:5px;">
+            <tbody>
+                <tr>
+                    <td width="50%" style="padding:5px;border-left: 4px solid #9a9a9a">
+                        <div>
+                            <p class="fw nm">Issued To</p><b class="fw nm tc"><span id="subcustomername"></span></b>
+                            <p class="nm">GSTIN : <span id="subcustomergstno"></span></p>
+                            <p class="nm">POS : <span id="subcustomerstate"></span></p>
+                        </div>
+                    </td>
+                    <td width="50%" style="padding:5px;border-left: 4px solid #9a9a9a">
+                        <div><span class=""><span id="customername"></span>
+                                <p class="address nm"><b><span id="customername"></b><br><span id="customercity"></span>
+                                    - <span id="customerpincode"></span>, <span id="customerstate"></span>,
+                                    <span id="customercountry"></span>.<br>Mobile : <span
+                                        id="customermobile"></span><br>Email :
+                                    <span id="customeremail"></span></p>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <!-- /page_header -->
+</htmlpageheader>
+<sethtmlpageheader name="" value="on" show-this-page="1" />
+
+<div class="trans">
+    <table cellspacing="0" cellpadding="0" class="nbv nbb vat " width="50%">
+        <tbody>
+            <tr class="custFields">
+                <td width="50%">
+                    <!-- <p class="nm"><span>Buyer's Order No#: </span><br><b>ORD000125</b></p> -->
+                </td>
+                <td width="50%">
+                    <!-- <p class="nm"><span>Buyer's Order Date: </span><br><b>17/09/2018</b></p> -->
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<table cellspacing="0" cellpadding="0" style="width:100%" class="inv_details wpw vat nbb bot ft" style="width:100%;">
+    <thead class="bgcolor vam">
+        <tr>
+            <th width="6%" style="background-color:#9a9a9a" class="first">SNo</th>
+            <th style="width:nameWid;background-color:#9a9a9a" class="">ItemDescription</th>
+            <!-- <th width="10%" style="background-color:#9a9a9a" class="">HSN/SAC</th> -->
+            <th width="7%" style="background-color:#9a9a9a" class="ac">Qty</th>
+            <th width="12%" style="background-color:#9a9a9a" class="ar">Rate<br><small>(INR)</small></th>
+            <!-- <th width="10%" style="background-color:#9a9a9a" class="ar">Discount<br><small>(INR)</small></th>
+            <th width="10%" style="background-color:#9a9a9a" class="ac">Tax</th> -->
+            <th width="15%" class="ar" style="background-color:#9a9a9a">Amount<br><small>(INR)</small></th>
+        </tr>
+    </thead>
+    <tbody class="trbody">
+     </tbody>
+        <tr class="subtot">
+            <!----*********************For discount total********************---->
+            <td class="ar bob sss" style="border-bottom:1px solid black;background-color: none !important" colspan="3">
+                <label class="disc">Less : Discount</label>&nbsp;<span id="discountvalue"></span></td>
+            <td class="ar subTotal title bob ass" style="border-bottom:1px solid black" colspan="1"><b>Sub Total</b>
+            </td>
+            <td style="width: 15%;" class="ar subTotal value bob" style="border-bottom:1px solid black"><b><span id="taxblevalue"></span></b>
+            </td>
+        </tr>
+</table>
+<table align="left" cellspacing="0" cellpadding="0" width="100%">
+    <tbody>
+    </tbody>
+</table>
+<table border="0" cellspacing="0" cellpadding="0" class="footTable vat nbh2 wpw" style="width:100%;clear:both;">
+    <!-- <thead>
+		<tr>
+			<th class="nb np"></th>
+			<th class="nb np"></th>
+		</tr>
+	</thead> -->
+    <tbody>
+        <tr>
+            <td width="60%" class="wrp">
+                <div class="nm amtinwords" style="white-space: pre-line; word-wrap: break-word !important;">Amount (in  words) :
+                   <br><span id="totalamountinwords"></span></div>
+                <br><span class="nm notes pretxt">You are a Valuable Customer</span><br><br><br>
+            </td>
+            <td width="40%" class="np wrp" style="padding:0px !important;">
+                <table cellspacing="0" cellpadding="0" class="noborder">
+                    <col style="width:36%;" />
+                    <col style="width:30%;" />
+                    <col style="width:34%;" />
+                    <!-- <thead>
+						<tr>
+							<th class="nb np"></th>
+							<th class="nb np"></th>
+							<th class="nb np"></th>
+						</tr>
+					</thead> -->
+                    <tbody class="billgstdetails">
+                    
+                     
+                        <!-- <tr>
+                            <td class="ar dueamt title wrp" colspan="2">Balance Due</td>
+                            <td class="ar dueamt value wrp"><b>Rs 33,500.00</b></td>
+                        </tr>
+                        <tr>
+                            <td valign="top" colspan="3" class="vat ar eoe nb">
+                                <p class="nm ar"><small>E & O.E</small></p>
+                            </td>
+                        </tr> -->
+                    </tbody>
+                </table>
+            </td>
+        </tr>
+    </tbody>
+</table>
+<table cellspacing="0" cellpadding="0" class="footTable vat nbt wpw" autosize="1" style="page-break-inside: avoid">
+  
+    <tbody>
+        <tr>
+            <td valign="bottom" colspan="2" class="vab terms">
+                <div class="noside " style="display:inline-block;"><span class="nm pretxt">Terms :<br>
+                    Goods once sold will not be taken back</span></div>
+                        
+            </td>
+        </tr>
+        <tr>
+            <td class="ar bgColor" colspan="2" style="color:#9a9a9a">For companyName</td>
+        </tr>
+        <tr>
+            <td valign="bottom" class="vab nbr custsign bgColor"></td>
+            <td valign="bottom" class="vab ar authsign bgColor" style="color:#9a9a9a"><br><br><br><span class=""
+                    style="margin-top:40px;float:right;color:#9a9a9a">Authorized Signature</span></td>
+        </tr>
+    </tbody>
+</table>
+<p class="footerTxt nm pretxt">This is a computer generated document</p>
+</div>
+<style>
+    .detailTable {
+        width: 100%;
+        display: inline-block;
+        margin-top: 10px;
+    }
+
+    .accInfo {
+        width: auto;
+    }
+
+    table,
+    table td,
+    table th {
+        border-color: black;
+        /*$headColor == "transparent"?'#000000':$borderColor*/
+    }
+
+    .subtot td {
+        border-top: none;
+        border-bottom: none;
+
+    }
+
+    table thead.bgcolor th {
+        background-color: #9a9a9a !important;
+        color: #FFFFFF !important;
+    }
+
+    p.curr small {
+        width: 50%;
+        text-align: center;
+        display: inline-block;
+    }
+
+    .tc {
+        color: #9a9a9a !important;
+    }
+
+    .total {
+        background-color: #9a9a9a !important;
+        color: #FFFFFF;
+    }
+
+    .vl {
+        border-left: 4px solid #9a9a9a !important;
+        padding-left: 5px !important;
+    }
+
+    .ft {
+        border-top: 1px solid black !important;
+    }
+
+    .as {
+        color: black;
+    }
+
+    .disc {
+        font-style: italic;
+        color: grey;
+        font-weight: bold;
+        padding-right: 15px;
+    }
+
+    .bob {
+        border-bottom: 1px solid grey !important;
+    }
+
+    .wrp {
+        white-space: nowrap !important;
+    }
+
+    .subTotal,
+    .total {
+        border-bottom: 1px solid #000000 !important;
+    }
+
+    .first {
+        border-right: 0.5px solid #000000;
+        border-left: 1px solid #000000;
+    }
+
+    .total {
+        border-top: none !important;
+    }
+
+    .bob {
+        border-bottom: 1px solid grey !important;
+    }
+</style>
+<style>
+    .invMeta {
+        width: auto;
+    }
+</style>
+<script src="/pagescripts/Sales/SalesEntry/invoice.js"></script>
