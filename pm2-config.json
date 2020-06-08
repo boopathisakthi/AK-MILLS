@@ -1,7 +1,7 @@
 {
     "apps" : [
         {
-            "name"        : "ZIMS",
+            "name"        : "AKMILLS",
             "script"      : "app.js",
             "watch"       : true
         }
