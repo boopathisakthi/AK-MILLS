@@ -4,9 +4,9 @@ var PurchaseDetailSchema = new mongoose.Schema({
     productid: {
         type: ObjectId
     },
-    // purchase_productid: {
-    //     type: ObjectId
-    // },
+     productname: {
+        type: String
+     },
     qty: {
         type: Number
     },

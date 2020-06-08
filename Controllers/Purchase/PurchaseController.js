@@ -7,7 +7,7 @@ require("datejs");
 require('../../config/logger');
 module.exports = {
     async insert(req, res) {
-
+        console.log(req.body.purchaseDetail)
         if (req.body._id) {
 
             Purchase.findOne({ _id: new mongoose.Types.ObjectId(req.body._id), branchid: new mongoose.Types.ObjectId(req.session.branchid) })

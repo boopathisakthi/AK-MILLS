@@ -98,7 +98,7 @@ function Rowappend() {
                 row = row + '<td class="td-nopad"><input type="text" class="form-control  form-control hsc">  ';
                 break
             case 'Qty':
-                row = row + '<td><input onkeyup="Cal_Amount()" type="text" class="qty numerickey form-control form-control"></input><input type="hidden" class="hfdetailsysid"></input><input class="productid" type="hidden"></input></td>';
+                row = row + '<td><input onkeyup="Cal_Amount()" type="text" class="qty numerickey form-control form-control"></input><input type="hidden" class="hfdetailsysid"></input><input class="productid" type="hidden"></input><input type="hidden" class="hfproductname"></input></td>';
                 break
             case 'UNIT':
                 row = row + '<td  class="td-nopad" style="width:100px"><select class="ddlunit form-control form-control"></select></td>';
@@ -203,6 +203,7 @@ function clear(row) {
     var sno = parseInt($(row).find('.sno').text()) + 1;
     $(row).find('.sno').text(sno);
     $(row).find('.sysid').val("");
+    $(row).find('.hfproductname').val("");
     $(row).find('.typeahead').empty("");
     $(row).find('.typeahead').append(`<input class="form-control ddl" onblur="getproductdetails(this)"  type="text" dir="ltr" placeholder="Enter Productname">`);
     $(row).find('.hfdetailsysid').val("");
@@ -296,6 +297,7 @@ function getproductdetails(ctrl) {
         $(ctrl).closest('tr').find('.purchaseprice').val(productdetails[0].purchaseprice);
         $(ctrl).closest('tr').find('.hfoldpurchaseprice').val(productdetails[0].purchaseprice);
         $(ctrl).closest('tr').find('.hfpurchase_productid').val(productdetails[0].purchase_productid);
+        $(ctrl).closest('tr').find('.hfproductname').val($(ctrl).val());
         $('.attributedetails').empty();
         var deatildesign = '';
         // if (productdetails[0].attributes != 0) {
@@ -483,11 +485,12 @@ function save_process() {
 
         if ($('.productid', this).val() != '') {
             if ($('.hfoldpurchaseprice', this).val() != $('.rate', this).val() || $('.hfoldsalesprice', this).val() != $('.salesprice', this).val()) {
-                let product = productnameArray.filter(ele => ele.id == $('.productid', this).val());
+                var product = productnameArray.filter(ele => ele.id == $('.productid', this).val());
 
 
                 let productdetail = {
                     purchaseprice: $('.rate', this).val(),
+
                     salesprice: $('.salesprice', this).val(),
                     // purchase_productid: $('.hfpurchase_productid', this).val(),
                     productid: $('.productid', this).val(),
@@ -515,6 +518,7 @@ function save_process() {
             }
             let detail = {
                 productid: $('.productid', this).val(),
+                productname:$('.hfproductname', this).val() ,
                 qty: $('.qty', this).val(),
                 rate: $('.rate', this).val(),
                 discount: $('.discount', this).val(),

@@ -84,7 +84,7 @@ module.exports = {
 
         {
             $project: {
-                "_id": 0,
+                "_id": 1,
                 "total": 1,
                 "Supplier.name": 1,
                 "purchaseorderno": 1,
@@ -199,11 +199,11 @@ module.exports = {
             },
             {
                 $project: {
-                    "_id": 0,
-                    "invoicedate": { $dateToString: { format: "%Y-%m-%d", date: "$invoicedate" } },
+                    "_id": 1,
+                    "invoicedate": { $dateToString: { format: "%d-%m-%Y", date: "$invoicedate" } },
                     "reference": 1,
-                    "duedate": { $dateToString: { format: "%Y-%m-%d", date: "$duedate" } },
-                    "customer.name": 1,
+                    "duedate": { $dateToString: { format:"%d-%m-%Y", date: "$duedate" } },
+                    "customername": "$customer.name",
                     "invoiceno": 1,
                     "total": 1,
                     "dueamount": { $subtract: ['$total', { $add: [{ "$sum": '$salereturn.total' }, { "$sum": '$receiptpayment.PaymentDetail.payedamount' }] }] },

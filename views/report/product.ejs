@@ -8,450 +8,483 @@
     <meta name="description" content="Latest updates and statistic charts">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <%include ../templates/css/commoncss.ejs%>
-        <link rel="stylesheet" href="assets/css/custom_style.css" type="text/css">
-        <style>
+    <link rel="stylesheet" href="assets/css/custom_style.css" type="text/css">
+    <style>
 
-        </style>
+    </style>
 </head>
 
-<body class="kt-quick-panel--right kt-demo-panel--right kt-offcanvas-panel--right kt-header--fixed kt-header-mobile--fixed kt-subheader--enabled kt-subheader--solid kt-aside--enabled kt-aside--fixed kt-aside--minimize kt-page--loading">
+<body
+    class="kt-quick-panel--right kt-demo-panel--right kt-offcanvas-panel--right kt-header--fixed kt-header-mobile--fixed kt-subheader--enabled kt-subheader--solid kt-aside--enabled kt-aside--fixed kt-aside--minimize kt-page--loading">
     <%include ../templates/top.ejs%>
+    <!-- begin:: Content -->
+
+    <div class="kt-container  kt-container--fluid  kt-grid__item kt-grid__item--fluid mt-4">
+        <h3>Purchase Report</h3><br>
         <!-- begin:: Content -->
-        <div class="kt-subheader-search ">
-            <div class="kt-container  kt-container--fluid ">
-                <h3 class="kt-subheader-search__title">
-                    Purchase Report
-                    <span class="kt-subheader-search__desc"></span>
-                </h3>
-                <form class="kt-form">
-                    <div class="kt-grid kt-grid--desktop kt-grid--ver-desktop">
-                        <div class="kt-grid__item kt-grid__item--middle">
-                            <div class="row kt-margin-r-10">
-                                <!-- <div class="col-lg-6">
-                                <div class="kt-input-icon kt-input-icon--pill kt-input-icon--right">
-                                    <select name="" id="ddlstatus" class="form-control form-control-pill">
-                                        <option value="All">All</option>
-                                        <option value="Ondue">Ondue</option>
-                                        <option value="Overdue">Overdue</option>
-                                        <option value="Completed">Completed</option>
-                                    </select>
-                                    <span class="kt-input-icon__icon kt-input-icon__icon--right"><span><i
-                                                class="la la-puzzle-piece"></i></span></span>
-                                </div>
-                            </div> -->
-                                <div class="col-lg-6">
-                                    <div class="kt-input-icon kt-input-icon--pill kt-input-icon--right">
-                                        <input type="text" id="txtfdate" class="form-control form-control-pill kt_datepicker_1 dark-border" placeholder="From">
-                                        <span class="kt-input-icon__icon kt-input-icon__icon--right"><span><i
-                                                class="la la-calendar-check-o"></i></span></span>
-                                    </div>
-                                </div>
-                                <div class="col-lg-6">
-                                    <div class="kt-input-icon kt-input-icon--pill kt-input-icon--right">
-                                        <input type="text" id="txttdate" class="form-control form-control-pill kt_datepicker_1 dark-border" placeholder="To">
-                                        <span class="kt-input-icon__icon kt-input-icon__icon--right"><span><i
-                                                class="la la-calendar-check-o"></i></span></span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="kt-grid__item kt-grid__item--middle">
-                            <div class="kt-margin-top-20 kt--visible-tablet-and-mobile"></div>
-                            <button type="button" onclick="loadstock()" class="btn btn-pill btn-upper btn-bold btn-font-sm kt-subheader-search__submit-btn">Search
-                            Records</button>
-                            <a href="#" class="kt-subheader-search__link kt-link">Advance Search</a>
-                        </div>
-                    </div>
-                </form>
+        <div class="row">
+            <div class="col-md-3">
+
+                <div class="kt_daterangepicker_6">
+                    <input type="text" id="txtdaterange" class="form-control" readonly=""
+                        placeholder="Select date range">
+                </div>
             </div>
+
+
+            <div class="col-md-1">
+                <button class="btn btn-primary" onclick="loadpurchase()"><i class="fa fa-search"></i></button>
+
+            </div>
+
+
+
+
+
         </div>
-        <div class="kt-container  kt-container--fluid  kt-grid__item kt-grid__item--fluid mt-4">
-            <!-- begin:: Content -->
 
-
-            <button id='DLtoExcel' class="btn float-right mb-4 btn-danger">Export Data to Excel</button>
-            <table class="table text-center table-sm table-striped- table-bordered table-hover table-checkable" id="gvsaleslist">
-                <thead>
-                    <tr>
-                        <!-- <th>sno</th> -->
-                        <th>Purchase NO </th>
-                        <th>Total</th>
-                        <th>Supplier </th>
-                        <th>Due Amount</th>
-                        <th>Purchase Date</th>
-                    </tr>
-                </thead>
-            </table>
-
-
-            <!-- end:: Content -->
-        </div>
+        <!-- <button id='DLtoExcel' class="btn float-right mb-4 btn-danger">Export Data to Excel</button> -->
+        <table class="table text-center table-sm table-striped- table-bordered table-hover table-checkable"
+            id="gvsaleslist">
+            <thead>
+                <tr>
+                    <!-- <th>sno</th> -->
+                    <th>Purchase No </th>
+                    <th>Total</th>
+                    <th>Supplier </th>
+                    <th>Due Amount</th>
+                    <th>Purchase Date</th>
+                    <th>View</th>
+                </tr>
+            </thead>
+        </table>
 
 
         <!-- end:: Content -->
-        <%include ../templates/bottom.ejs%>
-            <%include ../templates/js/commonjs.ejs%>
+    </div>
+    <div class="modal fade" id="kt_modal_4" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
 
-                <script>
-                    $(document).ready(function() {
+        <div class="modal-dialog" role="document">
 
-                        loadstock();
-                        purchasedownload();
-                        var currentDate = new Date();
-                        $("#txtfdate").datepicker().datepicker("setDate", currentDate);
-                        $("#txttdate").datepicker().datepicker("setDate", currentDate);
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Purchase Details</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <!--begin::Form-->
+                    <form class="kt-form kt-form--label-right" id="kt_form_3">
+                        <table class="table" id="tblinvoicedetails">
+                            <thead>
+                                <tr>
+                                    <th>productname</th>
+                                    <th>qty</th>
+                                    <th>rate</th>
+                                    <th>amount</th>
+                                </tr>
+                            </thead>
+                            <tbody>
 
-                    });
+                            </tbody>
+                        </table>
 
-                    function loadstock() {
-                        var data = [];
-                        data[0] = "purchaseorderno";
-                        data[1] = "total";
-                        data[2] = "Supplier.name";
-                        data[3] = "dueamount";
-                        data[4] = "purchasedate";
-                        var FilterParameter = {
-                            fdate: Converdate($('#txtfdate').val()),
-                            tdate: Converdate($('#txttdate').val()),
-                            type: 'list',
-                        };
-                        binddatareportwithdata("#gvsaleslist", "/purchase/puchaseexcelreport", data, FilterParameter);
+
+
+                    </form>
+                    <!--end::Form-->
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+    <!-- end:: Content -->
+    <%include ../templates/bottom.ejs%>
+    <%include ../templates/js/commonjs.ejs%>
+
+    <script>
+        $(document).ready(function () {
+            var start = moment().startOf('month');
+            var end = moment().endOf('month');
+            $('#txtdaterange').val(start.format('DD-MM-YYYY') + ' / ' + end.format('DD-MM-YYYY'));
+
+            loadstock();
+
+        });
+
+        function loadstock() {
+            var data = [];
+            data[0] = "purchaseorderno";
+            data[1] = "total";
+            data[2] = "Supplier.name";
+            data[3] = "dueamount";
+            data[4] = "purchasedate";
+            let daterange_from_to = $('#txtdaterange').val().split('/');
+            var FilterParameter = {
+
+                fdate: Converdate(moment(moment(daterange_from_to[0], 'DD-MM-YYYY')).format("DD-MM-YYYY")),
+                tdate: Converdate(moment(moment(daterange_from_to[1], 'DD-MM-YYYY')).format("DD-MM-YYYY")),
+                type: 'list',
+
+            };
+
+            binddatareportwithview("#gvsaleslist", "/purchase/puchaseexcelreport", data, FilterParameter);
+
+        }
+        function btngetvalues(_id) {
+
+            editassignvalue('/purchase/edit/' + _id)
+        }
+
+
+        function assignvalue(data) {
+            $('#kt_modal_4').modal('show');
+            $('#tblinvoicedetails tbody').empty('');
+            $.each(data[0].purchaseDetail, function (j, v) {
+                let row = '';
+                row = `<tr><td>` + v.productname + `</td><td>` + v.qty + `</td><td>` + v.rate + `</td><td>` + v.amount + `</td></tr>`
+                $('#tblinvoicedetails tbody').append(row)
+
+            })
+
+
+        }
+    </script>
+    <script>
+        function purchasedownload() {
+            var FilterParameter = {
+                fdate: Converdate($('#txtfdate').val()),
+                tdate: Converdate($('#txttdate').val()),
+                type: 'Download',
+
+            };
+            $.ajax({
+                url: '/purchase/puchaseexcelreport',
+                dataType: "json",
+                type: "post",
+                data: FilterParameter,
+                success: function (data) {
+                    dataone = data.data
+
+                },
+                error: function (response) {
+                    var parsed = JSON.parse(response.responseText);
+                    Error_Msg(parsed.Message);
+                    d.resolve();
+                },
+                failure: function (response) {
+                    var parsed = JSON.parse(response.responseText);
+                    Error_Msg(parsed.Message);
+                    d.resolve();
+                }
+            });
+
+        }
+        var dataone;
+        var $btnDLtoExcel = $('#DLtoExcel');
+        $btnDLtoExcel.on('click', function () {
+
+            $("#dvjson").excelexportjs({
+
+                containerid: "dvjson",
+                datatype: 'json',
+                dataset: dataone,
+                columns: getColumns(dataone)
+            });
+
+        });
+
+        var $btnDLtoExcel = $('#DLtoExcel-2');
+        $btnDLtoExcel.on('click', function () {
+            $("#tableData").excelexportjs({
+                containerid: "tableData",
+                datatype: 'table'
+            });
+
+        });
+    </script>
+    <script>
+        /*
+         * jQuery Client Side Excel Export Plugin Library
+         * http://techbytarun.com/
+         *
+         * Copyright (c) 2013 Batta Tech Private Limited
+         * https://github.com/tarunbatta/ExcelExportJs/blob/master/LICENSE.txt
+         *
+         * March 22, 2017 - Update by Maynard for IE 11.09 up compatability
+         * 
+         */
+
+        (function ($) {
+            var $defaults = {
+                containerid: null,
+                datatype: 'table',
+                dataset: null,
+                columns: null,
+                returnUri: false,
+                locale: 'en-US',
+                worksheetName: "My Worksheet",
+                encoding: "utf-8"
+            };
+
+            var $settings = $defaults;
+
+            $.fn.excelexportjs = function (options) {
+
+                $settings = $.extend({}, $defaults, options);
+
+                var gridData = [];
+                var excelData;
+
+                return Initialize();
+
+                function Initialize() {
+                    var type = $settings.datatype.toLowerCase();
+
+                    BuildDataStructure(type);
+
+
+                    switch (type) {
+                        case 'table':
+                            excelData = Export(ConvertFromTable());
+                            break;
+                        case 'json':
+                            excelData = Export(ConvertDataStructureToTable());
+                            break;
+                        case 'xml':
+                            excelData = Export(ConvertDataStructureToTable());
+                            break;
+                        case 'jqgrid':
+                            excelData = Export(ConvertDataStructureToTable());
+                            break;
+                    }
+
+
+                    if ($settings.returnUri) {
+                        return excelData;
+                    } else {
+
+                        if (!isBrowserIE()) {
+                            window.open(excelData);
+                        }
+
 
                     }
-                </script>
-                <script>
-                    function purchasedownload() {
-                        var FilterParameter = {
-                            fdate: Converdate($('#txtfdate').val()),
-                            tdate: Converdate($('#txttdate').val()),
-                            type: 'Download',
+                }
 
-                        };
-                        $.ajax({
-                            url: '/purchase/puchaseexcelreport',
-                            dataType: "json",
-                            type: "post",
-                            data: FilterParameter,
-                            success: function(data) {
-                                dataone = data.data
+                function BuildDataStructure(type) {
+                    switch (type) {
+                        case 'table':
+                            break;
+                        case 'json':
+                            gridData = $settings.dataset;
+                            break;
+                        case 'xml':
+                            $($settings.dataset).find("row").each(function (key, value) {
+                                var item = {};
 
-                            },
-                            error: function(response) {
-                                var parsed = JSON.parse(response.responseText);
-                                Error_Msg(parsed.Message);
-                                d.resolve();
-                            },
-                            failure: function(response) {
-                                var parsed = JSON.parse(response.responseText);
-                                Error_Msg(parsed.Message);
-                                d.resolve();
-                            }
-                        });
-
-                    }
-                    var dataone;
-                    var $btnDLtoExcel = $('#DLtoExcel');
-                    $btnDLtoExcel.on('click', function() {
-
-                        $("#dvjson").excelexportjs({
-
-                            containerid: "dvjson",
-                            datatype: 'json',
-                            dataset: dataone,
-                            columns: getColumns(dataone)
-                        });
-
-                    });
-
-                    var $btnDLtoExcel = $('#DLtoExcel-2');
-                    $btnDLtoExcel.on('click', function() {
-                        $("#tableData").excelexportjs({
-                            containerid: "tableData",
-                            datatype: 'table'
-                        });
-
-                    });
-                </script>
-                <script>
-                    /*
-                     * jQuery Client Side Excel Export Plugin Library
-                     * http://techbytarun.com/
-                     *
-                     * Copyright (c) 2013 Batta Tech Private Limited
-                     * https://github.com/tarunbatta/ExcelExportJs/blob/master/LICENSE.txt
-                     *
-                     * March 22, 2017 - Update by Maynard for IE 11.09 up compatability
-                     * 
-                     */
-
-                    (function($) {
-                        var $defaults = {
-                            containerid: null,
-                            datatype: 'table',
-                            dataset: null,
-                            columns: null,
-                            returnUri: false,
-                            locale: 'en-US',
-                            worksheetName: "My Worksheet",
-                            encoding: "utf-8"
-                        };
-
-                        var $settings = $defaults;
-
-                        $.fn.excelexportjs = function(options) {
-
-                            $settings = $.extend({}, $defaults, options);
-
-                            var gridData = [];
-                            var excelData;
-
-                            return Initialize();
-
-                            function Initialize() {
-                                var type = $settings.datatype.toLowerCase();
-
-                                BuildDataStructure(type);
-
-
-                                switch (type) {
-                                    case 'table':
-                                        excelData = Export(ConvertFromTable());
-                                        break;
-                                    case 'json':
-                                        excelData = Export(ConvertDataStructureToTable());
-                                        break;
-                                    case 'xml':
-                                        excelData = Export(ConvertDataStructureToTable());
-                                        break;
-                                    case 'jqgrid':
-                                        excelData = Export(ConvertDataStructureToTable());
-                                        break;
-                                }
-
-
-                                if ($settings.returnUri) {
-                                    return excelData;
-                                } else {
-
-                                    if (!isBrowserIE()) {
-                                        window.open(excelData);
-                                    }
-
-
-                                }
-                            }
-
-                            function BuildDataStructure(type) {
-                                switch (type) {
-                                    case 'table':
-                                        break;
-                                    case 'json':
-                                        gridData = $settings.dataset;
-                                        break;
-                                    case 'xml':
-                                        $($settings.dataset).find("row").each(function(key, value) {
-                                            var item = {};
-
-                                            if (this.attributes != null && this.attributes.length > 0) {
-                                                $(this.attributes).each(function() {
-                                                    item[this.name] = this.value;
-                                                });
-
-                                                gridData.push(item);
-                                            }
-                                        });
-                                        break;
-                                    case 'jqgrid':
-                                        $($settings.dataset).find("rows > row").each(function(key, value) {
-                                            var item = {};
-
-                                            if (this.children != null && this.children.length > 0) {
-                                                $(this.children).each(function() {
-                                                    item[this.tagName] = $(this).text();
-                                                });
-
-                                                gridData.push(item);
-                                            }
-                                        });
-                                        break;
-                                }
-                            }
-
-                            function ConvertFromTable() {
-                                var result = $('<div>').append($('#' + $settings.containerid).clone()).html();
-                                return result;
-                            }
-
-                            function ConvertDataStructureToTable() {
-                                var result = "<table id='tabledata'>";
-
-                                result += "<thead><tr>";
-                                $($settings.columns).each(function(key, value) {
-                                    if (this.ishidden != true) {
-                                        result += "<th";
-                                        if (this.width != null) {
-                                            result += " style='width: " + this.width + "'";
-                                        }
-                                        result += ">";
-                                        result += this.headertext;
-                                        result += "</th>";
-                                    }
-                                });
-                                result += "</tr></thead>";
-
-                                result += "<tbody>";
-                                $(gridData).each(function(key, value) {
-                                    result += "<tr>";
-                                    $($settings.columns).each(function(k, v) {
-                                        if (value.hasOwnProperty(this.datafield)) {
-                                            if (this.ishidden != true) {
-                                                result += "<td";
-                                                if (this.width != null) {
-                                                    result += " style='width: " + this.width + "'";
-                                                }
-                                                result += ">";
-                                                result += value[this.datafield];
-                                                result += "</td>";
-                                            }
-                                        }
+                                if (this.attributes != null && this.attributes.length > 0) {
+                                    $(this.attributes).each(function () {
+                                        item[this.name] = this.value;
                                     });
-                                    result += "</tr>";
-                                });
-                                result += "</tbody>";
 
-                                result += "</table>";
-
-                                return result;
-                            }
-
-                            function Export(htmltable) {
-
-                                if (isBrowserIE()) {
-
-                                    exportToExcelIE(htmltable);
-                                } else {
-                                    var excelFile = "<html xml:lang=" + $defaults.locale + " xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:x='urn:schemas-microsoft-com:office:excel' xmlns='http://www.w3.org/TR/REC-html40'>";
-                                    excelFile += "<head>";
-                                    excelFile += '<meta http-equiv="Content-type" content="text/html;charset=' + $defaults.encoding + '" />';
-                                    excelFile += "<!--[if gte mso 9]>";
-                                    excelFile += "<xml>";
-                                    excelFile += "<x:ExcelWorkbook>";
-                                    excelFile += "<x:ExcelWorksheets>";
-                                    excelFile += "<x:ExcelWorksheet>";
-                                    excelFile += "<x:Name>";
-                                    excelFile += "{worksheet}";
-                                    excelFile += "</x:Name>";
-                                    excelFile += "<x:WorksheetOptions>";
-                                    excelFile += "<x:DisplayGridlines/>";
-                                    excelFile += "</x:WorksheetOptions>";
-                                    excelFile += "</x:ExcelWorksheet>";
-                                    excelFile += "</x:ExcelWorksheets>";
-                                    excelFile += "</x:ExcelWorkbook>";
-                                    excelFile += "</xml>";
-                                    excelFile += "<![endif]-->";
-                                    excelFile += "</head>";
-                                    excelFile += "<body>";
-                                    excelFile += htmltable.replace(/"/g, '\'');
-                                    excelFile += "</body>";
-                                    excelFile += "</html>";
-
-                                    var uri = "data:application/vnd.ms-excel;base64,";
-                                    var ctx = {
-                                        worksheet: $settings.worksheetName,
-                                        table: htmltable
-                                    };
-
-                                    return (uri + base64(format(excelFile, ctx)));
+                                    gridData.push(item);
                                 }
-                            }
+                            });
+                            break;
+                        case 'jqgrid':
+                            $($settings.dataset).find("rows > row").each(function (key, value) {
+                                var item = {};
 
-                            function base64(s) {
-                                return window.btoa(unescape(encodeURIComponent(s)));
-                            }
+                                if (this.children != null && this.children.length > 0) {
+                                    $(this.children).each(function () {
+                                        item[this.tagName] = $(this).text();
+                                    });
 
-                            function format(s, c) {
-                                return s.replace(/{(\w+)}/g, function(m, p) {
-                                    return c[p];
-                                });
-                            }
-
-                            function isBrowserIE() {
-                                var msie = !!navigator.userAgent.match(/Trident/g) || !!navigator.userAgent.match(/MSIE/g);
-                                if (msie > 0) { // If Internet Explorer, return true
-                                    return true;
-                                } else { // If another browser, return false
-                                    return false;
+                                    gridData.push(item);
                                 }
-                            }
-
-                            function exportToExcelIE(table) {
-
-
-                                var el = document.createElement('div');
-                                el.innerHTML = table;
-
-                                var tab_text = "<table border='2px'><tr bgcolor='#87AFC6'>";
-                                var textRange;
-                                var j = 0;
-                                var tab;
-
-
-                                if ($settings.datatype.toLowerCase() == 'table') {
-                                    tab = document.getElementById($settings.containerid); // get table              
-                                } else {
-                                    tab = el.children[0]; // get table
-                                }
-
-
-
-                                for (j = 0; j < tab.rows.length; j++) {
-                                    tab_text = tab_text + tab.rows[j].innerHTML + "</tr>";
-                                    //tab_text=tab_text+"</tr>";
-                                }
-
-                                tab_text = tab_text + "</table>";
-                                tab_text = tab_text.replace(/<A[^>]*>|<\/A>/g, ""); //remove if u want links in your table
-                                tab_text = tab_text.replace(/<img[^>]*>/gi, ""); // remove if u want images in your table
-                                tab_text = tab_text.replace(/<input[^>]*>|<\/input>/gi, ""); // reomves input params
-
-                                var ua = window.navigator.userAgent;
-                                var msie = ua.indexOf("MSIE ");
-
-                                if (msie > 0 || !!navigator.userAgent.match(/Trident.*rv\:11\./)) // If Internet Explorer
-                                {
-                                    txtArea1.document.open("txt/html", "replace");
-                                    txtArea1.document.write(tab_text);
-                                    txtArea1.document.close();
-                                    txtArea1.focus();
-                                    sa = txtArea1.document.execCommand("SaveAs", true, "download");
-                                } else
-                                    sa = window.open('data:application/vnd.ms-excel,' + encodeURIComponent(tab_text));
-
-                                return (sa);
-
-
-                            }
-
-                        };
-                    })(jQuery);
-
-
-                    //get columns
-                    function getColumns(paramData) {
-
-                        var header = [];
-                        $.each(paramData[0], function(key, value) {
-                            //console.log(key + '==' + value);
-                            var obj = {}
-                            obj["headertext"] = key;
-                            obj["datatype"] = "string";
-                            obj["datafield"] = key;
-                            header.push(obj);
-                        });
-                        return header;
-
+                            });
+                            break;
                     }
-                </script>
+                }
+
+                function ConvertFromTable() {
+                    var result = $('<div>').append($('#' + $settings.containerid).clone()).html();
+                    return result;
+                }
+
+                function ConvertDataStructureToTable() {
+                    var result = "<table id='tabledata'>";
+
+                    result += "<thead><tr>";
+                    $($settings.columns).each(function (key, value) {
+                        if (this.ishidden != true) {
+                            result += "<th";
+                            if (this.width != null) {
+                                result += " style='width: " + this.width + "'";
+                            }
+                            result += ">";
+                            result += this.headertext;
+                            result += "</th>";
+                        }
+                    });
+                    result += "</tr></thead>";
+
+                    result += "<tbody>";
+                    $(gridData).each(function (key, value) {
+                        result += "<tr>";
+                        $($settings.columns).each(function (k, v) {
+                            if (value.hasOwnProperty(this.datafield)) {
+                                if (this.ishidden != true) {
+                                    result += "<td";
+                                    if (this.width != null) {
+                                        result += " style='width: " + this.width + "'";
+                                    }
+                                    result += ">";
+                                    result += value[this.datafield];
+                                    result += "</td>";
+                                }
+                            }
+                        });
+                        result += "</tr>";
+                    });
+                    result += "</tbody>";
+
+                    result += "</table>";
+
+                    return result;
+                }
+
+                function Export(htmltable) {
+
+                    if (isBrowserIE()) {
+
+                        exportToExcelIE(htmltable);
+                    } else {
+                        var excelFile = "<html xml:lang=" + $defaults.locale + " xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:x='urn:schemas-microsoft-com:office:excel' xmlns='http://www.w3.org/TR/REC-html40'>";
+                        excelFile += "<head>";
+                        excelFile += '<meta http-equiv="Content-type" content="text/html;charset=' + $defaults.encoding + '" />';
+                        excelFile += "<!--[if gte mso 9]>";
+                        excelFile += "<xml>";
+                        excelFile += "<x:ExcelWorkbook>";
+                        excelFile += "<x:ExcelWorksheets>";
+                        excelFile += "<x:ExcelWorksheet>";
+                        excelFile += "<x:Name>";
+                        excelFile += "{worksheet}";
+                        excelFile += "</x:Name>";
+                        excelFile += "<x:WorksheetOptions>";
+                        excelFile += "<x:DisplayGridlines/>";
+                        excelFile += "</x:WorksheetOptions>";
+                        excelFile += "</x:ExcelWorksheet>";
+                        excelFile += "</x:ExcelWorksheets>";
+                        excelFile += "</x:ExcelWorkbook>";
+                        excelFile += "</xml>";
+                        excelFile += "<![endif]-->";
+                        excelFile += "</head>";
+                        excelFile += "<body>";
+                        excelFile += htmltable.replace(/"/g, '\'');
+                        excelFile += "</body>";
+                        excelFile += "</html>";
+
+                        var uri = "data:application/vnd.ms-excel;base64,";
+                        var ctx = {
+                            worksheet: $settings.worksheetName,
+                            table: htmltable
+                        };
+
+                        return (uri + base64(format(excelFile, ctx)));
+                    }
+                }
+
+                function base64(s) {
+                    return window.btoa(unescape(encodeURIComponent(s)));
+                }
+
+                function format(s, c) {
+                    return s.replace(/{(\w+)}/g, function (m, p) {
+                        return c[p];
+                    });
+                }
+
+                function isBrowserIE() {
+                    var msie = !!navigator.userAgent.match(/Trident/g) || !!navigator.userAgent.match(/MSIE/g);
+                    if (msie > 0) { // If Internet Explorer, return true
+                        return true;
+                    } else { // If another browser, return false
+                        return false;
+                    }
+                }
+
+                function exportToExcelIE(table) {
+
+
+                    var el = document.createElement('div');
+                    el.innerHTML = table;
+
+                    var tab_text = "<table border='2px'><tr bgcolor='#87AFC6'>";
+                    var textRange;
+                    var j = 0;
+                    var tab;
+
+
+                    if ($settings.datatype.toLowerCase() == 'table') {
+                        tab = document.getElementById($settings.containerid); // get table              
+                    } else {
+                        tab = el.children[0]; // get table
+                    }
+
+
+
+                    for (j = 0; j < tab.rows.length; j++) {
+                        tab_text = tab_text + tab.rows[j].innerHTML + "</tr>";
+                        //tab_text=tab_text+"</tr>";
+                    }
+
+                    tab_text = tab_text + "</table>";
+                    tab_text = tab_text.replace(/<A[^>]*>|<\/A>/g, ""); //remove if u want links in your table
+                    tab_text = tab_text.replace(/<img[^>]*>/gi, ""); // remove if u want images in your table
+                    tab_text = tab_text.replace(/<input[^>]*>|<\/input>/gi, ""); // reomves input params
+
+                    var ua = window.navigator.userAgent;
+                    var msie = ua.indexOf("MSIE ");
+
+                    if (msie > 0 || !!navigator.userAgent.match(/Trident.*rv\:11\./)) // If Internet Explorer
+                    {
+                        txtArea1.document.open("txt/html", "replace");
+                        txtArea1.document.write(tab_text);
+                        txtArea1.document.close();
+                        txtArea1.focus();
+                        sa = txtArea1.document.execCommand("SaveAs", true, "download");
+                    } else
+                        sa = window.open('data:application/vnd.ms-excel,' + encodeURIComponent(tab_text));
+
+                    return (sa);
+
+
+                }
+
+            };
+        })(jQuery);
+
+
+        //get columns
+        function getColumns(paramData) {
+
+            var header = [];
+            $.each(paramData[0], function (key, value) {
+                //console.log(key + '==' + value);
+                var obj = {}
+                obj["headertext"] = key;
+                obj["datatype"] = "string";
+                obj["datafield"] = key;
+                header.push(obj);
+            });
+            return header;
+
+        }
+    </script>
 
 
 

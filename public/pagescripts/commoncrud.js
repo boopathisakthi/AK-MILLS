@@ -1,7 +1,7 @@
 
 
-function insertupdate(fieldvalue,url) {
-   
+function insertupdate(fieldvalue, url) {
+
     $.ajax({
         url: url,
         data: JSON.stringify(fieldvalue),
@@ -15,7 +15,7 @@ function insertupdate(fieldvalue,url) {
             }
             else {
                 toastr.error(result.message);
-           }
+            }
         },
         error: function (errormessage) {
             toastr.error(errormessage.responseText);
@@ -25,17 +25,17 @@ function insertupdate(fieldvalue,url) {
 }
 
 function editassignvalue(uri) {
-   
+
     try {
         $.ajax({
             url: uri,
-          
+
             dataType: "json",
             type: "get",
             contentType: "application/json; charset=utf-8",
             success: function (data) {
-            
-            assignvalue(data);
+
+                assignvalue(data);
             },
             error: function (response) {
                 var parsed = JSON.parse(response.responseText);
@@ -45,7 +45,7 @@ function editassignvalue(uri) {
             failure: function (response) {
                 var parsed = JSON.parse(response.responseText);
                 toastr.error(parsed.Message);
-               
+
                 d.resolve();
             }
         });
@@ -56,7 +56,7 @@ function editassignvalue(uri) {
 
 function deletedata(uri) {
 
-   
+
     swal.fire({
         title: "Please Confirm?",
         text: 'Are you sure Do you want delete from List..!',
@@ -68,12 +68,12 @@ function deletedata(uri) {
         cancelButtonText: "No, cancel it!",
         closeOnClickOutside: false,
         // backdrop:true,
-      //  onOpen: () => Swal.getConfirmButton().focus()
+        //  onOpen: () => Swal.getConfirmButton().focus()
 
     }).then(function (dismiss) {
         var one = JSON.stringify(dismiss);
-     
-    
+
+
         if (one == '{"dismiss":"cancel"}') {
             swal.fire(
                 'Cancelled',
@@ -82,18 +82,18 @@ function deletedata(uri) {
             )
         }
         else if (one == '{"value":true}') {
-            
+
             $.ajax({
                 url: uri,
                 type: "post",
                 contentType: "application/json;charset=UTF-8",
                 dataType: "json",
                 success: function (result) {
-                  
+
                     if (result.status == 'success') {
 
                         toastr.success(result.message);
-                      
+
                         afterdelete()
 
                     }
@@ -106,14 +106,14 @@ function deletedata(uri) {
                 }
             });
         }
-       
-     
+
+
     }
 
-)
+    )
 };
 
-function binddatareportwithdata(tablename, uri, data,FilterParameter) {
+function binddatareportwithdata(tablename, uri, data, FilterParameter) {
 
     var datacount = data.length;
     for (i = 0; i < datacount; i++) {
@@ -146,4 +146,42 @@ function binddatareportwithdata(tablename, uri, data,FilterParameter) {
         //hit search on server
         oTable.draw();
     });
+}
+function binddatareportwithview(tablename, uri, data, FilterParameter) {
+
+    var datacount = data.length;
+    for (i = 0; i < datacount; i++) {
+        data[i] = eval({ "data": data[i], "name": data[i], "autoWidth": true });
+    }
+    data[datacount] = eval({
+        "data": "_id",
+        "width": "50px",
+        "render": function (data) {
+         
+            return `
+            <button type="button" onclick='btngetvalues("` + data + `")' class="btn btn-sm btn-primary">
+              <i class="fa fa-eye"></i>
+            </button>`;
+            
+        }
+    });
+    $(tablename).dataTable().fnDestroy();
+    $(tablename).DataTable({
+        "ajax": {
+            "url": uri,
+            "type": "POST",
+            "datatype": "json",
+            "data": FilterParameter
+        },
+        "columns": data,
+        // "serverSide": "true",
+        "order": [0, "desc"],
+        "dom": '<"top">rt<"bottom"<"row"<"col-md-2"l><"col-md-3"i><"col-md-4"p>>><"clear">',
+        "processing": "true",
+        "language": {
+            "processing": "processing ... please wait"
+        }
+    });
+    oTable = $(tablename).DataTable();
+   
 }

@@ -111,7 +111,7 @@ function Rowappend() {
                 row = row + '<td><input disabled="disabled" type="text" class="availableqty form-control form-control input-no-border"></input></td>';
                 break
             case 'Qty':
-                row = row + '<td><input onblur="Cal_Amount()" type="text" class="qty numerickey form-control form-control input-no-border"></input><input type="hidden" class="hfdetailsysid input-no-border"></input><input class="productid input-no-border" type="hidden"></input><input type="hidden" class="hfqty"></input></td>';
+                row = row + '<td><input onblur="Cal_Amount()" type="text" class="qty numerickey form-control form-control input-no-border"></input><input type="hidden" class="hfdetailsysid input-no-border"></input><input class="productid input-no-border" type="hidden"></input><input type="hidden" class="hfqty"></input><input type="hidden" class="hfproductname"></input></td>';
                 break
             case 'UNIT':
                 row = row + '<td  class="td-nopad" style="width:20px"><select class="form-control form-control ddlunit input-no-border"><option>Nos</option><option>box</option></select></td>';
@@ -157,6 +157,7 @@ function clear(row) {
     $(row).find('.typeahead').empty("");
     $(row).find('.typeahead').append(`<input class="form-control ddl" onblur="getproductdetails(this)"  type="text" dir="ltr" placeholder="Enter Productname">`);
     $(row).find('.hfdetailsysid').val("");
+    $(row).find('.hfproductname').val("");
     $("td input:text", row).val("");
     $('td .lbldel', row).attr("style", "display: none;");
     $("td button[type=button]", row).val('Delete');
@@ -203,6 +204,7 @@ function getproductdetails(ctrl) {
         $(ctrl).closest('tr').find('.rate').val(productdetails[0].salesprice);
         $(ctrl).closest('tr').find('.hsc').val(productdetails[0].hsnorsac_code);
         $(ctrl).closest('tr').find('.productid').val(productdetails[0].id);
+        $(ctrl).closest('tr').find('.hfproductname').val($(ctrl).val())
         $('.attributedetails').empty()
         var deatildesign = '';
         if (productdetails[0].attributes != 0) {
@@ -288,9 +290,9 @@ function Cal_Amount() {
     })
     $('#detailsTable tbody tr').each(function (i, ele) {
         if ($('.productid', this).val() != '') {
-           
-            if (discount != undefined && discount !='') {
-               
+
+            if (discount != undefined && discount != '') {
+
                 if (discount == 'percentage') {
                     if ($('.discountvalue', this).val() <= 100) {
                         if ($('.rate', this).val() != '' && $('.qty', this).val() != '') {
@@ -347,7 +349,7 @@ function save_process() {
         customername: $('#hfcustomername').val(),
         customertype: $('#hfcustomertype').val(),
         email: $('#hfemail').val(),
-        mobile:$('#hfmobile').val(),
+        mobile: $('#hfmobile').val(),
         shippingaddress: $('#hfshippingaddress').val(),
         billingaddress: $('#hfbillingaddress').val(),
         gstin: $('#hfgstin').val(),
@@ -371,7 +373,7 @@ function save_process() {
                     return false;
                 }
                 let detail = {
-
+                    productname: $('.hfproductname').val(),
                     productid: $('.productid', this).val(),
                     qty: $('.qty', this).val(),
                     saleqty: $('.hfqty', this).val(),
@@ -859,8 +861,8 @@ function Cal_Roundoff() {
 }
 function Cal_Balance() {
 
-        // $('#txtpayamount').val(parseFloat(parseFloat(total) + parseFloat($('#hf_balancepayment').val() == '' ? '0' : $('#hf_balancepayment').val())).toFixed(2))
-        $('#lblbalance').text((parseFloat($('#txttotal').text()) - parseFloat($('#txtpayamount').val())))
+    // $('#txtpayamount').val(parseFloat(parseFloat(total) + parseFloat($('#hf_balancepayment').val() == '' ? '0' : $('#hf_balancepayment').val())).toFixed(2))
+    $('#lblbalance').text((parseFloat($('#txttotal').text()) - parseFloat($('#txtpayamount').val())))
 
 }
 function Companystate() {
@@ -920,20 +922,20 @@ function pagerolebasedaction() {
     return false
 
 }
-function btnsendmail_process(_id){
+function btnsendmail_process(_id) {
     $('#hf_id').val(_id);
     //
     try {
         $.ajax({
             type: "GET",
-            url: ' /sales/getmaildetails/'+_id,
+            url: ' /sales/getmaildetails/' + _id,
             success: function (data) {
                 $('#modal_email').modal('show')
-               
+
                 // btnprint(_id);
-              
-               $('#txtcustomermailaddress').val(data[0].customer.email)
-            }, 
+
+                $('#txtcustomermailaddress').val(data[0].customer.email)
+            },
             error: function (errormessage) {
                 toastr.error(errormessage.responseText);
             }
@@ -943,29 +945,29 @@ function btnsendmail_process(_id){
         throw new err;
     }
 
-   
+
 
 }
-function send_mail_process(){
- 
-    let data={
-       customeremail:  $('#txtcustomermailaddress').val(),
-       mailcontent:$('#txtmailcontent').val(),
-       subject:$('#txcustomertsubject').val(),
-       _id: $('#hf_id').val()
+function send_mail_process() {
+
+    let data = {
+        customeremail: $('#txtcustomermailaddress').val(),
+        mailcontent: $('#txtmailcontent').val(),
+        subject: $('#txcustomertsubject').val(),
+        _id: $('#hf_id').val()
     }
     $.ajax({
         type: "POST",
-        url: '/sales/sendmailtocustomer/'+ $('#hf_id').val(),
-        data:data,
+        url: '/sales/sendmailtocustomer/' + $('#hf_id').val(),
+        data: data,
         success: function (data) {
             $('#hf_id').val('')
-           $('#txtcustomermailaddress').val('')
-           $('#txtmailcontent').val('')
-           $('#txcustomertsubject').val('')
-           toastr.success('Mail Sended Success')
-           $('#modal_email').modal('hide')
-        }, 
+            $('#txtcustomermailaddress').val('')
+            $('#txtmailcontent').val('')
+            $('#txcustomertsubject').val('')
+            toastr.success('Mail Sended Success')
+            $('#modal_email').modal('hide')
+        },
         error: function (errormessage) {
             toastr.error(errormessage.responseText);
         }

@@ -22,6 +22,9 @@ var InvoiceDetailSchema = new mongoose.Schema({
     hsn: {
         type: Number
     },
+    productname:{
+        type:String
+    }
     
 
 });
