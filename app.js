@@ -76,7 +76,7 @@ app.use(function(req, res, next) {
 
 
 // listen for requests
-app.listen(3000, () => {
+app.listen(3006, () => {
     console.log("Server is listening on port 3000");
 });
 
