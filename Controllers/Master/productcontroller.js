@@ -28,7 +28,7 @@ module.exports = {
                             purchaseprice: req.body.purchaseprice || data.purchaseprice,
                          //   mrp: req.body.mrp || data.mrp,
                             taxid: req.body.taxid || data.taxid,
-                            hsnorsac_code: req.body.hsnorsac_code || data.hsnorsac_code,
+                          //  hsnorsac_code: req.body.hsnorsac_code || data.hsnorsac_code,
                             categoryid: req.body.categoryid || data.categoryid,
                             subcategoryid: req.body.subcategoryid || data.subcategoryid,
                             minimumstock: req.body.minimumstock || data.minimumstock,
@@ -93,7 +93,7 @@ module.exports = {
                             purchaseprice: req.body.purchaseprice,
                           //  mrp: req.body.mrp,
                             taxid: req.body.taxid,
-                            hsnorsac_code: req.body.hsnorsac_code,
+                           // hsnorsac_code: req.body.hsnorsac_code,
                             categoryid: req.body.categoryid,
                             subcategoryid: req.body.subcategoryid,
                             minimumstock: req.body.minimumstock,
@@ -334,6 +334,8 @@ module.exports = {
             })
     },
     deleterecord(req, res) {
+        console.log("sjjdjd")
+        console.log(req.params._id)
         Product.findById(req.params._id)
             .then(data => {
                 if (!data) {

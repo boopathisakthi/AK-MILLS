@@ -215,7 +215,7 @@ module.exports = {
                             "Supplier.name": 1,
                             "purchasedate": { $dateToString: { format: "%Y-%m-%d", date: "$purchasedate" } },
                             "purchasereturnno": 1,
-
+                            total:1,
                             "returndate": { $dateToString: { format: "%Y-%m-%d", date: "$createddate" } },
 
                         }

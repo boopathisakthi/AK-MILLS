@@ -4,7 +4,8 @@ $(document).ready(function () {
     var currentDate = new Date();
     $("#txtpurchasedate").datepicker().datepicker("setDate", currentDate);
     BindddlData('#ddlcompanystate', '/master/state');
-    $('.supplierdetails').hide();
+    $('#txtsupplier').val('Walkin');
+    $('#hfsupplierid').val('5ede58fb85c16929acfcb3b7');
     Addthead();
     typeHeadsupplier()
     LoadData()
@@ -13,21 +14,7 @@ $(document).ready(function () {
 
     // validationsupplier();
 })
-function Cal_Duedate() {
-    if ($('#ddlduedays').val() != 'Custom') {
 
-        var purchasedate = new Date(Convertdateymd($('#txtpurchasedate').val()));
-
-        $("#txtduedate").datepicker("setDate", addDays(purchasedate, $('#ddlduedays').val()));
-    } else {
-        $("#txtduedate").val('');
-    }
-
-
-}
-function addDays(theDate, days) {
-    return new Date(theDate.getTime() + days * 24 * 60 * 60 * 1000);
-}
 function getproductname(id) {
     // /master/productsdetail/
     $.ajax({
@@ -94,9 +81,7 @@ function Rowappend() {
                 </div>
                 </td>`;
                 break
-            case 'HSN/SAC':
-                row = row + '<td class="td-nopad"><input type="text" class="form-control  form-control hsc">  ';
-                break
+           
             case 'Qty':
                 row = row + '<td><input onkeyup="Cal_Amount()" type="text" class="qty numerickey form-control form-control"></input><input type="hidden" class="hfdetailsysid"></input><input class="productid" type="hidden"></input><input type="hidden" class="hfproductname"></input></td>';
                 break
@@ -152,7 +137,7 @@ function Rowappend() {
                         $('.hfdetailsysid', this).val(v._id);
                         $('.discountvalue', this).val(v.discount == undefined ? "0" : v.discount);
                         BindddlDataele($('.ddlunit', this), '/master/unitdropdown/', v.unitid == undefined ? "0" : v.unitid)
-                        $('.hsc', this).val(v.hsn == undefined ? "0" : v.hsn);
+                       
                     }
                 })
             } else {
@@ -184,7 +169,7 @@ function Rowappend() {
                 $(row).find('.detailsysid').val(v._id);
                 $(row).find('.discountvalue', this).val(v.discount);
                 BindddlDataele($('.ddlunit', this), '/master/unitdropdown/', v.unitid)
-                $(row).find('.hsc', this).val(v.hsn);
+               
 
                 $('#detailsTable').append(row);
             }
@@ -228,11 +213,11 @@ function Addthead() {
 
 
     var amount = `Amount`;
-    var hsn = ($("#chhsn").is(":checked") ? 1 : 0) ? `<th>HSN/SAC</th>` : '';
+  
     var unit = ($("#chunit").is(":checked") ? true : false) ? `<th>UNIT</th>` : '';
     var discount = ($("#chdiscount").is(":checked") ? true : false) ? `<th>DISCOUNT<select id="ddldiscount" class="discount"  style="display:block;margin-left: 15px;height: 19px;"><option value="percentage">%<option><option  value="rupee">Rs<option></select></th>` : '';
     var settings = `<a class="nav-link dropdown-toggle" data-toggle="modal" data-target="#kt_modal_4"><i class="flaticon2-gear"></i></i></a>`
-    var head = "<th>S.No</th><th>Product</th>" + hsn + "<th>Qty</th>" + unit + "<th>Rate</th>" + discount + "<th>" + amount + "</th><th>" + settings + "</th>"; // add resources
+    var head = "<th>S.No</th><th>Product</th><th>Qty</th>" + unit + "<th>Rate</th>" + discount + "<th>" + amount + "</th><th>" + settings + "</th>"; // add resources
     $("#detailsTable thead tr").append(head);
 
 
@@ -449,7 +434,7 @@ function Cal_Amount() {
     $('#txtsubtotal').text(parseFloat(total).toFixed(2))
     $('#txttotal').text(parseFloat(total).toFixed(2))
 
-
+    $('#txtpayamount').val(parseFloat(total).toFixed(2))
 
     if ($('#hf_id').val()) {
         Cal_Balance()
@@ -486,8 +471,7 @@ function save_process() {
         if ($('.productid', this).val() != '') {
             if ($('.hfoldpurchaseprice', this).val() != $('.rate', this).val() || $('.hfoldsalesprice', this).val() != $('.salesprice', this).val()) {
                 var product = productnameArray.filter(ele => ele.id == $('.productid', this).val());
-
-
+             
                 let productdetail = {
                     purchaseprice: $('.rate', this).val(),
 
@@ -567,8 +551,7 @@ function save_process() {
         _id: $('#hf_id').val(),
         purchaseorderno: $('#lblpurchaseno').text(),
         purchasedate: Converdate($('#txtpurchasedate').val()),
-        duedate: Converdate($('#txtduedate').val()),
-        creditdays: IP_dateDiff($('#txtpurchasedate').val(), $('#txtduedate').val(), 'DD-MM-YYYY', false),
+      
         reference: $('#txtreference').val(),
         supplierid: $('#hfsupplierid').val(),
         purchaseDetail: PurchaseDeatil,
@@ -624,9 +607,9 @@ function LoadData() {
             { data: 'purchasedate', name: 'productname' },
             { data: 'purchaseorderno', name: 'itemcode' },
             { data: 'Supplier.name', name: 'type' },
-            { data: 'creditdays', name: 'type' },
+           
             { data: 'total', name: 'type' },
-            { data: 'dueamount', name: 'type' },
+           
             { data: '_id', responsivePriority: -1 },
         ],
         order: [0, "desc"],
@@ -904,12 +887,11 @@ function saveexit() {
 
 function cleardata() {
     $('#hf_id').val('');
-    $('#ddlduedays').val('7');
-    Cal_Duedate();
+    $('#txtsupplier').val('Walkin');
+    $('#hfsupplierid').val('5ede58fb85c16929acfcb3b7');
     $('#txttotal').text("0");
     $('#subtotal').text("0");
-    $('#txtsupplier').typeahead('val', '');
-    $('#hfsupplierid').val("");
+    
     $('#txtreference').val("");
     $('#tblpayment tbody').find("tr:gt()").remove();
     $('#tblpayment tbody tr').each(function (i, e) {
@@ -926,7 +908,7 @@ function cleardata() {
     $("#detailsTable tbody").empty();
 
     $('.supplierdetails').hide();
-    $('.gstdetails').empty();
+   
     $('#ddlroundofftype').val('plus');
     $('#txtrounoffvalue').val('0')
     $('#txtactualtotal').val('0');
@@ -1080,10 +1062,12 @@ function Cal_Roundoff() {
     if ($('#ddlroundofftype').val() == "plus") {
         let nettotal = parseFloat($('#txtsubtotal').text()) + parseFloat($('#txtrounoffvalue').val())
         $('#txttotal').text(parseFloat(nettotal).toFixed(2))
+        $('#txtpayamount').val(parseFloat(nettotal).toFixed(2))
         Cal_Balance()
     } else {
         let nettotal = parseFloat($('#txtsubtotal').text()) - parseFloat($('#txtrounoffvalue').val())
         $('#txttotal').text(parseFloat(nettotal).toFixed(2))
+        $('#txtpayamount').val(parseFloat(nettotal).toFixed(2))
         Cal_Balance()
     }
 

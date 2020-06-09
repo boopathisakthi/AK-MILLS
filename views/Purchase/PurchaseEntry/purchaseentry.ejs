@@ -86,9 +86,9 @@
                                 Date</th>
                             <th>Purchase No</th>
                             <th>Supplier</th>
-                            <th>Due Days</th>
+                           
                             <th>Amount</th>
-                            <th>Due Amount</th>
+                           
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -166,57 +166,18 @@
                             </div>
                         </div>
 
-                        <div class="col-md-3 supplierdetails">
-                            <h6 class="kt-font">GST IN</h6>
-
-                            <input type="text" style="background: #fff;" disabled="disabled" id="txtgstno"
-                                class="form-control">
-
-
-                        </div>
-                        <div class="col-md-3 supplierdetails">
-                            <h6 class="kt-font">Source of Supply</h6>
-
-
-                            <select id="ddlcompanystate" style="background: #fff;" disabled="disabled"
-                                class="form-control"></select>
-                        </div>
+                       
                         <div class="col-md-3">
                             <h6 class="kt-font">Purchase Date</h6>
 
                             <div class="kt-input-icon">
-                                <input type="text" id="txtpurchasedate" onblur="Cal_Duedate()"
+                                <input type="text" id="txtpurchasedate" 
                                     class="form-control kt_datepicker_1 dark-border" placeholder="DD-MM-YYYY">
                                 <span class="kt-input-icon__icon kt-input-icon__icon--right"><span><i
                                             class="flaticon2-calendar"></i></span></span>
                             </div>
                         </div>
-                        <div class="col-md-4">
-                            <div class="form-group">
-
-
-                                <h6 class="kt-font">Due Date</h6>
-                                <div class="input-group">
-                                    <select id="ddlduedays" onchange="Cal_Duedate()"
-                                        class="btn btn-secondary dark-border">
-                                        <option value="0">None</option>
-                                        <option value="7" selected>7 Days</option>
-                                        <option value="30">30 Days</option>
-                                        <option value="45">45 Days</option>
-                                        <option value="60">60 Days</option>
-                                        <option value="Custom"> Custom</option>
-                                    </select>
-
-                                    <input type="text" placeholder="DD-MM-YYYY" id="txtduedate"
-                                        class="form-control dark-border kt_datepicker_1">
-
-
-                                </div>
-
-
-                            </div>
-
-                        </div>
+                       
                         <div class="col-md-3">
                             <h6 class="kt-font">Reference</h6>
 
@@ -340,10 +301,7 @@
 
                                 <div class="form-group">
                                     <div class="kt-checkbox-list">
-                                        <label class="kt-checkbox kt-checkbox--tick kt-checkbox--brand">
-                                            <input type="checkbox" id="chhsn"> HSN/SAC
-                                            <span></span>
-                                        </label>
+                                     
                                         <label class="kt-checkbox kt-checkbox--tick kt-checkbox--brand">
                                             <input type="checkbox" id="chunit"> UNIT
                                             <span></span>

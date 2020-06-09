@@ -491,6 +491,7 @@ module.exports = {
             .catch(err => { return res.status(400).send(err) })
     },
     delete(req, res) {
+        console.log(req.body.id)
         if (req.body.pagetype == 'customer') {
             // console.log(req.body)
             customer.findById(req.body.id)

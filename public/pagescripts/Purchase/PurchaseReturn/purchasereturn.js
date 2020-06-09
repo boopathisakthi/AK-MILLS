@@ -524,7 +524,7 @@ function LoadData() {
 
             { data: 'returndate', name: 'returndate' },
 
-            // { data: 'openingstock', name: 'openingstock' },
+             { data: 'total', name: 'total' },
             { data: '_id', responsivePriority: -1 },
         ],
         order: [0, "desc"],

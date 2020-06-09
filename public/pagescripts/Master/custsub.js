@@ -205,10 +205,10 @@ function LoadData() {
                 // let editbutton=$.trim(value[1])==1?'yes':'no';
 
                 let editbutton = $.trim(value[1]) == 'true' ? `
-                <button onclick='btnedit("` + value[0] + `")'  type="button" class="btn  btn-sm btn-primary btn-icon  btn-icon btn-icon-sm" data-skin="dark" data-toggle="kt-tooltip" data-placement="top" title="View / Edit">
+                <button onclick='btnedit("` +  $.trim(value[0]) + `")'  type="button" class="btn  btn-sm btn-primary btn-icon  btn-icon btn-icon-sm" data-skin="dark" data-toggle="kt-tooltip" data-placement="top" title="View / Edit">
                   <i class ="la la-edit"></i>
                 </button>`: '';
-                let deletebutton = value[2] == 'true' ? ` <a onclick= 'btndeleted("` + value[0] + `")'  type="button" class="btn  btn-sm btn-delete-red btn-icon  btn-icon btn-icon-sm" title="Delete" >
+                let deletebutton = value[2] == 'true' ? ` <a onclick= 'btndeleted("` + $.trim(value[0]) + `")'  type="button" class="btn  btn-sm btn-delete-red btn-icon  btn-icon btn-icon-sm" title="Delete" >
                 <i class ="la la-trash"></i>
               </a>`: '';
 

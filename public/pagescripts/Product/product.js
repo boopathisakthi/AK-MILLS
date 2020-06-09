@@ -11,7 +11,7 @@ $(document).ready(() => {
     pagerolebasedaction()
 
 })
-var validationproduct = function() {
+var validationproduct = function () {
 
     $("#kt_form_3").validate({
         // define validation rules
@@ -30,25 +30,23 @@ var validationproduct = function() {
                 required: true,
 
             },
-            hsn_sac_code: {
-                required: true,
-            },
+           
             categories: {
                 required: true,
             },
             subcategories: {
                 required: true,
             },
-           
+
         },
         //display error alert on form submit
-        invalidHandler: function(event, validator) {
+        invalidHandler: function (event, validator) {
             swal.fire({
                 "title": "",
                 "text": "There are some errors in your submission. Please correct them.",
                 "type": "error",
                 "confirmButtonClass": "btn btn-secondary",
-                "onClose": function(e) {
+                "onClose": function (e) {
                     console.log('on close event fired!');
                 }
             });
@@ -56,7 +54,7 @@ var validationproduct = function() {
             event.preventDefault();
         },
 
-        submitHandler: function(form) {
+        submitHandler: function (form) {
             swal.fire({
                 title: 'Are you sure?',
                 text: "You won't be save this file!",
@@ -65,10 +63,10 @@ var validationproduct = function() {
                 confirmButtonText: 'Yes, Save it!',
                 cancelButtonText: 'No, cancel!',
                 reverseButtons: true
-            }).then(function(result) {
+            }).then(function (result) {
                 if (result.value) {
                     // $("input[name='radio2']:checked").val()
-                 
+
                     if ($("#ddlproducttype").val() == "goods") {
                         if ($('#txtpurchaseprice').val() == '') {
                             toastr.error('Invalid purchase price')
@@ -95,13 +93,13 @@ var validationproduct = function() {
                         productname: $('#txtproductname').val(),
                         itemcode: $('#txtitemcode').val(),
                         unitid: $('#ddlunit').val(),
-                        type:$("#ddlproducttype").val() ,
+                        type: $("#ddlproducttype").val(),
                         // taxinclusive:$('#chbxtaxinclusive').val(),
                         salesprice: $('#txtsaleprice').val(),
                         purchaseprice: $('#txtpurchaseprice').val(),
                         // mrp: $('#txtmrp').val(),
                         taxid: $('#ddltax').val(),
-                        hsnorsac_code: $('#txthsn_sac_code').val(),
+                        
                         categoryid: $('#ddlcategories').val(),
                         subcategoryid: $('#ddlsubcategories').val(),
                         minimumstock: $('#txtminimumstock').val(),
@@ -113,7 +111,7 @@ var validationproduct = function() {
                         type: 'post',
                         contentType: "application/json;charset=utf-8",
                         dataType: "json",
-                        success: function(result) {
+                        success: function (result) {
                             if (result.status == 'success') {
                                 toastr.success(result.message);
                                 ProductLoadData();
@@ -124,7 +122,7 @@ var validationproduct = function() {
                                 toastr.error(result.message);
                             }
                         },
-                        error: function(errormessage) {
+                        error: function (errormessage) {
                             toastr.error(errormessage.responseText);
                         }
                     });
@@ -163,7 +161,7 @@ function ProductLoadData() {
         ],
         ajax: '/master/produtlist',
         columns: [
-            { data: '_id',name: '_id' },
+            { data: '_id', name: '_id' },
             { data: 'productname', name: 'productname' },
             { data: 'itemcode', name: 'itemcode' },
             { data: 'type', name: 'type' },
@@ -173,41 +171,41 @@ function ProductLoadData() {
         order: [0, "desc"],
         dom: '<"top" f>rt<"bottom"<"row"<"col-md-2"l><"col-md-3"i><"col-md-4"p>>><"clear">',
         columnDefs: [{
-                targets: -1,
-                title: 'Action',
-                orderable: false,
-                render: function(data, type, full, meta) {
-                    let value = data.split('-');
-                    
-                 
-                    let editbutton=$.trim(value[1])=='true'?`
-                    <button onclick='btneditproduct("` + value[0] + `")'  type="button" class="btn  btn-sm btn-primary btn-icon  btn-icon btn-icon-sm" data-skin="dark" data-toggle="kt-tooltip" data-placement="top" title="View / Edit">
+            targets: -1,
+            title: 'Action',
+            orderable: false,
+            render: function (data, type, full, meta) {
+                let value = data.split('-');
+
+
+                let editbutton = $.trim(value[1]) == 'true' ? `
+                    <button onclick='btneditproduct("` + $.trim(value[0]) + `")'  type="button" class="btn  btn-sm btn-primary btn-icon  btn-icon btn-icon-sm" data-skin="dark" data-toggle="kt-tooltip" data-placement="top" title="View / Edit">
                       <i class ="la la-edit"></i>
-                    </button>`:'';
-                    let deletebutton=value[2]=='true'?` <a onclick= 'btndeletedproduct("` + value[0] + `")'  type="button" class="btn  btn-sm btn-delete-red btn-icon  btn-icon btn-icon-sm" title="Delete" >
+                    </button>`: '';
+                let deletebutton = value[2] == 'true' ? ` <a onclick= 'btndeletedproduct("` + $.trim(value[0]) + `")'  type="button" class="btn  btn-sm btn-delete-red btn-icon  btn-icon btn-icon-sm" title="Delete" >
                     <i class ="la la-trash"></i>
-                  </a>`:'';
-                
-                        return editbutton+deletebutton;
-                    
-                    // return `
-                    //     <a onclick='btneditproduct("` + data + `")' type="button" class="btn btn-sm btn-primary btn-icon  btn-icon btn-icon-sm" title="View / Edit">
-                    //       <i class ="la la-edit"></i>
-                    //     </a>
-                    //           <a onclick= 'btndeletedproduct("` + data + `")' type="button" class="btn btn-sm btn-delete-red btn-icon  btn-icon btn-icon-sm" title="Delete">
-                    //       <i class ="la la-trash"></i>
-                    //     </a>`;
-                },
+                  </a>`: '';
+
+                return editbutton + deletebutton;
+
+                // return `
+                //     <a onclick='btneditproduct("` + data + `")' type="button" class="btn btn-sm btn-primary btn-icon  btn-icon btn-icon-sm" title="View / Edit">
+                //       <i class ="la la-edit"></i>
+                //     </a>
+                //           <a onclick= 'btndeletedproduct("` + data + `")' type="button" class="btn btn-sm btn-delete-red btn-icon  btn-icon btn-icon-sm" title="Delete">
+                //       <i class ="la la-trash"></i>
+                //     </a>`;
             },
-            {
-                targets: -6,
-                title: 'Sno',
-                orderable: true,
-                render: function(data, type, full, meta) {
-    
-                    return meta.row + meta.settings._iDisplayStart + 1;
-                },
+        },
+        {
+            targets: -6,
+            title: 'Sno',
+            orderable: true,
+            render: function (data, type, full, meta) {
+
+                return meta.row + meta.settings._iDisplayStart + 1;
             },
+        },
 
         ],
     });
@@ -226,32 +224,30 @@ function btneditproduct(_id) {
             dataType: "json",
             type: "get",
             contentType: "application/json; charset=utf-8",
-            success: function(data) {
+            success: function (data) {
 
                 $('.list').hide();
                 $('.entry').show();
-               
+
                 $('#hf_id').val(data._id);
                 $('#txtproductname').val(data.productname)
                 $('#txtitemcode').val(data.itemcode)
-                 if(data.type=='goods')
-                 {
-                     $('.goods').show()
-                 }
-                 else
-                 {
+                if (data.type == 'goods') {
+                    $('.goods').show()
+                }
+                else {
                     $('.goods').hide()
-                 }
-                 $("#ddlproducttype").val(data.type)
-              
-                
-               
-               
+                }
+                $("#ddlproducttype").val(data.type)
+
+
+
+
                 $('#txtsaleprice').val(data.salesprice)
                 $('#txtpurchaseprice').val(data.purchaseprice)
                 // $('#txtmrp').val(data.mrp)
                 $('#ddltax').val(data.taxid)
-                $('#txthsn_sac_code').val(data.hsnorsac_code)
+               // $('#txthsn_sac_code').val(data.hsnorsac_code)
                 $('#ddlcategories').val(data.categoryid)
                 BindddlDataele('#ddlunit', '/master/unitdropdown/', data.unitid);
                 BindddlDataele('#ddlsubcategories', '/master/subcategoryddllist/' + $('#ddlcategories').val(), data.subcategoryid);
@@ -259,12 +255,12 @@ function btneditproduct(_id) {
                 $('#txtminimumstock').val(data.minimumstock)
                 $('#txtopeningstock').val(data.openingstock)
             },
-            error: function(response) {
+            error: function (response) {
                 var parsed = JSON.parse(response.responseText);
                 toastr.error(parsed.Message);
                 d.resolve();
             },
-            failure: function(response) {
+            failure: function (response) {
                 var parsed = JSON.parse(response.responseText);
                 toastr.error(parsed.Message);
 
@@ -281,7 +277,7 @@ function btneditproduct(_id) {
 
 
 function productcleardata() {
-   
+
     $('#hf_id').val('');
     $('#txtproductname').val('');
     $('#txtitemcode').val('');
@@ -292,7 +288,7 @@ function productcleardata() {
     $('#txtpurchaseprice').val('')
     // $('#txtmrp').val('')
     $('#ddltax').val('')
-    $('#txthsn_sac_code').val('')
+   // $('#txthsn_sac_code').val('')
     $('#ddlcategories').val('')
     $('#ddlsubcategories').val('')
     $('#txtminimumstock').val('')
@@ -301,71 +297,50 @@ function productcleardata() {
 }
 
 function btndeletedproduct(_id) {
-    swal.fire({
-        title: "Please Confirm?",
-        text: 'Are you sure Do you want delete from List..!',
-        type: 'warning',
-        showCancelButton: true,
-        confirmButtonClass: 'btn btn-success',
-        cancelButtonClass: 'btn btn-secondary',
-        confirmButtonText: 'Yes, delete it!',
-        cancelButtonText: "No, cancel it!",
+  
+            $.ajax({
+                url: '/master/productdelete/' +_id,
+                type: "post",
+                contentType: "application/json;charset=UTF-8",
+                dataType: "json",
+                success: function (result) {
+                    console.log(result)
+                    if (result.status == 'success') {
 
-    }).then(function(dismiss) {
-            var one = JSON.stringify(dismiss);
-            if (one == '{"dismiss":"cancel"}') {
-                swal.fire(
-                    'Cancelled',
-                    'Your  file is safe :)',
-                    'error'
-                )
-            }     else if (one == {"value":true}) {
-                $.ajax({
-                    url: '/master/productdelete/' + _id,
-                    type: "post",
-                    contentType: "application/json;charset=UTF-8",
-                    dataType: "json",
-                    success: function(result) {
-                        console.log(result)
-                        if (result.status == 'success') {
+                        toastr.success(result.message);
 
-                            toastr.success(result.message);
+                        ProductLoadData()
 
-                            ProductLoadData()
-
-                        } else {
-                            toastr.error(result.message);
-                        }
-                    },
-                    error: function(errormessage) {
-                        toastr.error(errormessage.responseText);
+                    } else {
+                        toastr.error(result.message);
                     }
-                });
-            }
-        }
-
-    )
+                },
+                error: function (errormessage) {
+                    toastr.error(errormessage.responseText);
+                }
+            });
+    
+   
 
 
 
 }
 
-function getitemcode()
-{
-  
-        $.ajax({
-            type: "GET",
-            url: '/master/productitemcode',
-            success: function (data) {
-  
-                $('#txtitemcode').val(data.itemcode)
-            },
-            error: function (errormessage) {
-                toastr.error(errormessage.responseText);
-            }
-        })
-        return false
-    
+function getitemcode() {
+
+    $.ajax({
+        type: "GET",
+        url: '/master/productitemcode',
+        success: function (data) {
+
+            $('#txtitemcode').val(data.itemcode)
+        },
+        error: function (errormessage) {
+            toastr.error(errormessage.responseText);
+        }
+    })
+    return false
+
 }
 
 function show() {
@@ -376,7 +351,7 @@ function show() {
 }
 
 function list() {
-    
+
     productcleardata();
     $('.entry').hide();
     $('.list').show();
@@ -386,14 +361,13 @@ function bindsubcategory() {
     BindddlData('#ddlsubcategories', '/master/subcategoryddllist/' + $('#ddlcategories').val());
 
 }
-function producttype()
-{
+function producttype() {
     if ($('#ddlproducttype').val() == 'goods') {
-       
+
         $('.goods').show()
     }
-    else  {
-      
+    else {
+
         $('.goods').hide()
     }
 }
@@ -417,7 +391,7 @@ function pagerolebasedaction() {
                 else {
                     $('#btnproductsave').hide()
                 }
-              
+
 
             }
 

@@ -97,7 +97,7 @@ function assignvalue(data) {
     $('#ddlcompanystate').val(data[0].customer.billingstate);
     $('#hfinvoiceno').text(data[0].invoiceno);
     $('.lblinvoiceno').text(data[0].invoiceno);
-    $('#ddlsalesrep').val(data[0].salesrep);
+   
 
     $('#hfcustomername').val(data[0].customer.name);
     $('#hfcustomertype').val(data[0].customer.customertype);
@@ -120,7 +120,7 @@ function assignvalue(data) {
             $('#detailsTable tbody tr').each(function (i, e) {
                 if (j == i) {
                     let productdetails = productnameArray.filter(element => element.id == v.productid);
-
+                    BindddlDataele($('.ddlunit', this), '/master/unitdropdown/', v.unitid)
                     $('.ddl', this).val(productdetails[0].name);
                     $('.productid', this).val(v.productid);
                     $('.qty', this).val(v.qty);
@@ -150,7 +150,7 @@ function assignvalue(data) {
             $(row).find('.ddl').val(productdetails[0].name);
             $(row).find('.qty').val(v.qty);
             $(row).find('.hfqty').val(v.qty);
-           
+            BindddlDataele( $(row).find('.ddlunit'), '/master/unitdropdown/', v.unitid)
             $(row).find('.availableqty').val(parseInt(productdetails[0].availbleqty));
             $(row).find('.rate').val(v.rate);
             $(row).find('.discountvalue').val(v.discount);
