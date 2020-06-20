@@ -8,6 +8,7 @@ router.set('view engine', 'ejs');
 
 const Excelreport = require('../Controllers').Excelreport;
 const Gstreport=require('../Controllers').Gstreport;
+var RoleMappingModal = mongoose.model('RoleMapping');
 
 router.post('/purchase/puchaseexcelreport', Excelreport.pushaselist);
 
@@ -40,6 +41,54 @@ router.get('/salesgstreport',function(req,res,next){
    // else
     //res.render('./Adminpanel/login/login', { title: 'Login' });
 })
+router.get('/spareprocessdetails',function(req,res,next){
+    if(req.session.usrid){
+      let roledetails = '';
+      RoleMappingModal.find({ roleid: req.session.roleid }).then((data) => {
+          roledetails = data;
+          branchid = req.session.branchid;
+          res.render('./report/spareprocessdetails', { roledetails: roledetails ,branchid:branchid});
+      })
+
+    }
+  else
+    res.render('./Adminpanel/login/login', { title: 'Login' });
+ 
+  
+ 
+})
+router.get('/salesreturnreport',function(req,res,next){
+  if(req.session.usrid){
+    let roledetails = '';
+    RoleMappingModal.find({ roleid: req.session.roleid }).then((data) => {
+        roledetails = data;
+        branchid = req.session.branchid;
+        res.render('./report/salesreturn', { roledetails: roledetails ,branchid:branchid});
+    })
+
+  }
+else
+  res.render('./Adminpanel/login/login', { title: 'Login' });
+
+
+
+})
+router.get('/purchasereturnreport',function(req,res,next){
+  if(req.session.usrid){
+    let roledetails = '';
+    RoleMappingModal.find({ roleid: req.session.roleid }).then((data) => {
+        roledetails = data;
+        branchid = req.session.branchid;
+        res.render('./report/purchasereturn', { roledetails: roledetails ,branchid:branchid});
+    })
+
+  }
+else
+  res.render('./Adminpanel/login/login', { title: 'Login' });
+
+
+
+})
 router.post('/gstpurchasereport',Gstreport.purchaselist);
 router.post('/gstzeropurchasereport',Gstreport.purchasegstzerolist);
 router.post('/gstsalesreport',Gstreport.saleslist);
@@ -48,4 +97,15 @@ router.post('/gstpurchaseamountdetails',Gstreport.purchaseamountdateils);
 router.post('/gstsalesamountdetails',Gstreport.salesamountdetails);
 router.post('/gstpurchasecount',Gstreport.purchasecount);
 router.post('/gstsalescount',Gstreport.salescount);
+
+router.post('/getstockprocessdetails',Excelreport.stockprocess);
+router.post('/getstockprocessdetailsdownload',Excelreport.stockprocessdownload);
+router.post('/getcategorywise',Excelreport.salescategorywise);
+router.post('/getpurchasecategorywiseamount',Excelreport.purchasecategorywiseamount);
+
+router.post('/getsalesreturn',Excelreport.salesreturnlist);
+router.post('/getsalesreturnamount',Excelreport.salesreturnamount);
+
+router.post('/getpurchasereturn',Excelreport.purchasereturnlist);
+router.post('/getpurchasereturnamount',Excelreport.purchasereturnamount);
 module.exports = router;

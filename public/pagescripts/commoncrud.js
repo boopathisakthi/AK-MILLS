@@ -174,6 +174,7 @@ function binddatareportwithview(tablename, uri, data, FilterParameter) {
             "data": FilterParameter
         },
         "columns": data,
+      
         // "serverSide": "true",
         "order": [0, "desc"],
         "dom": '<"top">rt<"bottom"<"row"<"col-md-2"l><"col-md-3"i><"col-md-4"p>>><"clear">',

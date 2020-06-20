@@ -3,7 +3,9 @@
         {
             "name"        : "AKMILLS",
             "script"      : "app.js",
-            "watch"       : true
+            "watch": true,
+            "ignore_watch" : ["node_modules", "public/appfiles/"]
+            
         }
     ]
 }

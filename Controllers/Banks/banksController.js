@@ -174,15 +174,15 @@ module.exports = {
                     trans_no: "$PaymentDetail.trans_no",
                     type: 1,
                     typeid: 1,
-                  
 
-                    withdrawl: { $cond: [{ $eq: ["$typeid", new mongoose.Types.ObjectId(req.params._id)] },0, { $add: [{ $cond: [{ $eq: ["$type", 'bank'] }, { "$sum": "$PaymodeDetail.amount" }, 0] }, { $cond: [{ $eq: ["$type", 'supplier'] }, "$PaymodeDetail.amount", 0], },{ $cond: [{ $eq: ["$type", 'expense'] }, "$PaymodeDetail.amount", 0], }] }], },
+
+                    withdrawl: { $cond: [{ $eq: ["$typeid", new mongoose.Types.ObjectId(req.params._id)] }, 0, { $add: [{ $cond: [{ $eq: ["$type", 'bank'] }, { "$sum": "$PaymodeDetail.amount" }, 0] }, { $cond: [{ $eq: ["$type", 'supplier'] }, "$PaymodeDetail.amount", 0], }, { $cond: [{ $eq: ["$type", 'expense'] }, "$PaymodeDetail.amount", 0], }] }], },
                     deposit: { $cond: [{ $eq: ["$typeid", new mongoose.Types.ObjectId(req.params._id)] }, { $add: [{ "$sum": "$PaymodeDetail.amount" }, { $cond: [{ $eq: ["$type", 'customer'] }, "$PaymodeDetail.amount", 0], }] }, { $cond: [{ $eq: ["$type", 'customer'] }, "$PaymodeDetail.amount", 0], }], },
                 }
             }
         ])
             .then((data) => {
-console.log(data)
+                console.log(data)
                 res.status(200).send({ data: data })
             })
             .catch((err) => {

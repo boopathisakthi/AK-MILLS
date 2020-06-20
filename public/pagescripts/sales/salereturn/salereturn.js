@@ -1,16 +1,19 @@
 $(document).ready(function () {
+    var currentDate = new Date();
+    $("#txtinvoicedate").datepicker().datepicker("setDate", currentDate);
     localStorage.clear();
-    getsalesreturnno();
     typeHeadcustomer();
-    BindddlData('#ddlcompanystate', '/master/state');
-    BindddlData('#ddlsalesrep', '/master/employeeddl');
-    $('.supplierdetails').hide();
+    $('#hfcustomerid').val('5ede58eb85c16929acfcb3b6')
+    $('#txtcustomer').val('Walkin')
+
+
     Addthead();
-    // Cal_Duedate()
-    LoadData()
+    // // Cal_Duedate()
+     LoadData()
     Close();
-    SalesNo();
-    pagerolebasedaction();
+    // SalesNo();
+    // pagerolebasedaction();
+
 
 })
 
@@ -90,11 +93,12 @@ function Rowappend() {
                  <input class="form-control ddl disabled="disabled"" id="ddlproduct type="text" dir="ltr" onblur="getproductdetails(this)"  placeholder="Enter Productname">
                 </div>
                 <input type="hidden" class="hfinvoicedetail_id"></input>
+                <input type="hidden" class="hfproductname"></input>
                 </td>`;
                 break
-            case 'Sale Qty':
-                row = row + '<td class="td-nopad"><input type="text" disabled="disabled" class=" form-control  form-control saleqty">  ';
-                break
+            // case 'Sale Qty':
+            //     row = row + '<td class="td-nopad"><input type="text" disabled="disabled" class=" form-control  form-control saleqty">  ';
+            //     break
             case 'HSN/SAC':
                 row = row + '<td class="td-nopad"><input type="text" disabled="disabled" class="form-control  form-control hsc">  ';
                 break
@@ -102,22 +106,22 @@ function Rowappend() {
             //     row = row + '<td><input disabled="disabled" type="text" class="availableqty form-control form-control"></input><input type="hidden" class="hfdetailsysid"></input><input class="productid" type="hidden"></input></td>';
             //     break
             case 'Qty':
-                row = row + '<td><input onblur="Cal_Amount()" type="text" class="numerickey qty form-control form-control"></input><input type="hidden" class="hfdetailsysid"></input><input class="productid" type="hidden"></input></td>';
+                row = row + '<td><input onkeyup="Cal_Amount()" type="text" class="numerickey qty form-control form-control"></input><input type="hidden" class="hfdetailsysid"></input><input class="productid" type="hidden"></input></td>';
                 break
             case 'UNIT':
-                row = row + '<td  class="td-nopad" style="width:20px"><select class="form-control form-control ddlunit"><option>Nos</option><option>box</option></select></td>';
+                row = row + '<td  class="td-nopad" style="width:100px"><select class="form-control form-control ddlunit"><option>Nos</option><option>box</option></select></td>';
                 break
             case 'Rate':
-                row = row + '<td class="td-nopad"><input type="text" disabled="disabled" class="rate form-control form-control rate"></td>';
+                row = row + '<td class="td-nopad"><input type="text" onkeyup="Cal_Amount()"  class="rate form-control form-control rate"></td>';
                 break
-            case 'DISCOUNT%Rs':
-                row = row + '<td class="td-nopad"><input type="text"  onblur="Cal_Amount()" value="0" class="form-control discountvalue form-control"></td>';
+            case 'DISCOUNTRs%':
+                row = row + '<td class="td-nopad"><input type="text"  onkeyup="Cal_Amount()" value="0" class="form-control discountvalue form-control"></td>';
                 break
             case 'Amount':
-                row = row + '<td class="td-nopad" ><input type="text"   value="0" class="amount form-control form-control"></td>';
+                row = row + '<td class="td-nopad" ><input type="text" onblur="Cal_Amount()"   value="0" class="amount form-control form-control"></td>';
                 break
             default:
-                row = row + '<td></td>';
+                row = row + '<td><i class="la la-trash" onclick="DeleteRow(this)" style="margin-left: 30%"></i></td>';
                 break
 
         }
@@ -130,6 +134,7 @@ function Rowappend() {
     var firstrow = $("#detailsTable .trbody tr").first();
     $(firstrow).find('.typeahead').empty("");
     $(firstrow).find('.typeahead').append(`<input class="form-control ddl" onblur="getproductdetails(this)"  type="text" dir="ltr" placeholder="Enter Productname">`);
+    BindddlData($(firstrow).find('.ddlunit'), '/master/unitdropdown/')
     getproductname($(firstrow).find('.ddl'))
 }
 function Add_Row() {
@@ -153,17 +158,19 @@ function clear(row) {
     $("td input[type=date]", row).val('');
     $("td input[type=time]", row).val('');
     getproductname($(row).find('.ddl'))
+    BindddlData($(row).find('.ddlunit'), '/master/unitdropdown/')
     $(row).find('.discountvalue').val("0");
     $(row).find('.amount').val("0");
     $(row).find('.productid').val("");
+    $(row).find('.hfproductname').val("");
 }
 function Addthead() {
     var amount = `Amount`;
     var hsn = ($("#chhsn").is(":checked") ? 1 : 0) ? `<th>HSN/SAC</th>` : '';
     var unit = ($("#chunit").is(":checked") ? true : false) ? `<th>UNIT</th>` : '';
-    var discount = ($("#chdiscount").is(":checked") ? true : false) ? `<th>DISCOUNT<select id="ddldiscount" class="discount"  ><option value="percentage">%<option><option  value="rupee">Rs<option></select></th>` : '';
+    var discount = ($("#chdiscount").is(":checked") ? true : false) ? `<th>DISCOUNT<select id="ddldiscount" class="discount" ><option  value="rupee">Rs</option><option value="percentage">%<option></select></th>` : '';
     var settings = `<a class="nav-link dropdown-toggle" data-toggle="modal" data-target="#kt_modal_4"><i class="flaticon2-gear"></i></i></a>`
-    var head = "<th>S.No</th><th>Product</th><th>Sale Qty</th>" + hsn + "<th>Qty</th>" + unit + "<th>Rate</th>" + discount + "<th>" + amount + "</th><th>" + settings + "</th>"; // add resources
+    var head = "<th>S.No</th><th>Product</th>" + hsn + "<th>Qty</th>" + unit + "<th>Rate</th>" + discount + "<th>" + amount + "</th><th>" + settings + "</th>"; // add resources
     $("#detailsTable thead tr").append(head);
     Rowappend();
     //  BindSelect2('.ddl', '/master/productdropdown');
@@ -188,6 +195,7 @@ function getproductdetails(ctrl) {
         $(ctrl).closest('tr').find('.rate').val(productdetails[0].salesprice);
         $(ctrl).closest('tr').find('.hsc').val(productdetails[0].hsnorsac_code);
         $(ctrl).closest('tr').find('.productid').val(productdetails[0].id);
+        $(ctrl).closest('tr').find('.hfproductname').val($(ctrl).val())
         $('.attributedetails').empty()
         var deatildesign = '';
         if (productdetails[0].attributes != 0) {
@@ -279,7 +287,7 @@ function Cal_Amount() {
                 if (discount == 'percentage') {
                     if ($('.discountvalue', this).val() <= 100) {
                         if ($('.rate', this).val() != '' && $('.qty', this).val() != '') {
-                            $('.amount', this).val(parseFloat($('.rate', this).val()) * parseFloat($('.qty', this).val()))
+                         
                             $('.amount', this).val(parseFloat($('.amount', this).val()) - (($('.discountvalue', this).val() / 100) * $('.amount', this).val()))
                             $('.amount', this).val(parseFloat($('.amount', this).val()).toFixed(2))
                         }
@@ -289,14 +297,14 @@ function Cal_Amount() {
                         return false;
                     }
                 } else {
-                    $('.amount', this).val(parseFloat($('.rate', this).val()) * parseFloat($('.qty', this).val()))
+                   
                     $('.amount', this).val(parseFloat($('.amount', this).val()) - (parseFloat($('.discountvalue', this).val())))
                     $('.amount', this).val(parseFloat($('.amount', this).val()).toFixed(2))
                 }
             } else {
                 if ($('.rate', this).val() != '' && $('.qty', this).val() != '') {
 
-                    $('.amount', this).val(parseFloat($('.rate', this).val()) * parseFloat($('.qty', this).val()))
+                    // $('.amount', this).val(parseFloat($('.rate', this).val()) * parseFloat($('.qty', this).val()))
                     $('.amount', this).val(parseFloat($('.amount', this).val()).toFixed(2))
                 }
             }
@@ -313,7 +321,7 @@ function Cal_Amount() {
 
     $('#txtpayamount').val(parseFloat(total).toFixed(2))
 
-   
+
 
 }
 // let OldinvoiceDetail=[];
@@ -324,10 +332,7 @@ function save_process() {
         toastr.error('Invalid Customer Deatils  Unable to Process');
         return false;
     }
-    if ($('#ddlsalesrep').val() == '0') {
-        toastr.error('Please select sales.rep');
-        return false;
-    }
+   
 
     $('#detailsTable tbody tr').each(function (i, e) {
         // if ($('.qty',this).val()>$('.availableqty',this).val()) {
@@ -338,6 +343,7 @@ function save_process() {
 
             let invoiceReturn = {
                 productid: $('.productid', this).val(),
+                productname:$('.hfproductname',this).val(),
                 qty: $('.qty', this).val(),
                 rate: $('.rate', this).val(),
                 discount: $('.discount', this).val(),
@@ -368,17 +374,12 @@ function save_process() {
 
     var data = {
         _id: $('#hf_id').val(),
-        sale_id: $('#hfsale_id').val(),
-        invoicereturnno: $('#hfinvoiceno').val(),
-        invoiceno: $('#txtinvoiceno').val(),
+        invoicereturnno:   $('.lblinvoicereturn_no').html(),
         invoicedate: Converdate($('#txtinvoicedate').val()),
-
         customerid: $('#hfcustomerid').val(),
-
         invoiceReturnDetail: invoiceReturnDetail,
         gstdetail: Gstdetail,
         subtotal: $('#txtsubtotal').text(),
-        salesrep: $('#ddlsalesrep').val(),
         roundoff: 10,
         total: $('#txttotal').text(),
         hsncolumn: $("#chhsn").is(":checked") ? 1 : 0,
@@ -411,14 +412,14 @@ function LoadData() {
         lengthMenu: [[5, 10, 25, 50, 100], [5, 10, 25, 50, 100]],
         ajax: '/salesreturn/list',
         columns: [
-            // { data: 'sno', },
-            { data: 'customer.name', name: 'customer' },
-            { data: 'invoicedate', name: 'invoicedate' },
+           
             { data: 'invoicereturn_no', name: 'invoicereturn_no' },
 
-            { data: 'returndate', name: 'returndate' },
-
-            // { data: 'openingstock', name: 'openingstock' },
+            { data: 'invoicedate', name: 'invoicedate' },
+           
+            { data: 'customer.name', name: 'customer' },
+            { data: 'total', name: 'total' },
+          
             { data: '_id', responsivePriority: -1 },
         ],
         order: [0, "desc"],
@@ -486,13 +487,15 @@ function saveexit() {
 function cleardata() {
     $('#hf_id').val('');
 
-    $('#txtinvoicedate').val('');
-  
+    var currentDate = new Date();
+    $("#txtinvoicedate").datepicker().datepicker("setDate", currentDate);
+    localStorage.clear();
+    typeHeadcustomer();
+    $('#hfcustomerid').val('5ede58eb85c16929acfcb3b6');
+    $('#txtcustomer').val('Walkin')
     $('#txttotal').text("0")
-    $('#txsubttotal').text("0")
-    $('#txtcustomer').typeahead('val', '');
-    $('#hfcustomerid').val("");
-    // $('#txtreference').val("");
+    $('#txtsubtotal').text("0")
+   
     $("#detailsTable tbody").find("tr:gt(2)").remove();
     $('#detailsTable tbody tr').each(function (i, e) {
         $('.ddl', this).val('')
@@ -500,6 +503,7 @@ function cleardata() {
         $('.saleqty', this).val('');
         $('.rate', this).val('');
         $('.discount', this).val('');
+        $('.hfproductname',this).val('');
         $('.amount', this).val('');
         $('.hfdetailsysid', this).val('');
     })
@@ -507,7 +511,7 @@ function cleardata() {
     $('.gstdetails').empty();
     localStorage.clear();
     getsalesreturnno();
-    
+
 }
 function SalesNo() {
     var bestPictures = new Bloodhound({
@@ -534,116 +538,7 @@ $('#txtinvoiceno').bind('typeahead:select', function (ev, suggestion) {
 
 
 });
-function saledetails(id) {
-    $.ajax({
-        url: '/sales/invoiceno/' + id,
-        dataType: "json",
-        type: "get",
-        success: function (data) {
-            $('.supplierdetails').show();
-            if (data[0].discountcolumn == 1) {
 
-                $('#chdiscount').prop('checked', true);
-            }
-            if (data[0].unitcolumn == 1) {
-
-                $('#chunit').prop('checked', true);
-            }
-
-            if (data[0].hsncolumn == 1) {
-                $('#chhsn').prop('checked', true);
-            }
-            $('#txtgstno').val(data[0].customer.gstin);
-            $('#ddlcompanystate').val(data[0].customer.billingstate);
-            $('#hfcustomerid').val(data[0].customerid);
-            // $('#hf_id').val(suggestion.id);
-
-            $('#hfsale_id').val(id);
-            $('#txtinvoicedate').val(data[0].invoicedate);
-
-
-            // $('#txtduedate').val(data[0].purchasedate)
-            $('#txttotal').text(data[0].total)
-            //$('#txtreference').val(data[0].reference)
-            $('#txtcustomer').typeahead('val', data[0].customer.name);
-            $('.supplierdetails').show();
-
-            $('#txtgstno').val(data[0].customer.gstin);
-            $('#ddlcompanystate').val(data[0].customer.billingstate);
-
-            // $('#hfinvoiceno').text(suggestion.invoiceno);
-            // $('.lblinvoiceno').text(suggestion.invoiceno);
-            $('#ddlsalesrep').val(data[0].salesrep);
-
-            OldinvoiceDetail = data[0].invoiceDetail;
-
-            $.each(data[0].invoiceDetail, function (j, v) {
-                if (j <= 2) {
-                    $('#detailsTable tbody tr').each(function (i, e) {
-                        if (j == i) {
-                            let productdetails = productnameArray.filter(element => element.id == v.productid);
-
-                            $('.ddl', this).val(productdetails[0].name).attr("disabled", "disabled");
-                            $('.productid', this).val(v.productid);
-                            $('.qty', this).val(v.qty);
-                            $('.rate', this).val(v.rate);
-                            $('.discount', this).val(v.discount);
-                            $('.amount', this).val(v.amount);
-                            $('.saleqty', this).val(v.qty);
-                            // $('.hfdetailsysid',this).val(v._id);
-                            $('.hfinvoicedetail_id', this).val(v._id);
-
-                        }
-                    })
-                }
-                else {
-                    let productdetails = productnameArray.filter(element => element.id == v.productid);
-                    var row = $("#detailsTable .trbody tr").last().clone();
-                    var sno = parseInt($(row).find('.sno').text()) + 1;
-                    $(row).find('.sno').text(sno);
-                    $(row).find('.typeahead').empty("");
-                    $(row).find('.typeahead').append(`<input class="form-control ddl" onblur="getproductdetails(this)"  type="text" dir="ltr" placeholder="Enter Productname">`);
-                    $(row).find('.hfdetailsysid').val("");
-                    $("td input:text", row).val("");
-                    $('td .lbldel', row).attr("style", "display: none;");
-                    $("td button[type=button]", row).val('Delete');
-                    $("td button[type=button]", row).attr("style", "display: block");
-                    getproductname($(row).find('.ddl'))
-                    $(row).find('.ddl').val(productdetails[0].name).attr("disabled", "disabled");
-                    $(row).find('.qty').val(v.qty);
-                    $(row).find('.rate').val(v.rate);
-                    $(row).find('.discountvalue').val(v.discount);
-                    $(row).find('.amount').val(v.amount);
-                    $(row).find('.productid').val(v.productid);
-
-                    $(row).find('.saleqty').val(v.qty);
-                    $(row).find('.hfinvoicedetail_id').val(v._id);
-
-                    $('#detailsTable').append(row);
-                }
-
-            })
-            Cal_Amount();
-            // Disabled_Field()
-
-        },
-        error: function (response) {
-
-            var parsed = JSON.parse(response.responseText);
-            toastr.error(parsed.Message);
-            // d.resolve();
-        },
-        failure: function (response) {
-            var parsed = JSON.parse(response.responseText);
-            toastr.error(parsed.Message);
-
-            //d.resolve();
-        }
-    })
-
-
-
-}
 function Disabled_Field() {
     $('#ddlcompanystate').attr("disabled", "disabled");
     $("#txtgstno").attr("disabled", "disabled");
@@ -655,7 +550,7 @@ function Disabled_Field() {
     $('.supplierdetails').show();
     $('#txtgstno').attr("disabled", "disabled");;
     $('#ddlcompanystate').attr("disabled", "disabled");
-    $('#ddlsalesrep').attr("disabled", "disabled");
+   
 
 
 }
@@ -723,4 +618,36 @@ function Cal_Roundoff() {
         $('#txttotal').text(parseFloat(nettotal).toFixed(2))
     }
 
+}
+function DeleteRow(ctrl) {
+    var currentRow = $(ctrl).closest("tr");
+
+    if (parseInt($(currentRow).find('.sno').text()) <= 3) {
+        $(currentRow).find('.typeahead').empty("");
+        $(currentRow).find('.typeahead').append(`<input class="form-control ddl" onblur="getproductdetails(this)"  type="text" dir="ltr" placeholder="Enter Productname">`);
+        $(currentRow).find('.hfdetailsysid').val("");
+        $("td input:text", $(currentRow)).val("");
+        $('td .lbldel', $(currentRow)).attr("style", "display: none;");
+        $("td button[type=button]", $(currentRow)).val('Delete');
+        $("td button[type=button]", $(currentRow)).attr("style", "display: block");
+        $("td input[type=date]", $(currentRow)).val('');
+        $("td input[type=time]", $(currentRow)).val('');
+        getproductname($(currentRow).find('.ddl'))
+        $(currentRow).find('.discountvalue').val("0");
+        $(currentRow).find('.amount').val("0");
+        $(currentRow).find('.productid').val("");
+        $(currentRow).find('.ddlunit').val("");
+        BindddlData($(currentRow).find('.ddlunit'), '/master/unitdropdown/')
+    } else {
+
+        $(ctrl).closest('tr').remove();
+        $('#detailsTable tbody tr').each(function (i, e) {
+
+
+            $('.sno', this).text(i + 1);
+        })
+
+    }
+    Cal_Amount();
+    Cal_Balance();
 }

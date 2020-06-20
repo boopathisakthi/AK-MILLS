@@ -24,6 +24,9 @@ var InvoiceDetailSchema = new mongoose.Schema({
     },
     productname:{
         type:String
+    },
+    categoryid:{
+        type: ObjectId
     }
     
 

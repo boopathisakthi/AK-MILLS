@@ -17,8 +17,8 @@ router.get('/dashboard', function (req, res, next) {
             branchid = req.session.branchid;
 
 
-
-            res.render('./Dashboard/index', { roledetails: roledetails, branchid: branchid });
+            console.log(roledetails)
+            res.render('./Dashboard/index', { roledetails: roledetails, branchid: branchid});
         })
     }
 
@@ -57,7 +57,7 @@ router.get('/purchasereport', function (req, res, next) {
         RoleMappingModal.find({ roleid: req.session.roleid }).then((data) => {
             roledetails = data;
             branchid = req.session.branchid;
-            res.render('./report/product', { roledetails: roledetails ,branchid:branchid});
+            res.render('./report/product', { roledetails: roledetails, branchid: branchid });
             // res.render('./report/stock',  { roledetails: roledetails });
 
         })
@@ -76,7 +76,7 @@ router.get('/customeroutstanding', function (req, res, next) {
             roledetails = data;
             branchid = req.session.branchid;
             // res.render('./report/stock',  { roledetails: roledetails });
-            res.render('./report/customeroutstanding', { roledetails: roledetails ,branchid:branchid});
+            res.render('./report/customeroutstanding', { roledetails: roledetails, branchid: branchid });
         })
     }
     else {
@@ -91,7 +91,7 @@ router.get('/supplieroutstanding', function (req, res, next) {
         RoleMappingModal.find({ roleid: req.session.roleid }).then((data) => {
             roledetails = data;
             branchid = req.session.branchid;
-            res.render('./report/supplioeroutstanding', { roledetails: roledetails,branchid:branchid });
+            res.render('./report/supplioeroutstanding', { roledetails: roledetails, branchid: branchid });
         })
 
 
@@ -107,7 +107,7 @@ router.get('/salesreport', function (req, res, next) {
         RoleMappingModal.find({ roleid: req.session.roleid }).then((data) => {
             roledetails = data;
             branchid = req.session.branchid;
-            res.render('./report/sales', { roledetails: roledetails,branchid:branchid });
+            res.render('./report/sales', { roledetails: roledetails, branchid: branchid });
 
         })
 
@@ -130,7 +130,7 @@ router.get('/custsup', function (req, res, next) {
         RoleMappingModal.find({ roleid: req.session.roleid }).then((data) => {
             roledetails = data;
             branchid = req.session.branchid;
-            res.render('./Master/cds/index', { roledetails: roledetails,branchid:branchid });
+            res.render('./Master/cds/index', { roledetails: roledetails, branchid: branchid });
         })
     }
 
@@ -142,7 +142,7 @@ router.get('/expense', function (req, res, next) {
         RoleMappingModal.find({ roleid: req.session.roleid }).then((data) => {
             roledetails = data;
             branchid = req.session.branchid;
-            res.render('./Master/expanse/index.ejs', { roledetails: roledetails,branchid:branchid });
+            res.render('./Master/expanse/index.ejs', { roledetails: roledetails, branchid: branchid });
 
         })
     }
@@ -155,7 +155,7 @@ router.get('/expanseentry', function (req, res, next) {
         RoleMappingModal.find({ roleid: req.session.roleid }).then((data) => {
             let roledetails = data;
             branchid = req.session.branchid;
-            res.render('./Master/expansemain/index.ejs', { roledetails: roledetails ,branchid:branchid});
+            res.render('./Master/expansemain/index.ejs', { roledetails: roledetails, branchid: branchid });
 
         })
     }
@@ -170,7 +170,7 @@ router.get('/bank', function (req, res, next) {
         RoleMappingModal.find({ roleid: req.session.roleid }).then((data) => {
             roledetails = data;
             branchid = req.session.branchid;
-            res.render('./Master/bank/index.ejs', { roledetails: roledetails,branchid:branchid });
+            res.render('./Master/bank/index.ejs', { roledetails: roledetails, branchid: branchid });
         })
     }
 
@@ -186,7 +186,7 @@ router.get('/tax', function (req, res, next) {
         RoleMappingModal.find({ roleid: req.session.roleid }).then((data) => {
             roledetails = data;
             branchid = req.session.branchid;
-            res.render('./Master/tax/index.ejs', { roledetails: roledetails ,branchid:branchid});
+            res.render('./Master/tax/index.ejs', { roledetails: roledetails, branchid: branchid });
         })
         // res.render('./Master/tax/index.ejs', { title: 'tax' });
     }
@@ -202,7 +202,7 @@ router.get('/department', function (req, res, next) {
         RoleMappingModal.find({ roleid: req.session.roleid }).then((data) => {
             roledetails = data;
             branchid = req.session.branchid;
-            res.render('./Master/department/index.ejs', { roledetails: roledetails,branchid:branchid });
+            res.render('./Master/department/index.ejs', { roledetails: roledetails, branchid: branchid });
         })
         // res.render('./Master/department/index.ejs', { title: 'department' });
     }
@@ -218,7 +218,7 @@ router.get('/employee', function (req, res, next) {
         RoleMappingModal.find({ roleid: req.session.roleid }).then((data) => {
             roledetails = data;
             branchid = req.session.branchid;
-            res.render('./Master/employee/index.ejs', { roledetails: roledetails ,branchid:branchid});
+            res.render('./Master/employee/index.ejs', { roledetails: roledetails, branchid: branchid });
             //   res.render('./Master/department/index.ejs', { roledetails: roledetails });
         })
     }
@@ -234,7 +234,7 @@ router.get('/product', function (req, res, next) {
         RoleMappingModal.find({ roleid: req.session.roleid }).then((data) => {
             roledetails = data;
             branchid = req.session.branchid;
-            res.render('./Master/Product/index.ejs', { roledetails: roledetails,branchid:branchid });
+            res.render('./Master/Product/index.ejs', { roledetails: roledetails, branchid: branchid });
 
         })
     }
@@ -251,8 +251,8 @@ router.get('/stocktransfer', function (req, res, next) {
         RoleMappingModal.find({ roleid: req.session.roleid }).then((data) => {
             roledetails = data;
             branchid = req.session.branchid;
-           
-            res.render('./Stocktransfer/index', { roledetails: roledetails,branchid:branchid });
+
+            res.render('./Stocktransfer/index', { roledetails: roledetails, branchid: branchid });
         })
     }
     else {
@@ -495,7 +495,7 @@ router.get('/usercreation', function (req, res, next) {
             roledetails = data;
 
             branchid = req.session.branchid;
-            res.render('./Adminpanel/Usercreation/index', { roledetails: roledetails,branchid:branchid });
+            res.render('./Adminpanel/Usercreation/index', { roledetails: roledetails, branchid: branchid });
 
         })
     }
@@ -504,14 +504,33 @@ router.get('/usercreation', function (req, res, next) {
         res.render('./Adminpanel/login/login', { title: 'Login' });
 });
 router.get('/role', function (req, res, next) {
-    if (req.session.usrid)
-        res.render('./Adminpanel/Role/index', { title: 'role' });
+    if (req.session.usrid) {
+        let roledetails = '';
+        RoleMappingModal.find({ roleid: req.session.roleid }).then((data) => {
+            roledetails = data;
+
+            branchid = req.session.branchid;
+            res.render('./Adminpanel/Role/index',  { roledetails: roledetails, branchid: branchid });
+
+        })
+    }
+
     else
         res.render('./Adminpanel/login/login', { title: 'Login' });
 });
 router.get('/company', function (req, res, next) {
-    if (req.session.usrid)
-        res.render('./company/index', { title: 'role' });
+    if (req.session.usrid){
+        let roledetails = '';
+        RoleMappingModal.find({ roleid: req.session.roleid }).then((data) => {
+            roledetails = data;
+
+            branchid = req.session.branchid;
+            res.render('./company/index',  { roledetails: roledetails, branchid: branchid,roleid: req.session.roleid });
+
+        })
+    }
+    
+      
     else
         res.render('./Adminpanel/login/login', { title: 'Login' });
 });
@@ -521,7 +540,7 @@ router.get('/branch', function (req, res, next) {
         RoleMappingModal.find({ roleid: req.session.roleid }).then((data) => {
             roledetails = data;
             branchid = req.session.branchid;
-            res.render('./Adminpanel/Branch/index', { roledetails: roledetails,branchid:branchid });
+            res.render('./Adminpanel/Branch/index', { roledetails: roledetails, branchid: branchid });
 
         })
     }
@@ -535,7 +554,7 @@ router.get('/role_entry', function (req, res, next) {
         RoleMappingModal.find({ roleid: req.session.roleid }).then((data) => {
             roledetails = data;
             branchid = req.session.branchid;
-            res.render('./Adminpanel/RoleMapping/index', { roledetails: roledetails,branchid:branchid });
+            res.render('./Adminpanel/RoleMapping/index', { roledetails: roledetails, branchid: branchid });
         })
     }
     //  if (req.session.usrid)

@@ -27,6 +27,9 @@ var PurchaseDetailSchema = new mongoose.Schema({
     },
     hsn: {
         type: Number
+    },
+    categoryid:{
+        type: ObjectId
     }
 
 });

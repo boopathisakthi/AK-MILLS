@@ -162,15 +162,16 @@ module.exports = {
                     updateddate: (new Date()).toString("yyyy-MM-dd HH:MM:ss"),
                 })
                     .then((data) => {
-                        Payment.findOne({ trans_id: new mongoose.Types.ObjectId(exp._id) })
+                        Payment.findOne({"PaymentDetail.trans_id": new mongoose.Types.ObjectId(exp._id) })
                             .then((pay) => {
+                                console.log(pay)
                                 pay.updateOne({
                                     isdeleted: '1',
                                     updatedby: req.session.usrid,
                                     updateddate: (new Date()).toString("yyyy-MM-dd HH:MM:ss"),
                                 }).then((Payment) => {
                                     logger.log('info', 'logjson{ page : Expense, Acion : Delete,Process : Success,userid : ' + req.session.usrid + ',companyid :' + req.session.companyid + ',datetime: ' + (new Date()).toString("yyyy-MM-dd HH:MM:ss" + '}'));
-                                    res.status(200).send({ status: 'Success', message: 'record Deleted successfully', data })
+                                    res.status(200).send({ status: 'success', message: 'record Deleted successfully', data })
                                 }).catch((error) => res.status(400).send(error))
 
                             }).catch((error) => res.status(400).send(error))

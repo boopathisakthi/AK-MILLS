@@ -57,7 +57,7 @@ function save(btn) {
 
     try {
         //validation over there
-        if (($('#txtname').val() == '') || ($('#txtmobile').val() == '')) {
+        if (($('#txtname').val() == '')) {
             throw new Error('Please Enter the mandatory fields');
         }
         if ($('#cbgst').prop("checked") == true) {

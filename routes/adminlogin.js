@@ -10,43 +10,45 @@ const RoleMapping = mongoose.model('RoleMapping');
 
 router.post('/login', function (req, res) {
     try {
-        console.log('companyname' + req.body.company)
-        MasterCompany.findOne(
-            { "isdeleted": 0, "companyname": req.body.company }
+
+        UserCreation.findOne(
+            { username: req.body.uname, password: req.body.pass }
         )
-            .then((data) => {
+            .then((data1) => {
 
-                if (!data) {
-                    return res.status(400).send("Company name is Mismatch")
+
+                if (!data1) {
+                    return res.status(400).send('Login Credentials Failed');
                 }
-                //  username:{ "$regex" : req.body.uname , "$options" : "i"}
-                console.log(data)
-                UserCreation.findOne(
-                    { companyid: data._id, username: req.body.uname, password: req.body.pass }
-                )
-                    .then((data1) => {
-                        console.log('-----------------------SESSION START------------------')
-                        console.log(data1.BranchDetail)
-                        if (!data1) {
-                            return res.status(400).send('Login Credentials Failed');
-                        }
-                        req.session.companyid = data1.companyid;
-                        req.session.roleid = data1.roleid;
-                        req.session.usrid = data1._id;
-                        req.session.branchid = data1.BranchDetail[0].branchid;
+                req.session.companyid = data1.companyid;
+                req.session.roleid = data1.roleid;
+                req.session.usrid = data1._id;
 
-                        res.status(200).send({
-                            status: 'success',
-                            message: 'valid user',
-                            url: '/dashboard',
-                            data1
-                        })
-                        console.log('companyid in session  :' + req.session.companyid)
-                        console.log('roleid in session  :' + req.session.roleid)
-
+                req.session.branchid = data1.branchid;
+                if (req.session.roleid=='5e2a94260962271c344bdcfa') {
+                    res.status(200).send({
+                        status: 'success',
+                        message: 'valid user',
+                        url: '/dashboard',
+                        data1
                     })
-                    .catch((error) => { res.status(400).send(error) });
+
+                }
+                else
+                {
+                    res.status(200).send({
+                        status: 'success',
+                        message: 'valid user',
+                        url: '/sales',
+                        data1
+                    })
+                }
+
+                console.log('companyid in session  :' + req.session.companyid)
+                console.log('roleid in session  :' + req.session.roleid)
+
             })
+            .catch((error) => { res.status(400).send(error) });
 
     } catch (e) {
 

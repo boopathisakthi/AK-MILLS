@@ -72,14 +72,14 @@ module.exports = {
                                         })
                                     })
                                 }
-
+                              
                             })
 
 
 
                         })).then((data3) => {
                             return res.status(200).send({
-                                status: 'success', message: 'Record Insert SuccessFully'
+                                status: 'success', message: 'Record Updated SuccessFully'
                             })
                         })
 

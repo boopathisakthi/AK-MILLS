@@ -1,8 +1,11 @@
 var sales = mongoose.model('sales');
+const SaleReturn = mongoose.model('SaleReturn');
 var Purchase = mongoose.model('Purchase');
+var PurchaseReturn = mongoose.model('PurchaseReturn');
 const expense = mongoose.model('expense');
 var customer = mongoose.model('mastercustomer');
 var supplier = mongoose.model('mastersupplier');
+require("datejs");
 
 module.exports = {
     saleschart(req, res) {
@@ -13,7 +16,7 @@ module.exports = {
                     $match: {
                         isdeleted: 0,
                         invoicedate: {
-                            $gte: new Date(req.body.fromdate),
+                            $gte: new Date(new Date(req.body.fromdate).toString("yyyy-MM-dd")),
                             $lt: new Date(req.body.todate)
                         },
                         companyid: new mongoose.Types.ObjectId(req.session.companyid),
@@ -50,7 +53,7 @@ module.exports = {
                     $match: {
                         isdeleted: 0,
                         invoicedate: {
-                            $gte: new Date(req.body.fromdate),
+                            $gte: new Date(new Date(req.body.fromdate).toString("yyyy-MM-dd")),
                             $lt: new Date(req.body.todate)
                         }
                     }
@@ -91,7 +94,7 @@ module.exports = {
                     $match: {
                         isdeleted: 0,
                         purchasedate: {
-                            $gte: new Date(req.body.fromdate),
+                            $gte: new Date(new Date(req.body.fromdate).toString("yyyy-MM-dd")),
                             $lt: new Date(req.body.todate)
                         },
                         companyid: new mongoose.Types.ObjectId(req.session.companyid),
@@ -128,7 +131,7 @@ module.exports = {
                     $match: {
                         isdeleted: 0,
                         purchasedate: {
-                            $gte: new Date(req.body.fromdate),
+                            $gte: new Date(new Date(req.body.fromdate).toString("yyyy-MM-dd")),
                             $lt: new Date(req.body.todate)
                         }
                     }
@@ -168,43 +171,50 @@ module.exports = {
                     $match: {
                         isdeleted: 0,
                         invoicedate: {
-                            $gte: new Date(req.body.fromdate),
+                            $gte: new Date(new Date(req.body.fromdate).toString("yyyy-MM-dd")),
                             $lt: new Date(req.body.todate)
                         },
                         companyid: new mongoose.Types.ObjectId(req.session.companyid),
                         branchid: new mongoose.Types.ObjectId(req.session.branchid)
                     }
                 },
-                {
-                    $lookup: {
-                        from: "salereturns",
-                        "let": { "id": "$_id" },
-                        "pipeline": [{
-                            "$match": {
-                                isdeleted: 0,
-                                "$expr": {
-                                    $and: [
-                                        { $eq: ["$sale_id", "$$id"] },
-                                    ]
-                                },
-                            }
-                        }],
-                        as: "salereturn",
-                    }
-                },
+
                 {
                     $group:
                     {
                         _id: null,
-                        totalsales: { $sum: { $subtract: [{ "$sum": '$total' }, { "$sum": '$salereturn.total' }] } },
+                        totalsales: { $sum: '$total' },
 
                     }
                 },
-
-
             ])
             .then((data) => {
-                return res.status(200).send(data)
+                SaleReturn.aggregate([
+                    {
+                        $match: {
+                            isdeleted: 0,
+                            invoicedate: {
+                                $gte: new Date(new Date(req.body.fromdate).toString("yyyy-MM-dd")),
+                                $lt: new Date(req.body.todate)
+                            },
+                            companyid: new mongoose.Types.ObjectId(req.session.companyid),
+                            branchid: new mongoose.Types.ObjectId(req.session.branchid)
+                        }
+                    },
+                    {
+                        $group:
+                        {
+                            _id: null,
+                            totalsalesreturn: { $sum: '$total' },
+
+                        }
+                    },
+                ])
+                    .then((salesreturn) => {
+                        data[0].totalsales = data[0].totalsales - (salesreturn.length == 0 ? 0 : salesreturn[0].totalsalesreturn);
+                        return res.status(200).send(data)
+                    })
+
             })
             .catch((error) => {
                 return res.status(400).send(error)
@@ -217,35 +227,19 @@ module.exports = {
                     $match: {
                         isdeleted: 0,
                         purchasedate: {
-                            $gte: new Date(req.body.fromdate),
+                            $gte: new Date(new Date(req.body.fromdate).toString("yyyy-MM-dd")),
                             $lt: new Date(req.body.todate)
                         },
                         companyid: new mongoose.Types.ObjectId(req.session.companyid),
                         branchid: new mongoose.Types.ObjectId(req.session.branchid)
                     }
                 },
-                {
-                    $lookup: {
-                        from: "purchasereturns",
-                        "let": { "id": "$_id" },
-                        "pipeline": [{
-                            "$match": {
-                                isdeleted: 0,
-                                "$expr": {
-                                    $and: [
-                                        { $eq: ["$purchase_id", "$$id"] },
-                                    ]
-                                },
-                            }
-                        }],
-                        as: "purchasereturns",
-                    }
-                },
+
                 {
                     $group:
                     {
                         _id: null,
-                        totalpurchase: { $sum: { $subtract: [{ "$sum": '$total' }, { "$sum": '$purchasereturns.total' }] } },
+                        totalpurchase: { $sum: { "$sum": '$total' } },
 
                     }
                 },
@@ -253,7 +247,38 @@ module.exports = {
 
             ])
             .then((data) => {
-                return res.status(200).send(data)
+                PurchaseReturn.aggregate([
+                    {
+                        $match: {
+                            isdeleted: 0,
+                            purchasedate: {
+                                $gte: new Date(new Date(req.body.fromdate).toString("yyyy-MM-dd")),
+                                $lt: new Date(req.body.todate)
+                            },
+                            companyid: new mongoose.Types.ObjectId(req.session.companyid),
+                            branchid: new mongoose.Types.ObjectId(req.session.branchid)
+                        }
+                    },
+
+                    {
+                        $group:
+                        {
+                            _id: null,
+                            totalpurchasereturn: { $sum: { "$sum": '$total' } },
+
+                        }
+                    },
+
+                ])
+                    .then((purchasereturn) => {
+
+                        data[0].totalpurchase = data[0].totalpurchase - (purchasereturn.length == 0 ? 0 : purchasereturn[0].totalpurchasereturn);
+                        console.log(data)
+                        return res.status(200).send(data)
+                    })
+
+
+
             })
             .catch((error) => {
                 return res.status(400).send(error)
@@ -265,7 +290,7 @@ module.exports = {
                 $match: {
                     isdeleted: 0,
                     entrydate: {
-                        $gte: new Date(req.body.fromdate),
+                        $gte: new Date(new Date(req.body.fromdate).toString("yyyy-MM-dd")),
                         $lt: new Date(req.body.todate)
                     },
                     companyid: new mongoose.Types.ObjectId(req.session.companyid),
@@ -296,35 +321,19 @@ module.exports = {
                         $match: {
                             isdeleted: 0,
                             invoicedate: {
-                                $gte: new Date(req.body.fromdate),
+                                $gte: new Date(new Date(req.body.fromdate).toString("yyyy-MM-dd")),
                                 $lt: new Date(req.body.todate)
                             },
                             companyid: new mongoose.Types.ObjectId(req.session.companyid),
                             branchid: new mongoose.Types.ObjectId(req.session.branchid)
                         }
                     },
-                    {
-                        $lookup: {
-                            from: "salereturns",
-                            "let": { "id": "$_id" },
-                            "pipeline": [{
-                                "$match": {
-                                    isdeleted: 0,
-                                    "$expr": {
-                                        $and: [
-                                            { $eq: ["$sale_id", "$$id"] },
-                                        ]
-                                    },
-                                }
-                            }],
-                            as: "salereturn",
-                        }
-                    },
+
                     {
                         $group:
                         {
                             _id: null,
-                            totalsales: { $sum: { $subtract: [{ "$sum": '$total' }, { "$sum": '$salereturn.total' }] } },
+                            totalsales: { $sum: '$total' },
 
                         }
                     },
@@ -332,102 +341,141 @@ module.exports = {
 
                 ])
                 .then((salesdata) => {
-
-                    Purchase.aggregate(
-                        [
-                            {
-                                $match: {
-                                    isdeleted: 0,
-                                    purchasedate: {
-                                        $gte: new Date(req.body.fromdate),
-                                        $lt: new Date(req.body.todate)
-                                    },
-                                    companyid: new mongoose.Types.ObjectId(req.session.companyid),
-                                    branchid: new mongoose.Types.ObjectId(req.session.branchid)
-                                }
-                            },
-                            {
-                                $lookup: {
-                                    from: "purchasereturns",
-                                    "let": { "id": "$_id" },
-                                    "pipeline": [{
-                                        "$match": {
-                                            isdeleted: 0,
-                                            "$expr": {
-                                                $and: [
-                                                    { $eq: ["$purchase_id", "$$id"] },
-                                                ]
-                                            },
-                                        }
-                                    }],
-                                    as: "purchasereturns",
-                                }
-                            },
-                            {
-                                $group:
-                                {
-                                    _id: null,
-                                    totalpurchase: { $sum: { $subtract: [{ "$sum": '$total' }, { "$sum": '$purchasereturns.total' }] } },
-
-                                }
-                            },
-
-
-                        ])
-                        .then((purchasedata) => {
-                            expense.aggregate([
-                                {
-                                    $match: {
-                                        isdeleted: 0,
-                                        entrydate: {
-                                            $gte: new Date(req.body.fromdate),
-                                            $lt: new Date(req.body.todate)
-                                        },
-                                        companyid: new mongoose.Types.ObjectId(req.session.companyid),
-                                        branchid: new mongoose.Types.ObjectId(req.session.branchid)
-                                    },
+                    SaleReturn.aggregate([
+                        {
+                            $match: {
+                                isdeleted: 0,
+                                invoicedate: {
+                                    $gte: new Date(new Date(req.body.fromdate).toString("yyyy-MM-dd")),
+                                    $lt: new Date(req.body.todate)
                                 },
-                                {
-                                    $group:
+                                companyid: new mongoose.Types.ObjectId(req.session.companyid),
+                                branchid: new mongoose.Types.ObjectId(req.session.branchid)
+                            }
+                        },
+                        {
+                            $group:
+                            {
+                                _id: null,
+                                totalsalesreturn: { $sum: '$total' },
+
+                            }
+                        },
+                    ])
+                        .then((salesreturn) => {
+                            Purchase.aggregate(
+                                [
                                     {
-                                        _id: null,
-                                        totalamt: { $sum: { "$sum": '$totalamt' } },
+                                        $match: {
+                                            isdeleted: 0,
+                                            purchasedate: {
+                                                $gte: new Date(new Date(req.body.fromdate).toString("yyyy-MM-dd")),
+                                                $lt: new Date(req.body.todate)
+                                            },
+                                            companyid: new mongoose.Types.ObjectId(req.session.companyid),
+                                            branchid: new mongoose.Types.ObjectId(req.session.branchid)
+                                        }
+                                    },
 
-                                    }
-                                },
+                                    {
+                                        $group:
+                                        {
+                                            _id: null,
+                                            totalpurchase: { $sum: '$total' },
 
-                            ])
-                                .then((expensedata) => {
+                                        }
+                                    },
 
-                                    let salesamount, purchaseamount, expenseamount = 0;
 
-                                    if (salesdata.length == 0) {
-                                        salesamount = 0
-                                    }
-                                    else {
-                                        salesamount = salesdata[0].totalsales
-                                    }
-                                    if (purchasedata.length == 0) {
-                                        purchaseamount = 0
-                                    } else {
-                                        purchaseamount = purchasedata[0].totalpurchase
-                                    }
-                                    if (expensedata.length == 0) {
-                                        expenseamount = 0
-                                    }
-                                    else {
-                                        expenseamount = expensedata[0].totalamt;
-                                    }
-                                    let profit = salesamount - (purchaseamount + expenseamount)
-                                    return res.status(200).send({ data: profit })
+                                ])
+                                .then((purchasedata) => {
+                                    PurchaseReturn.aggregate([
+                                        {
+                                            $match: {
+                                                isdeleted: 0,
+                                                purchasedate: {
+                                                    $gte: new Date(new Date(req.body.fromdate).toString("yyyy-MM-dd")),
+                                                    $lt: new Date(req.body.todate)
+                                                },
+                                                companyid: new mongoose.Types.ObjectId(req.session.companyid),
+                                                branchid: new mongoose.Types.ObjectId(req.session.branchid)
+                                            }
+                                        },
+
+                                        {
+                                            $group:
+                                            {
+                                                _id: null,
+                                                totalpurchasereturn: { $sum: { "$sum": '$total' } },
+
+                                            }
+                                        },
+
+                                    ])
+                                        .then((purchasereturn) => {
+
+                                            expense.aggregate([
+                                                {
+                                                    $match: {
+                                                        isdeleted: 0,
+                                                        entrydate: {
+                                                            $gte: new Date(new Date(req.body.fromdate).toString("yyyy-MM-dd")),
+                                                            $lt: new Date(req.body.todate)
+                                                        },
+                                                        companyid: new mongoose.Types.ObjectId(req.session.companyid),
+                                                        branchid: new mongoose.Types.ObjectId(req.session.branchid)
+                                                    },
+                                                },
+                                                {
+                                                    $group:
+                                                    {
+                                                        _id: null,
+                                                        totalamt: { $sum: { "$sum": '$totalamt' } },
+
+                                                    }
+                                                },
+
+                                            ])
+                                                .then((expensedata) => {
+
+                                                    let salesamount, purchaseamount, expenseamount = 0;
+
+                                                    if (salesdata.length == 0) {
+                                                        salesamount = 0 + (salesreturn.length == 0 ? 0 : salesreturn[0].totalsalesreturn)
+                                                    }
+                                                    else {
+                                                        salesamount = salesdata[0].totalsales + (salesreturn.length == 0 ? 0 : salesreturn[0].totalsalesreturn)
+                                                    }
+                                                    if (purchasedata.length == 0) {
+                                                        purchaseamount = 0 + (purchasereturn.length == 0 ? 0 : purchasereturn[0].totalpurchasereturn)
+
+                                                    } else {
+                                                        purchaseamount = purchasedata[0].totalpurchase + (purchasereturn.length == 0 ? 0 : purchasereturn[0].totalpurchasereturn)
+                                                    }
+                                                    if (expensedata.length == 0) {
+                                                        expenseamount = 0
+                                                    }
+                                                    else {
+                                                        expenseamount = expensedata[0].totalamt;
+                                                    }
+                                                    let profit = salesamount - (purchaseamount + expenseamount)
+                                                    return res.status(200).send({ data: profit })
+                                                })
+                                                .catch((error) => {
+                                                    return res.status(400).send(error)
+                                                })
+                                        })
+
+
+
                                 })
                                 .catch((error) => {
                                     return res.status(400).send(error)
                                 })
+
                         })
-                        .catch((error) => {
-                            return res.status(400).send(error)
-                        })
+
+
                 })
                 .catch((error) => {
                     return res.status(400).send(error)
@@ -454,7 +502,7 @@ module.exports = {
                     "$match": {
                         isdeleted: 0,
                         invoicedate: {
-                            $gte: new Date(req.body.fromdate),
+                            $gte: new Date(new Date(req.body.fromdate).toString("yyyy-MM-dd")),
                             $lt: new Date(req.body.todate)
                         },
                         "$expr": {
@@ -467,23 +515,7 @@ module.exports = {
                 as: "invoice",
             }
         },
-        {
-            $lookup: {
-                from: "salereturns",
-                "let": { "id": "$_id" },
-                "pipeline": [{
-                    "$match": {
-                        isdeleted: 0,
-                        "$expr": {
-                            $and: [
-                                { $eq: ["$customerid", "$$id"] },
-                            ]
-                        },
-                    }
-                }],
-                as: "salereturn",
-            }
-        },
+
         {
             $lookup: {
                 from: "payments",
@@ -509,19 +541,19 @@ module.exports = {
         {
             $group: {
                 _id: null,
-               
-                pendingamount: { $sum: { $subtract: [{ "$sum": '$invoice.total' }, { $add: [{ "$sum": '$salereturn.total' }, { "$sum": '$receipt.PaymentDetail.payedamount' }] }] } },
-                paidamount:{$sum:{ $add: [{ "$sum": '$salereturn.total' }, { "$sum": '$receipt.PaymentDetail.payedamount' }] }},
-                total:{$sum:{ "$sum": '$invoice.total' }}
+
+                pendingamount: { $sum: { $subtract: [{ "$sum": '$invoice.total' }, { "$sum": '$receipt.PaymentDetail.payedamount' }] } },
+                paidamount: { "$sum": '$receipt.PaymentDetail.payedamount' },
+                total: { $sum: { "$sum": '$invoice.total' } }
             }
         },
         {
             $project: {
                 _id: 0,
                 'pendingamount': "$pendingamount",
-                paidamount:"$paidamount",
-                total:"$total"
-               
+                paidamount: "$paidamount",
+                total: "$total"
+
 
             }
         }
@@ -549,7 +581,7 @@ module.exports = {
                     "$match": {
                         isdeleted: 0,
                         purchasedate: {
-                            $gte: new Date(req.body.fromdate),
+                            $gte: new Date(new Date(req.body.fromdate).toString("yyyy-MM-dd")),
                             $lt: new Date(req.body.todate)
                         },
                         "$expr": {
@@ -560,23 +592,6 @@ module.exports = {
                     }
                 }],
                 as: "purchase",
-            }
-        },
-        {
-            $lookup: {
-                from: "purchasereturns",
-                "let": { "id": "$_id" },
-                "pipeline": [{
-                    "$match": {
-                        isdeleted: 0,
-                        "$expr": {
-                            $and: [
-                                { $eq: ["$supplierid", "$$id"] },
-                            ]
-                        },
-                    }
-                }],
-                as: "purchasereturn",
             }
         },
         {
@@ -603,7 +618,7 @@ module.exports = {
         {
             $group: {
                 _id: null,
-                pendingamount: { $sum: { $subtract: [{ "$sum": '$purchase.total' }, { $add: [{ "$sum": '$purchasereturn.total' }, { "$sum": '$balancepayment.PaymentDetail.payedamount' }] }] } }
+                pendingamount: { $sum: { $subtract: [{ "$sum": '$purchase.total' }, { "$sum": '$balancepayment.PaymentDetail.payedamount' }] } }
             }
 
         },
@@ -615,7 +630,7 @@ module.exports = {
         }
         ])
             .then(data => {
-              
+
                 res.status(200).send(data);
             })
     },
@@ -626,7 +641,7 @@ module.exports = {
                     $match: {
                         isdeleted: 0,
                         createddate: {
-                            $gte: new Date(req.body.fromdate),
+                            $gte: new Date(new Date(req.body.fromdate).toString("yyyy-MM-dd")),
                             $lt: new Date(req.body.todate)
                         },
                         companyid: new mongoose.Types.ObjectId(req.session.companyid),
@@ -634,8 +649,6 @@ module.exports = {
                     }
                 },
                 { $count: "customercount" }
-
-
             ])
             .then((data) => {
 
@@ -652,7 +665,7 @@ module.exports = {
                     $match: {
                         isdeleted: 0,
                         createddate: {
-                            $gte: new Date(req.body.fromdate),
+                            $gte: new Date(new Date(req.body.fromdate).toString("yyyy-MM-dd")),
                             $lt: new Date(req.body.todate)
                         }
                     }
@@ -677,7 +690,7 @@ module.exports = {
                 $match: {
                     isdeleted: 0,
                     purchasedate: {
-                        $gte: new Date(req.body.fromdate),
+                        $gte: new Date(new Date(req.body.fromdate).toString("yyyy-MM-dd")),
                         $lt: new Date(req.body.todate)
                     },
                     companyid: new mongoose.Types.ObjectId(req.session.companyid),
@@ -685,23 +698,7 @@ module.exports = {
                 },
 
             },
-            {
-                $lookup: {
-                    from: "purchasereturns",
-                    "let": { "id": "$_id" },
-                    "pipeline": [{
-                        "$match": {
-                            isdeleted: 0,
-                            "$expr": {
-                                $and: [
-                                    { $eq: ["$purchase_id", "$$id"] },
-                                ]
-                            },
-                        }
-                    }],
-                    as: "purchasereturns",
-                }
-            },
+
 
             {
                 $lookup: {
@@ -732,14 +729,14 @@ module.exports = {
                     _id: null,
                     totalpurchase: { "$sum": "$total" },
                     payedamount: { "$sum": '$balancepayment.PaymentDetail.payedamount' },
-                    totalpay: { $sum: { $add: [{ "$sum": '$purchasereturns.total' }, { "$sum": '$balancepayment.PaymentDetail.payedamount' }] } },
-                    totalbalance: { $sum: { $subtract: [{ "$sum": '$total' }, { $add: [{ "$sum": '$purchasereturns.total' }, { "$sum": '$balancepayment.PaymentDetail.payedamount' }] }] } },
+                    totalpay: { "$sum": '$balancepayment.PaymentDetail.payedamount' },
+                    totalbalance: { $sum: { $subtract: [{ "$sum": '$total' }, { "$sum": '$balancepayment.PaymentDetail.payedamount' }] } },
                     overdue: {
                         $sum: {
                             $cond: [
                                 { $lte: ["$duedate", (new Date())] }
                                 ,
-                                { $sum: { $subtract: [{ "$sum": '$total' }, { $add: [{ "$sum": '$purchasereturns.total' }, { "$sum": '$balancepayment.PaymentDetail.payedamount' }] }] } },
+                                { $sum: { $subtract: [{ "$sum": '$total' }, { "$sum": '$balancepayment.PaymentDetail.payedamount' }] } },
 
                                 0
                             ]
@@ -772,30 +769,14 @@ module.exports = {
             $match: {
                 isdeleted: 0,
                 invoicedate: {
-                    $gte: new Date(req.body.fromdate),
+                    $gte: new Date(new Date(req.body.fromdate).toString("yyyy-MM-dd")),
                     $lt: new Date(req.body.todate)
                 },
                 companyid: new mongoose.Types.ObjectId(req.session.companyid),
                 branchid: new mongoose.Types.ObjectId(req.session.branchid)
             }
         },
-        {
-            $lookup: {
-                from: "salesreturns",
-                "let": { "id": "$_id" },
-                "pipeline": [{
-                    "$match": {
-                        isdeleted: 0,
-                        "$expr": {
-                            $and: [
-                                { $eq: ["$sales_id", "$$id"] },
-                            ]
-                        },
-                    }
-                }],
-                as: "salesreturns",
-            }
-        },
+
         {
             $lookup: {
 
@@ -824,14 +805,14 @@ module.exports = {
             {
                 _id: null,
                 totalsales: { "$sum": "$total" },
-                totalpay: { $sum: { $add: [{ "$sum": '$salesreturns.total' }, { "$sum": '$receipt.PaymentDetail.payedamount' }] } },
-                totalbalance: { $sum: { $subtract: [{ "$sum": '$total' }, { $add: [{ "$sum": '$salesreturns.total' }, { "$sum": '$receipt.PaymentDetail.payedamount' }] }] } },
+                totalpay: { "$sum": '$receipt.PaymentDetail.payedamount' },
+                totalbalance: { $sum: { $subtract: [{ "$sum": '$total' }, { "$sum": '$receipt.PaymentDetail.payedamount' }] } },
                 overdue: {
                     $sum: {
                         $cond: [
                             { $lte: ["$duedate", (new Date())] }
                             ,
-                            { $sum: { $subtract: [{ "$sum": '$total' }, { $add: [{ "$sum": '$salesreturns.total' }, { "$sum": '$receipt.PaymentDetail.payedamount' }] }] } },
+                            { $sum: { $subtract: [{ "$sum": '$total' }, { "$sum": '$receipt.PaymentDetail.payedamount' }] } },
                             0]
                     }
                 },
@@ -873,7 +854,7 @@ module.exports = {
                     "$match": {
                         isdeleted: 0,
                         invoicedate: {
-                            $gte: new Date(req.body.fromdate),
+                            $gte: new Date(new Date(req.body.fromdate).toString("yyyy-MM-dd")),
                             $lt: new Date(req.body.todate)
                         },
                         "$expr": {
@@ -884,23 +865,6 @@ module.exports = {
                     }
                 }],
                 as: "invoice",
-            }
-        },
-        {
-            $lookup: {
-                from: "salereturns",
-                "let": { "id": "$_id" },
-                "pipeline": [{
-                    "$match": {
-                        isdeleted: 0,
-                        "$expr": {
-                            $and: [
-                                { $eq: ["$customerid", "$$id"] },
-                            ]
-                        },
-                    }
-                }],
-                as: "saleretrun",
             }
         },
         {
@@ -929,7 +893,7 @@ module.exports = {
             $group: {
                 _id: { _id: "$_id", name: "$name", mobile: "$mobile" },
 
-                pendingamount: { $sum: { $subtract: [{ "$sum": '$invoice.total' }, { $add: [{ "$sum": '$salereturn.total' }, { "$sum": '$receipt.PaymentDetail.payedamount' }] }] } },
+                pendingamount: { $sum: { $subtract: [{ "$sum": '$invoice.total' }, { "$sum": '$receipt.PaymentDetail.payedamount' }] } },
             }
         },
         {
@@ -966,7 +930,7 @@ module.exports = {
                     "$match": {
                         isdeleted: 0,
                         purchasedate: {
-                            $gte: new Date(req.body.fromdate),
+                            $gte: new Date(new Date(req.body.fromdate).toString("yyyy-MM-dd")),
                             $lt: new Date(req.body.todate)
                         },
                         "$expr": {
@@ -979,23 +943,7 @@ module.exports = {
                 as: "purchase",
             }
         },
-        {
-            $lookup: {
-                from: "purchasereturns",
-                "let": { "id": "$_id" },
-                "pipeline": [{
-                    "$match": {
-                        isdeleted: 0,
-                        "$expr": {
-                            $and: [
-                                { $eq: ["$supplierid", "$$id"] },
-                            ]
-                        },
-                    }
-                }],
-                as: "purchasereturn",
-            }
-        },
+
         {
             $lookup: {
                 from: "payments",
@@ -1020,7 +968,7 @@ module.exports = {
         {
             $group: {
                 _id: { _id: "$_id", name: "$name", mobile: "$mobile" },
-                pendingamount: { $sum: { $subtract: [{ "$sum": '$purchase.total' }, { $add: [{ "$sum": '$purchasereturn.total' }, { "$sum": '$balancepayment.PaymentDetail.payedamount' }] }] } }
+                pendingamount: { $sum: { $subtract: [{ "$sum": '$purchase.total' }, { "$sum": '$balancepayment.PaymentDetail.payedamount' }] } }
             }
 
         },
@@ -1044,7 +992,7 @@ module.exports = {
                     $match: {
                         isdeleted: 0,
                         invoicedate: {
-                            $gte: new Date(req.body.fromdate),
+                            $gte: new Date(new Date(req.body.fromdate).toString("yyyy-MM-dd")),
                             $lt: new Date(req.body.todate)
                         },
                         companyid: new mongoose.Types.ObjectId(req.session.companyid),
@@ -1089,7 +1037,7 @@ module.exports = {
                             $match: {
                                 isdeleted: 0,
                                 invoicedate: {
-                                    $gte: new Date(req.body.fromdate),
+                                    $gte: new Date(new Date(req.body.fromdate).toString("yyyy-MM-dd")),
                                     $lt: new Date(req.body.todate)
                                 }
                             }
@@ -1134,7 +1082,7 @@ module.exports = {
                     $match: {
                         isdeleted: 0,
                         entrydate: {
-                            $gte: new Date(req.body.fromdate),
+                            $gte: new Date(new Date(req.body.fromdate).toString("yyyy-MM-dd")),
                             $lt: new Date(req.body.todate)
                         },
                         companyid: new mongoose.Types.ObjectId(req.session.companyid),
@@ -1167,7 +1115,7 @@ module.exports = {
                             $match: {
                                 isdeleted: 0,
                                 entrydate: {
-                                    $gte: new Date(req.body.fromdate),
+                                    $gte: new Date(new Date(req.body.fromdate).toString("yyyy-MM-dd")),
                                     $lt: new Date(req.body.todate)
                                 }
                             }
@@ -1226,28 +1174,11 @@ module.exports = {
                 $match: {
                     isdeleted: 0,
                     invoicedate: {
-                        $gte: new Date(req.body.fromdate),
+                        $gte: new Date(new Date(req.body.fromdate).toString("yyyy-MM-dd")),
                         $lt: new Date(req.body.todate)
                     },
                     companyid: new mongoose.Types.ObjectId(req.session.companyid),
                     branchid: new mongoose.Types.ObjectId(req.session.branchid)
-                }
-            },
-            {
-                $lookup: {
-                    from: "salereturns",
-                    "let": { "id": "$_id" },
-                    "pipeline": [{
-                        "$match": {
-                            isdeleted: 0,
-                            "$expr": {
-                                $and: [
-                                    { $eq: ["$sale_id", "$$id"] },
-                                ]
-                            },
-                        }
-                    }],
-                    as: "salereturn",
                 }
             },
             {
@@ -1289,12 +1220,12 @@ module.exports = {
                     "customer.name": 1,
                     "invoiceno": 1,
                     "total": 1,
-                    "dueamount": { $subtract: ['$total', { $add: [{ "$sum": '$salereturn.total' }, { "$sum": '$receiptpayment.PaymentDetail.payedamount' }] }] },
+                    "dueamount": { $subtract: ['$total', { "$sum": '$receiptpayment.PaymentDetail.payedamount' }] },
                     "status": {
-                        $cond: [{ $lt: [ (new Date()),"$duedate"] }, 'Due', 'OverDue'],
+                        $cond: [{ $lt: [(new Date()), "$duedate"] }, 'Due', 'OverDue'],
                     },
                     duedays: { $trunc: { $divide: [{ $subtract: ["$duedate", new Date()] }, (1000 * 60 * 60 * 24)] } },
-                    'balancedueamount': { $subtract: ['$total', { $add: [{ "$sum": '$salereturn.total' }, { "$sum": '$receiptpayment.PaymentDetail.payedamount' }] }] }
+                    'balancedueamount': { $subtract: ['$total', { "$sum": '$receiptpayment.PaymentDetail.payedamount' }] }
                 },
             },
             {
@@ -1317,26 +1248,14 @@ module.exports = {
                 $match: {
                     "isdeleted": 0,
                     companyid: new mongoose.Types.ObjectId(req.session.companyid),
-                    branchid: new mongoose.Types.ObjectId(req.session.branchid)
+                    branchid: new mongoose.Types.ObjectId(req.session.branchid),
+                    purchasedate: {
+                        $gte: new Date(new Date(req.body.fromdate).toString("yyyy-MM-dd")),
+                        $lt: new Date(req.body.todate)
+                    },
                 }
             },
-            {
-                $lookup: {
-                    from: "purchasereturns",
-                    "let": { "id": "$_id" },
-                    "pipeline": [{
-                        "$match": {
-                            isdeleted: 0,
-                            "$expr": {
-                                $and: [
-                                    { $eq: ["$purchase_id", "$$id"] },
-                                ]
-                            },
-                        }
-                    }],
-                    as: "purchasereturns",
-                }
-            },
+
             {
                 $lookup: {
 
@@ -1382,10 +1301,10 @@ module.exports = {
                     "total": 1,
                     creditdays: 1,
                     "status": {
-                        $cond: [{ $lt: [ (new Date()),"$duedate"] }, 'Due', 'OverDue'],
+                        $cond: [{ $lt: [(new Date()), "$duedate"] }, 'Due', 'OverDue'],
                     },
                     duedays: { $trunc: { $divide: [{ $subtract: ["$duedate", new Date()] }, (1000 * 60 * 60 * 24)] } },
-                    'dueamount': { $subtract: ['$total', { $add: [{ "$sum": '$purchasereturns.total' }, { "$sum": '$balancepayment.PaymentDetail.payedamount' }] }] }
+                    'dueamount': { $subtract: ['$total', { "$sum": '$balancepayment.PaymentDetail.payedamount' }] }
                 }
             },
             {
@@ -1404,15 +1323,14 @@ module.exports = {
             })
     },
     incomevsexpense(req, res) {
-        console.log(req.body.datecount)
-        console.log(req.body.fromdate)
+
         if (req.body.datecount <= 31) {
             Purchase.aggregate([
                 {
                     $match: {
                         isdeleted: 0,
                         purchasedate: {
-                            $gte: new Date(req.body.fromdate),
+                            $gte: new Date(new Date(req.body.fromdate).toString("yyyy-MM-dd")),
                             $lt: new Date(req.body.todate)
                         },
                         companyid: new mongoose.Types.ObjectId(req.session.companyid),
@@ -1421,7 +1339,7 @@ module.exports = {
                 },
                 {
                     $group: {
-                        // _id: { "purchasedate": { $dateToString: { format: "%d-%m-%Y", date: "$purchasedate" } } },
+
                         _id: { formated_date: { $dateToString: { format: "%d-%m-%Y", date: "$purchasedate" } } },
 
                         total: { $sum: "$total" }
@@ -1442,7 +1360,7 @@ module.exports = {
                         $match: {
                             isdeleted: 0,
                             entrydate: {
-                                $gte: new Date(req.body.fromdate),
+                                $gte: new Date(new Date(req.body.fromdate).toString("yyyy-MM-dd")),
                                 $lt: new Date(req.body.todate)
                             },
                             companyid: new mongoose.Types.ObjectId(req.session.companyid),
@@ -1451,7 +1369,7 @@ module.exports = {
                     },
                     {
                         $group: {
-                            //  _id: { "entrydate": { $dateToString: { format: "%d-%m-%Y", date: "$entrydate" } } },
+
                             _id: { "formated_date": { $dateToString: { format: "%d-%m-%Y", date: "$entrydate" } } },
                             total: { $sum: "$totalamt" }
                         }
@@ -1471,7 +1389,7 @@ module.exports = {
                             $match: {
                                 isdeleted: 0,
                                 invoicedate: {
-                                    $gte: new Date(req.body.fromdate),
+                                    $gte: new Date(new Date(req.body.fromdate).toString("yyyy-MM-dd")),
                                     $lt: new Date(req.body.todate)
                                 },
                                 companyid: new mongoose.Types.ObjectId(req.session.companyid),
@@ -1481,7 +1399,7 @@ module.exports = {
                         {
                             $group: {
 
-                                // _id: { "invoicedate": { $dateToString: { format: "%d-%m-%Y", date: "$invoicedate" } } },
+
                                 _id: { formated_date: { $dateToString: { format: "%d-%m-%Y", date: "$invoicedate" } } },
                                 total: { $sum: "$total" }
                             }
@@ -1497,6 +1415,7 @@ module.exports = {
                         },
                         { '$sort': { invoicedate: 1 } }
                     ]).then((salesdata) => {
+
                         res.status(200).send({ purchasedata: data, expensedata: expensedata, salesdata: salesdata })
                         // res.status(200).send(data)
                     })
@@ -1514,7 +1433,7 @@ module.exports = {
                         isdeleted: 0,
                         type: 'purchase',
                         purchasedate: {
-                            $gte: new Date(req.body.fromdate),
+                            $gte: new Date(new Date(req.body.fromdate).toString("yyyy-MM-dd")),
                             $lt: new Date(req.body.todate)
                         },
                         companyid: new mongoose.Types.ObjectId(req.session.companyid),
@@ -1545,7 +1464,7 @@ module.exports = {
                         $match: {
                             isdeleted: 0,
                             entrydate: {
-                                $gte: new Date(req.body.fromdate),
+                                $gte: new Date(new Date(req.body.fromdate).toString("yyyy-MM-dd")),
                                 $lt: new Date(req.body.todate)
                             },
                             companyid: new mongoose.Types.ObjectId(req.session.companyid),
@@ -1574,7 +1493,7 @@ module.exports = {
                             $match: {
                                 isdeleted: 0,
                                 invoicedate: {
-                                    $gte: new Date(req.body.fromdate),
+                                    $gte: new Date(new Date(req.body.fromdate).toString("yyyy-MM-dd")),
                                     $lt: new Date(req.body.todate)
                                 },
                                 companyid: new mongoose.Types.ObjectId(req.session.companyid),

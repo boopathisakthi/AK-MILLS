@@ -27,6 +27,9 @@ var PurchaseReturnDetailSchema = new mongoose.Schema({
     },
     purchaseqty: {
         type: Number
+    },
+    productname:{
+        type: String
     }
 
 });

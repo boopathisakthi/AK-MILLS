@@ -8,84 +8,52 @@ require('../../config/logger');
 module.exports = {
     async  insert(req, res) {
         if (!req.body._id) {
-            PurchaseReturn.countDocuments({ isdeleted: 0, purchasereturnno: req.body.purchasereturnno })
-                .then((purchasereturndata) => {
+            PurchaseReturn.create({
+                purchasereturnno: req.body.purchasereturnno,
+                purchasedate: req.body.purchasedate,
+                reference: req.body.reference,
+                supplierid: req.body.supplierid,
+                subtotal: req.body.subtotal,
+                roundoff: req.body.roundoff,
+                roundofftype: req.body.roundofftype,
+                actualtotal: req.body.actualtotal,
+                total: req.body.total,
+                SupplierDetail: req.body.SupplierDetail,
+                purchaseRetrunDetail: req.body.purchaseRetrunDetail,
+                hsncolumn: req.body.hsncolumn,
+                unitcolumn: req.body.unitcolumn,
+                discountcolumn: req.body.discountcolumn,
+                discountype: req.body.discountype,
+                taxtype: req.body.taxtype,
+                branchid: req.session.branchid,
+                companyid: req.session.companyid,
+                createdby: req.session.usrid,
+                createddate: (new Date()).toString("yyyy-MM-dd HH:MM:ss"),
+                isdeleted: '0'
+            }).then((purchasedata) => {
 
-                    if (purchasereturndata.length == 0 || purchasereturndata.length == undefined) {
-                        Purchase.findById(req.body.purchase_id)
-                            .then((data) => {
-                                if (!data) {
-                                    return res.status(404).send({
-                                        message: 'Data Not Found',
-                                    });
-                                } else {
+                Promise.resolve(req.body.purchaseRetrunDetail).then(each((data) =>
+                    StockProcessDetails.findOne({ isdeleted: 0, productid: data.productid, branchid: req.session.branchid })
+                        .then((stockdata) => {
+                            if (!stockdata) {
+                                return res.status(404).send({
+                                    message: 'Data Not Found',
+                                });
+                            }
+                            stockdata.updateOne({
+                                purchaseqty: parseInt(stockdata.purchaseqty) - parseInt(data.qty)
+                            }).then((data1) => { })
 
-                                    PurchaseReturn.create({
-                                        purchasereturnno: req.body.purchasereturnno,
-                                        purchase_id: req.body.purchase_id,
-                                        purchasedate: req.body.purchasedate,
-                                        creditdays: req.body.creditdays,
-                                        reference: req.body.reference,
-                                        supplierid: req.body.supplierid,
-                                        subtotal: req.body.subtotal,
-                                        roundoff: req.body.roundoff,
-                                        roundofftype: req.body.roundofftype,
-                                        actualtotal: req.body.actualtotal,
-                                        gstdetail: req.body.gstdetail,
-                                        total: req.body.total,
-                                        SupplierDetail: req.body.SupplierDetail,
-                                        purchaseRetrunDetail: req.body.purchaseRetrunDetail,
-                                        hsncolumn: req.body.hsncolumn,
-                                        unitcolumn: req.body.unitcolumn,
-                                        discountcolumn: req.body.discountcolumn,
-                                        discountype: req.body.discountype,
-                                        taxtype: req.body.taxtype,
-                                        branchid: req.session.branchid,
-                                        companyid: req.session.companyid,
-                                        createdby: req.session.usrid,
-                                        createddate: (new Date()).toString("yyyy-MM-dd HH:MM:ss"),
-                                        isdeleted: '0'
-                                    }).then((purchasedata) => {
+                        })
+                ))
 
-                                        Promise.resolve(req.body.purchaseRetrunDetail).then(each((update) =>
-                                            data.purchaseDetail.forEach((old) => {
-                                                if (old._id == update.purchasedetail_id) {
-                                                    StockProcessDetails.findOne({ isdeleted: 0, productid: update.productid, branchid: req.session.branchid })
-                                                        .then((stockdata) => {
-                                                            if (!stockdata) {
-                                                                return res.status(404).send({
-                                                                    message: 'Data Not Found',
-                                                                });
-                                                            }
-                                                            stockdata.updateOne({
-                                                                purchaseqty: parseInt(stockdata.purchaseqty) - parseInt(update.qty)
-                                                            }).then((data1) => { })
-                                                            // purchaseqty: (parseInt(stockdata.purchaseqty) - parseInt(update.qty)) + parseInt(update.qty)
-                                                        })
-                                                }
-
-                                            })
-                                        ))
-
-                                        logger.log('info', 'logjson{ page : purchaesReurn, Acion : Insert,Process : Success,userid : ' + req.session.usrid + ',companyid :' + req.session.companyid + ',datetime: ' + (new Date()).toString("yyyy-MM-dd HH:MM:ss" + '}'));
-                                        res.status(200).send({
-                                            status: 'success',
-                                            message: 'record added successfully',
-                                        })
-                                    })
-                                        .catch((error) => res.status(400).send({ status: 'Error', message: error }))
-                                }
-
-
-                            })
-                            .catch((err) => res.status(400).send(err))
-                    }
-                    else {
-                        return res.status(404).send({
-                            message: 'Invalid Purchase Return  No',
-                        });
-                    }
+                logger.log('info', 'logjson{ page : purchaesReurn, Acion : Insert,Process : Success,userid : ' + req.session.usrid + ',companyid :' + req.session.companyid + ',datetime: ' + (new Date()).toString("yyyy-MM-dd HH:MM:ss" + '}'));
+                res.status(200).send({
+                    status: 'success',
+                    message: 'record added successfully',
                 })
+            })
+                .catch((error) => res.status(400).send({ status: 'Error', message: error }))
 
         } else {
 
@@ -96,21 +64,28 @@ module.exports = {
                             message: 'Data Not Found',
                         });
                     }
+                    Promise.resolve(req.body.purchaseRetrunDetail).then(each((pr) =>
+                        data.purchaseRetrunDetail.forEach((old) => {
+
+                            StockProcessDetails.findOne({ isdeleted: 0, productid: pr.productid, branchid: req.session.branchid })
+                                .then((data5) => {
+                                    data5.updateOne({
+                                        purchaseqty: (parseInt(data5.purchaseqty) + parseInt(old.qty)) - parseInt(pr.qty)
+                                    }).then((data7) => { })
+                                })
 
 
+                        })
+                    ))
 
                     data.updateOne({
                         purchasereturnno: req.body.purchasereturnno,
-                        purchase_id: req.body.purchase_id,
                         purchasedate: req.body.purchasedate,
-                        creditdays: req.body.creditdays,
-                        reference: req.body.reference,
                         supplierid: req.body.supplierid,
                         subtotal: req.body.subtotal,
                         roundoff: req.body.roundoff,
                         roundofftype: req.body.roundofftype,
                         actualtotal: req.body.actualtotal,
-                        gstdetail: req.body.gstdetail,
                         total: req.body.total,
                         purchaseRetrunDetail: req.body.purchaseRetrunDetail,
                         SupplierDetail: req.body.SupplierDetail,
@@ -125,18 +100,6 @@ module.exports = {
                         isdeleted: '0'
                     })
                         .then((data2) => {
-                            Promise.resolve(req.body.purchaseRetrunDetail).then(each((pr) =>
-                                data.purchaseRetrunDetail.forEach((old) => {
-                                    if (old.purchasedetail_id = pr.purchasedetail_id) {
-                                        StockProcessDetails.findOne({ isdeleted: 0, productid: pr.productid, branchid: req.session.branchid })
-                                            .then((data5) => {
-                                                data5.updateOne({
-                                                    purchaseqty: (parseInt(data5.purchaseqty) + parseInt(old.qty)) - parseInt(pr.qty)
-                                                }).then((data7) => { })
-                                            })
-                                    }
-                                })
-                            ))
 
                             res.status(200).send({ status: 'success', message: 'Record Updated success' })
                         })
@@ -215,7 +178,7 @@ module.exports = {
                             "Supplier.name": 1,
                             "purchasedate": { $dateToString: { format: "%Y-%m-%d", date: "$purchasedate" } },
                             "purchasereturnno": 1,
-                            total:1,
+                            total: 1,
                             "returndate": { $dateToString: { format: "%Y-%m-%d", date: "$createddate" } },
 
                         }

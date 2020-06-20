@@ -23,10 +23,10 @@
                         <tr>
                             <th>Suppliername</th>
                             <th style="border-left: 0.03rem solid #b3b3b4 !important;border-bottom: 0.05rem solid #b3b3b4 !important;border-top: 0.05rem solid #b3b3b4 !important;">
-                                Purchase Date</th>
+                                PurchaseReturn Date</th>
                             <th>Purchasereturn No</th>
 
-                            <th>Retrun Date</th>
+                          
                             <th>Amount</th>
                             <th>Action</th>
                         </tr>
@@ -91,49 +91,32 @@
                             </div>
 
                         </div>
+                       
+                     
                         <div class="col-md-3">
-                            <div class="form-group">
-                                
-                                <h6 class="kt-font">Type</h6>
-                               <select id="ddltype" class="form-control">
-                                   <option value="WrongGoods">WrongGoods</option>
-                                   <option value="Damaged">Damaged</option>
-                               </select>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <h6 class="kt-font">Purchase No</h6>  
-                                <div class="col-lg-12 col-md-9 col-sm-12">
-                                    <div class="typehead">
-                                        <input class="form-control dark-border bg-white" id="txtpurchaseno" type="text" dir="ltr" placeholder="Enter purchaseno">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <h6 class="kt-font">Purchase Date</h6>
-                            <!-- <label class="control-label">Purchase Date</label> -->
+                            <h6 class="kt-font">PurchaseReturn Date</h6>
+                         
                             <div class="kt-input-icon">
-                                <input type="text" style="background-color: #fff;" disabled="disabled" id="txtpurchasedate" onblur="Cal_Duedate()" class="form-control kt_datepicker_1 dark-border" placeholder="DD-MM-YYYY">
+                                <input type="text" style="background-color: #fff;"  id="txtpurchasedate" onblur="Cal_Duedate()" class="form-control kt_datepicker_1 dark-border" placeholder="DD-MM-YYYY">
                                 <span class="kt-input-icon__icon kt-input-icon__icon--right"><span><i
                                             class="flaticon2-calendar"></i></span></span>
                             </div>
                         </div>
-
-                    </div>
-
-                    <div class="row" >
                         <div class="col-md-3">
                             <h6 class="kt-font">Supplier</h6>
                             <!-- <label class="col-form-label">Supplier</label> -->
                             <div class="col-lg-12 col-md-9 col-sm-12" >
                                 <div class="typehead">
-                                    <input class="form-control dark-border bg-white" disabled="disabled" id="txtsupplier" type="text" dir="ltr" placeholder="Enter suppliername">
+                                    <input class="form-control dark-border bg-white"  id="txtsupplier" type="text" dir="ltr" placeholder="Enter suppliername">
                                 </div>
                             </div>
                         </div>
 
+
+                    </div>
+
+                    <div class="row" >
+                      
                      
                     </div>
                     <br>
@@ -261,16 +244,16 @@
 
                                         <div class="form-group">
                                             <div class="kt-checkbox-list">
-                                                <label class="kt-checkbox kt-checkbox--tick kt-checkbox--brand">
+                                                <!-- <label class="kt-checkbox kt-checkbox--tick kt-checkbox--brand">
                                                     <input type="checkbox" id="chhsn"> HSN/SAC
                                                     <span></span>
-                                                </label>
+                                                </label> -->
                                                 <label class="kt-checkbox kt-checkbox--tick kt-checkbox--brand">
                                                     <input type="checkbox" id="chunit"> UNIT
                                                     <span></span>
                                                 </label>
                                                 <label class="kt-checkbox kt-checkbox--tick kt-checkbox--brand">
-                                                    <input type="checkbox" id="chdiscount"> Discount
+                                                    <input type="checkbox" id="chdiscount" checked> Discount
                                                     <span></span>
                                                 </label>
                                             </div>

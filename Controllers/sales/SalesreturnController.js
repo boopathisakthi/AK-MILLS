@@ -9,16 +9,12 @@ module.exports = {
         if (!req.body._id) {
             SaleReturn.create({
                 invoicereturn_no: req.body.invoicereturnno,
-                sale_id: req.body.sale_id,
                 invoicedate: req.body.invoicedate,
-                invoiceno: req.body.invoiceno,
-                reference: req.body.reference,
                 customerid: req.body.customerid,
                 subtotal: req.body.subtotal,
                 roundoff: req.body.roundoff,
                 total: req.body.total,
                 invoiceReturnDetail: req.body.invoiceReturnDetail,
-                gstdetail: req.body.gstdetail,
                 hsncolumn: req.body.hsncolumn,
                 unitcolumn: req.body.unitcolumn,
                 discountcolumn: req.body.discountcolumn,
@@ -175,11 +171,9 @@ module.exports = {
                             $project: {
                                 "_id": {
                                     $concat: [{ $toString: "$_id" }, " - ", { $toString: "$roledetails.edit" }, "-", { $toString: "$roledetails.delete" }]
-
-
                                 },
-                                "invoicedate": { $dateToString: { format: "%Y-%m-%d", date: "$invoicedate" } },
-                                "returndate": { $dateToString: { format: "%Y-%m-%d", date: "$createddate" } },
+                                "invoicedate": { $dateToString: { format: "%d-%m-%Y", date: "$invoicedate" } },
+                               
                                 "customer.name": 1,
                                 "invoicereturn_no": 1,
                                 "total": 1,
@@ -393,7 +387,7 @@ module.exports = {
                         })
                 }
 
-               
+
             })
 
     },

@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express();
 var engine = require('ejs-locals');
+const SalesController = require('../Controllers/sales/SalesController');
 router.engine('ejs', engine);
 router.set('view engine', 'ejs');
 
@@ -85,6 +86,7 @@ router.post('/sales/invoicebill/:_id', Salescontroller.invoicebill);
 router.get('/sales/amountdetails', Salescontroller.amountdateils);
 router.get('/sales/getmaildetails/:_id', Salescontroller.customermaildetails);
 router.post('/sales/sendmailtocustomer/:_id', Salescontroller.sendmailtocustomer);
+router.get('/sales/getinvoicewithbob/:_id',SalesController.printinvoice_bob);
 
 router.get('/salesreturn/salesretrunno', Salesreturncontroller.salesretrunno);
 router.post('/salesreturn/insertupdate', Salesreturncontroller.insert);

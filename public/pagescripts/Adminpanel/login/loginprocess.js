@@ -36,9 +36,7 @@ var KTLoginV1 = function () {
 					password: {
 						required: true
                     },
-                    companyname:{
-                        required:true
-                    }
+                   
 				}
 			});
 
@@ -55,7 +53,7 @@ var KTLoginV1 = function () {
 			var params={
 				uname:$('#txtusername').val(),
 				pass:$('#txtpassword').val(),
-				company:$('#txtcompanyname').val(),
+				
 			}    
 			$.ajax({
 				url: '/adminlogin/login',

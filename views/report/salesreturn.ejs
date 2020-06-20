@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <base href="">
+    <meta charset="utf-8" />
+    <title>Zerobugz | Sales Report</title>
+    <meta name="description" content="Latest updates and statistic charts">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <%include ../templates/css/commoncss.ejs%>
+    <link rel="stylesheet" href="assets/css/custom_style.css" type="text/css">
+    <style>
+
+    </style>
+</head>
+
+<body
+    class="kt-quick-panel--right kt-demo-panel--right kt-offcanvas-panel--right kt-header--fixed kt-header-mobile--fixed kt-subheader--enabled kt-subheader--solid kt-aside--enabled kt-aside--fixed kt-aside--minimize kt-page--loading">
+    <%include ../templates/top.ejs%>
+  
+   
+    <div class="kt-container  kt-container--fluid  kt-grid__item kt-grid__item--fluid mt-4">
+        <h3>SalesReturn  Report</h3><br>
+        <div class="row list">
+            <div class="col-md-3">
+
+            </div>
+            <div class="col-md-3">
+                
+            </div>
+            <div class="col-md-3">
+                
+            </div>
+            <div class="col-md-3">
+                <div class="kt-widget25 mt-0">
+        
+                    <div class="kt-widget25__items mt-0">
+                       
+                      
+        
+                        <div class="kt-widget25__item">
+                            <i class="la la-rupee kt-widget25__number"></i> <span id="txttotal" class="kt-widget25__number">0</span>
+                            <div class="progress m-progress--sm">
+                                <div class="progress-bar kt-bg-danger" role="progressbar" style="width: 54%;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                            <span class="kt-widget25__desc">
+                              Grand Total 
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+      
+        <div class="row">
+            <div class="col-md-3">
+                <div class="kt_daterangepicker_6">
+                    <input type="text" id="txtdaterange" class="form-control" readonly=""
+                        placeholder="Select date range">
+                </div>
+            </div>
+            <div class="col-md-1">
+                <button class="btn btn-primary" onclick="loadsalesreturn()"><i class="fa fa-search"></i></button>
+            </div>
+          
+        </div>
+        <!-- begin:: Content -->
+        <!-- <button id='DLtoExcel' class="btn float-right mb-4 btn-danger">Export Data to Excel</button> -->
+        <table class="table text-center table-sm table-striped- table-bordered table-hover table-checkable"
+            id="gvsaleslist">
+            <thead>
+                <tr>
+                    <!-- <th>sno</th> -->
+                    <th>Invoice No </th>
+                    <th>Invoice Date</th>
+                    <th>Customername </th>
+                    <th>invoiceDetail</th>
+                    <th>Total</th>
+
+
+                </tr>
+            </thead>
+        </table>
+
+        <!-- end:: Content -->
+    </div>
+
+
+
+
+    <!-- end:: Content -->
+    <%include ../templates/bottom.ejs%>
+    <%include ../templates/js/commonjs.ejs%>
+
+
+
+
+    <script>
+        $(document).ready(function () {
+            var start = moment().startOf('month');
+            var end = moment().endOf('month');
+            $('#txtdaterange').val(start.format('DD-MM-YYYY') + ' / ' + end.format('DD-MM-YYYY'));
+            loadsalesreturn();
+            
+
+        });
+
+        function loadsalesreturn() {
+            var data = [];
+            data[0] = "invoiceno";
+            data[1] = "invoicedate";
+            data[2] = "customername";
+            data[3] = "invoiceDetail";
+            data[4] = "total";
+
+            let daterange_from_to = $('#txtdaterange').val().split('/');
+            var FilterParameter = {
+                fdate: Converdate(moment(moment(daterange_from_to[0], 'DD-MM-YYYY')).format("DD-MM-YYYY")),
+                tdate: Converdate(moment(moment(daterange_from_to[1], 'DD-MM-YYYY')).format("DD-MM-YYYY")),
+
+            };
+
+            binddatareportwithview1("#gvsaleslist", "/getsalesreturn", data, FilterParameter)
+            getamount()
+        }
+        function binddatareportwithview1(tablename, uri, data, FilterParameter) {
+
+            var datacount = data.length;
+            for (i = 0; i < datacount; i++) {
+                data[i] = eval({ "data": data[i], "name": data[i], "autoWidth": true });
+            }
+
+            $(tablename).dataTable().fnDestroy();
+            $(tablename).DataTable({
+                "ajax": {
+                    "url": uri,
+                    "type": "POST",
+                    "datatype": "json",
+                    "data": FilterParameter
+                },
+                "columns": data,
+                columnDefs: [
+                    {
+                        targets: -2,
+                        render: function (data) {
+                            console.log(data)
+
+                            let invoicedtails = ''
+                            $.each(data, function (i, v) {
+
+                                invoicedtails = invoicedtails + `<label>` + v.productname + `</label>: <label>` + v.qty + ` Bag</label><br>`
+
+                            })
+                            return invoicedtails;
+
+                        }
+                    }
+
+                ],
+                // "serverSide": "true",
+                "order": [0, "desc"],
+                "dom": '<"top">rt<"bottom"<"row"<"col-md-2"l><"col-md-3"i><"col-md-4"p>>><"clear">',
+                "processing": "true",
+                "language": {
+                    "processing": "processing ... please wait"
+                }
+            });
+            oTable = $(tablename).DataTable();
+
+        }
+        function getamount() {
+            let daterange_from_to = $('#txtdaterange').val().split('/');
+            var FilterParameter = {
+                fdate: Converdate(moment(moment(daterange_from_to[0], 'DD-MM-YYYY')).format("DD-MM-YYYY")),
+                tdate: Converdate(moment(moment(daterange_from_to[1], 'DD-MM-YYYY')).format("DD-MM-YYYY")),
+
+            };
+            $.ajax({
+                "url": '/getsalesreturnamount',
+                "type": "POST",
+                "datatype": "json",
+                "data": FilterParameter,
+                success: function (data) {
+                    if (data.length !== 0) {
+                        $('#txttotal').text(data[0].total);
+                    }
+                    else {
+                        $('#txttotal').text(0);
+                    }
+
+                },
+                error: function (response) {
+                    var parsed = JSON.parse(response.responseText);
+                    Error_Msg(parsed.Message);
+                    d.resolve();
+                },
+                failure: function (response) {
+                    var parsed = JSON.parse(response.responseText);
+                    Error_Msg(parsed.Message);
+                    d.resolve();
+                }
+            })
+        }
+
+    </script>
+
+    <script src="assets/js/pages/crud/forms/widgets/bootstrap-daterangepicker.js" type="text/javascript"></script>
+
+</body>
+
+</html>

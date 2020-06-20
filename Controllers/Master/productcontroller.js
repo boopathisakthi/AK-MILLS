@@ -19,7 +19,7 @@ module.exports = {
                     } else {
 
                         data.updateOne({
-                            productname: req.body.productname.toLowerCase() || data.productname,
+                            productname: req.body.productname || data.productname,
                             itemcode: req.body.itemcode || data.itemcode,
                             unitid: req.body.unitid || data.unitid,
                             type: req.body.type || data.type,
@@ -30,7 +30,7 @@ module.exports = {
                             taxid: req.body.taxid || data.taxid,
                           //  hsnorsac_code: req.body.hsnorsac_code || data.hsnorsac_code,
                             categoryid: req.body.categoryid || data.categoryid,
-                            subcategoryid: req.body.subcategoryid || data.subcategoryid,
+                            // subcategoryid: req.body.subcategoryid || data.subcategoryid,
                             minimumstock: req.body.minimumstock || data.minimumstock,
                             openingstock: req.body.openingstock || data.openingstock,
                             branchid: req.session.branchid || data.branchid,
@@ -80,11 +80,11 @@ module.exports = {
                     }
                 })
         } else {
-            Product.findOne({ isdeleted: 0, productname: req.body.productname.toLowerCase() })
+            Product.findOne({ isdeleted: 0, productname: req.body.productname })
                 .then((data) => {
                     if (!data) {
                         Product.create({
-                            productname: req.body.productname.toLowerCase(),
+                            productname: req.body.productname,
                             itemcode: req.body.itemcode,
                             unitid: req.body.unitid,
                             type: req.body.type,
@@ -95,7 +95,7 @@ module.exports = {
                             taxid: req.body.taxid,
                            // hsnorsac_code: req.body.hsnorsac_code,
                             categoryid: req.body.categoryid,
-                            subcategoryid: req.body.subcategoryid,
+                            // subcategoryid: req.body.subcategoryid,
                             minimumstock: req.body.minimumstock,
                             openingstock: req.body.openingstock,
                             stockinhand: 0,
@@ -445,6 +445,7 @@ module.exports = {
                 salesprice: 1,
                 unitid: 1,
                 stockprocessdetails: 1,
+                categoryid:1,
                 //  "availbleqty": { '$add': ['$openingstock', '$stockinhand'] },
                 availbleqty: { $subtract: [{ '$add': [{ "$sum": '$stockprocessdetails.openingstock' }, { "$sum": '$stockprocessdetails.purchaseqty' }, { "$sum": '$stockprocessdetails.stock_received' }] }, { '$add': [{ "$sum": '$stockprocessdetails.salesqty' }, { "$sum": '$stockprocessdetails.stock_transfer' }] }] },
                 "attributes.type": 1,

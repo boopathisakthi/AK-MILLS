@@ -64,9 +64,7 @@ function LoadData() {
                         <a onclick='btnedit("` + data + `")' type="button" class="btn btn-sm btn-primary btn-icon  btn-icon btn-icon-sm" title="View / Edit">
                           <i class ="la la-edit"></i>
                         </a>
-                              <a onclick= 'btndeleted("` + data + `")' type="button" class="btn btn-sm btn-delete-red btn-icon  btn-icon btn-icon-sm" title="Delete">
-                          <i class ="la la-trash"></i>
-                        </a>`;
+                           `;
             },
         },
 

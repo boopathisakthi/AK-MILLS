@@ -94,7 +94,7 @@ var validationuser = function () {
             }).then(function (result) {
                 if (result.value) {
                    
-                    let branch=$('#ddlbranch').val().toString().split(',')
+                  
                    
                   
                     var data = new FormData();
@@ -105,8 +105,8 @@ var validationuser = function () {
                     data.append("email", $('#txtemail').val());
                     data.append("username", $('#txtusername').val());
                     data.append("password", $('#txtpassword').val());
-                    data.append("branchid",  branch[0]);
-                    data.append("BranchDetail",branch);
+                    // data.append("branchid",  branch[0]);
+                    // data.append("BranchDetail",branch);
                     if (file === undefined)
                         data.append("profilepic", $('#showimg').attr('src'));
                     else
@@ -238,14 +238,14 @@ function btnedit(_id) {
 }
 
 function assignvalue(data) {
-    console.log(data)
+   
     $('#txtname').val(data[0].name)
     $('#txtmobile').val(data[0].mobile)
     $('#txtemail').val(data[0].email)
     $('#txtusername').val(data[0].username)
     $('#txtpassword').val(data[0].password)
     $('#ddlrole').val(data[0].roleid)
-    $('#ddlbranch').val(data[0].branchid)
+    // $('#ddlbranch').val(data[0].branchid)
     $('#hf_id').val(data[0]._id)
     $('#showimg').attr('src', data[0].profilepic);
 }
@@ -273,6 +273,7 @@ function afterdelete() {
 }
 function show() {
 
-    BindddlDataBranch($('#ddlbranch'), '/Adminpanel/branchdropdownoverall')
+   // BindddlDataBranch($('#ddlbranch'), '/Adminpanel/branchdropdownoverall')
     $('#kt_modal_4_2').modal('show')
+    cleardata();
 }

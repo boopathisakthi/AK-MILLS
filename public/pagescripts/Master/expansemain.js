@@ -521,7 +521,7 @@ function LoadData() {
 }
 
 function btndeleted(id) {
-    deleterecord('/master/expensemain/' + id);
+    deletedata('/master/expensemain/' + id);
 }
 
 function afterdelete() {

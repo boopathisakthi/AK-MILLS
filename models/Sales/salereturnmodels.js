@@ -4,6 +4,9 @@ var InvoiceRetailDetailSchema = new mongoose.Schema({
     productid: {
         type: ObjectId
     },
+    productname:{
+       type:String
+    },
     qty: {
         type: Number
     },

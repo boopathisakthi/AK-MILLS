@@ -101,7 +101,7 @@ var validationproduct = function () {
                         taxid: $('#ddltax').val(),
                         
                         categoryid: $('#ddlcategories').val(),
-                        subcategoryid: $('#ddlsubcategories').val(),
+                        // subcategoryid: $('#ddlsubcategories').val(),
                         minimumstock: $('#txtminimumstock').val(),
                         openingstock: $('#txtopeningstock').val(),
                     }
@@ -250,7 +250,7 @@ function btneditproduct(_id) {
                // $('#txthsn_sac_code').val(data.hsnorsac_code)
                 $('#ddlcategories').val(data.categoryid)
                 BindddlDataele('#ddlunit', '/master/unitdropdown/', data.unitid);
-                BindddlDataele('#ddlsubcategories', '/master/subcategoryddllist/' + $('#ddlcategories').val(), data.subcategoryid);
+                // BindddlDataele('#ddlsubcategories', '/master/subcategoryddllist/' + $('#ddlcategories').val(), data.subcategoryid);
                 // $('#ddlsubcategories').val(data.subcategoryid)
                 $('#txtminimumstock').val(data.minimumstock)
                 $('#txtopeningstock').val(data.openingstock)
@@ -290,7 +290,7 @@ function productcleardata() {
     $('#ddltax').val('')
    // $('#txthsn_sac_code').val('')
     $('#ddlcategories').val('')
-    $('#ddlsubcategories').val('')
+    // $('#ddlsubcategories').val('')
     $('#txtminimumstock').val('')
     $('#txtopeningstock').val('')
     getitemcode()
@@ -358,7 +358,7 @@ function list() {
 }
 
 function bindsubcategory() {
-    BindddlData('#ddlsubcategories', '/master/subcategoryddllist/' + $('#ddlcategories').val());
+   // BindddlData('#ddlsubcategories', '/master/subcategoryddllist/' + $('#ddlcategories').val());
 
 }
 function producttype() {

@@ -83,8 +83,8 @@ function assignvalue(data) {
     // $('#hfinvoiceno').text(suggestion.invoiceno);
     // $('.lblinvoiceno').text(suggestion.invoiceno);
     $('#ddlsalesrep').val(data[0].salesrep);
-    $('#txtinvoiceno').val(data[0].invoiceno)
-   // OldinvoiceDetail=data[0].invoiceReturnDetail;
+    $('.lblinvoicereturn_no').html(data[0].invoiceno)
+   
   
     $.each(data[0].invoiceReturnDetail, function (j, v) {
     if(j<=2)
@@ -95,6 +95,7 @@ function assignvalue(data) {
             let productdetails=productnameArray.filter(element => element.id ==v.productid);
             
                 $('.ddl',this).val(productdetails[0].name) ;
+                $('.hfproductname',this).val(productdetails[0].name);
                 $('.productid',this).val(v.productid);
                 $('.qty',this).val(v.qty);
                 $('.rate',this).val(v.rate);
@@ -123,6 +124,7 @@ function assignvalue(data) {
         $("td button[type=button]", row).attr("style", "display: block");
         getproductname($(row).find('.ddl'))
         $(row).find('.ddl').val(productdetails[0].name) ;
+        $(row).find('.hfproductname').val(productdetails[0].name)
         $(row).find('.qty').val(v.qty) ;
         $(row).find('.rate').val(v.rate) ;
         $(row).find('.discountvalue').val(v.discount);

@@ -71,20 +71,20 @@ module.exports = {
                 isdeleted: '0'
             }).then((data) => {
                 customer.findById(req.body.typeid)
-                .then((data)=>{
-                    console.log('---SMS Sending Process completed----')
-                    msg91.send(data.mobile, "Thanks For Paying Balance in Zerobugz your  paid amount is  "+req.body.paidamount+"  and Receipt no is "+req.body.billno+"", function (err, response) {
-                        if (err) {
-                            res.status(400).send({
-                                status: 'Error',
-                                message: err
-                            })
-                            return null
-                        }
-    
-                    });
-                 
-                })
+                    .then((data) => {
+                        console.log('---SMS Sending Process completed----')
+                        msg91.send(data.mobile, "Thanks For Paying Balance in Zerobugz your  paid amount is  " + req.body.paidamount + "  and Receipt no is " + req.body.billno + "", function (err, response) {
+                            if (err) {
+                                res.status(400).send({
+                                    status: 'Error',
+                                    message: err
+                                })
+                                return null
+                            }
+
+                        });
+
+                    })
                 logger.log('info', 'logjson{ page : ReceiptPayment, Acion : Insert,Process : Success,userid : ' + req.session.usrid + ',companyid :' + req.session.companyid + ',datetime: ' + (new Date()).toString("yyyy-MM-dd HH:MM:ss" + '}'));
                 res.status(200).send({
                     status: 'success',
@@ -324,7 +324,7 @@ module.exports = {
                     "invoicedate": { $dateToString: { format: "%d-%m-%Y", date: "$invoicedate" } },
                     "receiptpayment.balance": 1,
                     'total': 1,
-                    'balance': { $subtract: ['$total', { $add: [{ "$sum": '$salereturn.total' }, { "$sum": '$receiptpayment.PaymentDetail.payedamount' }] }] }
+                    'balance': { $subtract: ['$total', { $sum: { "$sum": '$receiptpayment.PaymentDetail.payedamount' } }] }
 
                 }
             }
@@ -401,7 +401,7 @@ module.exports = {
         const pdf = require('html-pdf');
         const mark = require('markup-js');
         var fs = require('fs');
-      
+
         let salesbilldata = [];
 
         Payment.aggregate([
@@ -432,25 +432,25 @@ module.exports = {
                 }
             }
         ])
-        .then((data) => {
-               
+            .then((data) => {
+
                 company.findOne({ _id: new mongoose.Types.ObjectId(data[0].companyid) })
-                .then(company => {
-                   
-                    Branch.findOne({
-                        companyid: new mongoose.Types.ObjectId(data[0].companyid),
-                        _id: new mongoose.Types.ObjectId(data[0].branchid)
-                    })
-                        .then(Branch => {
-                            let salesdata = {
-                                invoice: data,
-                                company: company,
-                                Branch: Branch
-                            }
-                            salesbilldata.push(salesdata)
-                            let bindvalues=salesbilldata[0];
-                          
-                            var htmlcontent = `
+                    .then(company => {
+
+                        Branch.findOne({
+                            companyid: new mongoose.Types.ObjectId(data[0].companyid),
+                            _id: new mongoose.Types.ObjectId(data[0].branchid)
+                        })
+                            .then(Branch => {
+                                let salesdata = {
+                                    invoice: data,
+                                    company: company,
+                                    Branch: Branch
+                                }
+                                salesbilldata.push(salesdata)
+                                let bindvalues = salesbilldata[0];
+
+                                var htmlcontent = `
                             <!-- Template : export/salpmt -->
                             <style>
                             /** {
@@ -858,27 +858,27 @@ module.exports = {
                             </style>
             
                     `
-            
-                            htmlcontent = mark.up(htmlcontent, bindvalues);
-            
-                            filepath = 'receipt' + (new Date()).toString("yyyyMMddHHMMss") + '.pdf';
-                            console.log(filepath)
-                            pdf.create(htmlcontent).toFile('./public/appfiles/receipt/' + filepath, function (err, res) {
-                                if (err) return console.log(err);
-                                
-                            });
-                            
-                          
-                           // res.sendFile(path.resolve('./public/appfiles/salespdf/invoice.pdf'));
-            
-                            res.status(200).send(filepath)
-                            
-                        })
+
+                                htmlcontent = mark.up(htmlcontent, bindvalues);
+
+                                filepath = 'receipt' + (new Date()).toString("yyyyMMddHHMMss") + '.pdf';
+                                console.log(filepath)
+                                pdf.create(htmlcontent).toFile('./public/appfiles/receipt/' + filepath, function (err, res) {
+                                    if (err) return console.log(err);
+
+                                });
+
+
+                                // res.sendFile(path.resolve('./public/appfiles/salespdf/invoice.pdf'));
+
+                                res.status(200).send(filepath)
+
+                            })
                     })
-                   
-              
-         })
-        .catch((err) => res.status(400).send(err))
+
+
+            })
+            .catch((err) => res.status(400).send(err))
 
     }
 

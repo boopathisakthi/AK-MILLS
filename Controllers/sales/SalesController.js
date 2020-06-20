@@ -9,6 +9,8 @@ var nodemailer = require('nodemailer');
 var smtpTransport = require('nodemailer-smtp-transport');
 var each = require('promise-each');
 const path = require("path");
+const pdf = require('html-pdf');
+const mark = require('markup-js');
 
 
 require('../../config/logger');
@@ -191,11 +193,6 @@ module.exports = {
                     trans_date: req.body.transdate,
                 }
                 PaymentDetail.push(detail)
-
-
-
-
-                //product qty details insert in stockprocessdetails
                 Promise.resolve(req.body.invoiceDetail).then(each((ele) => {
 
                     StockProcessDetails.findOne({ isdeleted: 0, productid: ele.productid, branchid: req.session.branchid })
@@ -345,23 +342,23 @@ module.exports = {
                     {
                         $unwind: "$roledetails"
                     },
-                    {
-                        $lookup: {
-                            from: "salereturns",
-                            "let": { "id": "$_id" },
-                            "pipeline": [{
-                                "$match": {
-                                    isdeleted: 0,
-                                    "$expr": {
-                                        $and: [
-                                            { $eq: ["$sale_id", "$$id"] },
-                                        ]
-                                    },
-                                }
-                            }],
-                            as: "salereturn",
-                        }
-                    },
+                    // {
+                    //     $lookup: {
+                    //         from: "salereturns",
+                    //         "let": { "id": "$_id" },
+                    //         "pipeline": [{
+                    //             "$match": {
+                    //                 isdeleted: 0,
+                    //                 "$expr": {
+                    //                     $and: [
+                    //                         { $eq: ["$sale_id", "$$id"] },
+                    //                     ]
+                    //                 },
+                    //             }
+                    //         }],
+                    //         as: "salereturn",
+                    //     }
+                    // },
                     {
                         $lookup: {
 
@@ -407,7 +404,7 @@ module.exports = {
                             "customer.name": 1,
                             "invoiceno": 1,
                             "total": 1,
-                            "dueamount": { $subtract: ['$total', { $add: [{ "$sum": '$salereturn.total' }, { "$sum": '$receiptpayment.PaymentDetail.payedamount' }] }] },
+                            "dueamount": { $subtract: ['$total', { "$sum": '$receiptpayment.PaymentDetail.payedamount' }] },
                             // "status": {
 
                             //     $cond: [{ $lt: ["$duedate", (new Date())] }, 'OverDue', 'Due'],
@@ -415,14 +412,14 @@ module.exports = {
 
                             status: {
                                 $cond: {
-                                    if: { $lte: [{ $subtract: ['$total', { $add: [{ "$sum": '$salereturn.total' }, { "$sum": '$receiptpayment.PaymentDetail.payedamount' }] }] }, 0] }, then: "paid", else: {
+                                    if: { $lte: [{ $subtract: ['$total', { "$sum": '$receiptpayment.PaymentDetail.payedamount' }] }, 0] }, then: "paid", else: {
 
                                         $cond: [{ $lt: ["$duedate", (new Date())] }, 'OverDue', 'Due'],
                                     }
                                 }
                             },
 
-                            'balancedueamount': { $subtract: ['$total', { $add: [{ "$sum": '$salereturn.total' }, { "$sum": '$receiptpayment.PaymentDetail.payedamount' }] }] }
+                            'balancedueamount': { $subtract: ['$total', { "$sum": '$receiptpayment.PaymentDetail.payedamount' }] }
                         },
                     },
                     { "$skip": Number(urlparms.start), },
@@ -505,23 +502,7 @@ module.exports = {
                 {
                     $unwind: "$customer",
                 },
-                {
-                    $lookup: {
-                        from: "salereturns",
-                        "let": { "id": "$_id" },
-                        "pipeline": [{
-                            "$match": {
-                                isdeleted: 0,
-                                "$expr": {
-                                    $and: [
-                                        { $eq: ["$sale_id", "$$id"] },
-                                    ]
-                                },
-                            }
-                        }],
-                        as: "salereturn",
-                    }
-                },
+
                 {
                     $lookup: {
 
@@ -583,11 +564,11 @@ module.exports = {
                         "salesrep": 1,
                         termsandconditions: 1,
                         note: 1,
-                        payamount: { $add: [{ "$sum": '$salereturn.total' }, { "$sum": '$receipt.PaymentDetail.payedamount' }] },
+                        payamount: { $sum: { "$sum": '$receipt.PaymentDetail.payedamount' } },
                         "receipt.PaymodeDetail": 1,
                         "receipt.entrythrough": 1,
                         "receipt.PaymentDetail": 1,
-                        'dueamount': { $subtract: ['$total', { $add: [{ "$sum": '$salereturn.total' }, { "$sum": '$receipt.PaymentDetail.payedamount' }] }] }
+                        'dueamount': { $subtract: ['$total', { $sum: { "$sum": '$receipt.PaymentDetail.payedamount' } }] }
 
                     }
                 }
@@ -749,23 +730,6 @@ module.exports = {
         },
         {
             $lookup: {
-                from: "salesreturns",
-                "let": { "id": "$_id" },
-                "pipeline": [{
-                    "$match": {
-                        isdeleted: 0,
-                        "$expr": {
-                            $and: [
-                                { $eq: ["$sales_id", "$$id"] },
-                            ]
-                        },
-                    }
-                }],
-                as: "salesreturns",
-            }
-        },
-        {
-            $lookup: {
 
                 from: "payments",
                 "let": { "purchase_id": "$_id" },
@@ -792,14 +756,14 @@ module.exports = {
             {
                 _id: null,
                 totalsales: { "$sum": "$total" },
-                totalpay: { $sum: { $add: [{ "$sum": '$salesreturns.total' }, { "$sum": '$receipt.PaymentDetail.payedamount' }] } },
-                totalbalance: { $sum: { $subtract: [{ "$sum": '$total' }, { $add: [{ "$sum": '$salesreturns.total' }, { "$sum": '$receipt.PaymentDetail.payedamount' }] }] } },
+                totalpay: { $sum: { "$sum": '$receipt.PaymentDetail.payedamount' } },
+                totalbalance: { $sum: { $subtract: [{ "$sum": '$total' }, { "$sum": '$receipt.PaymentDetail.payedamount' }] } },
                 overdue: {
                     $sum: {
                         $cond: [
                             { $lte: ["$duedate", (new Date())] }
                             ,
-                            { $sum: { $subtract: [{ "$sum": '$total' }, { $add: [{ "$sum": '$salesreturns.total' }, { "$sum": '$receipt.PaymentDetail.payedamount' }] }] } },
+                            { $sum: { $subtract: [{ "$sum": '$total' }, { $sum: { "$sum": '$receipt.PaymentDetail.payedamount' } }] } },
                             0]
                     }
                 },
@@ -921,11 +885,6 @@ module.exports = {
                         total: "$_id.total",
 
 
-                        // "unitcolumn": "$_id.unitcolumn",
-                        // "hsncolumn":"$_id.hsncolumn",
-                        // "discountcolumn":"$_id.discountcolumn",
-                        // "roundoff":"$_id.roundoff",
-                        // "discountype": "$_id.discountype",
 
                         "companyid": "$_id.companyid",
                         "branchid": "$_id.branchid",
@@ -934,7 +893,7 @@ module.exports = {
             ])
             .then((data) => {
 
-                console.log(data)
+
                 company.findOne({ _id: new mongoose.Types.ObjectId(data[0].companyid) })
                     .then(company => {
                         Branch.findOne({
@@ -1552,7 +1511,7 @@ module.exports = {
                                 filepath = 'invoice' + (new Date()).toString("yyyy-MM-dd HH-MM-ss") + '.pdf';
                                 pdf.create(htmlcontent).toFile('./public/appfiles/salespdf/' + filepath, function (err, res) {
                                     if (err) return console.log(err);
-                                    // { filename: '/app/businesscard.pdf' }
+
                                 });
                                 var transporter = nodemailer.createTransport(smtpTransport({
                                     service: 'gmail',
@@ -1601,6 +1560,206 @@ module.exports = {
 
 
             })
+
+
+
+
+
+
+    },
+    printinvoice_bob(req, res) {
+        var filepath = '';
+        let salesbilldata = [];
+
+        sales.aggregate(
+            [
+
+                {
+                    $match: { _id: new mongoose.Types.ObjectId(req.params._id), isdeleted: 0 }
+                },
+                {
+                    $unwind: "$invoiceDetail"
+                },
+                {
+                    "$lookup": {
+                        "from": "masterproducts",
+                        "localField": "invoiceDetail.productid",
+                        "foreignField": "_id",
+                        "as": "MP"
+                    }
+                },
+                {
+                    $lookup: {
+                        from: "mastercustomers",
+                        "localField": "customerid",
+                        "foreignField": "_id",
+                        as: "customer"
+                    }
+                },
+                {
+                    $group:
+                    {
+                        _id: {
+                            _id: "$_id",
+                            customerid: "$customerid", "invoiceno": "$invoiceno", customer: "$customer",
+                            "invoicedate": { $dateToString: { format: "%d-%m-%Y", date: "$invoicedate" } },
+                            gstdetail: "$gstdetail", "total": "$total",
+                            subtotal: "$subtotal", hsncolumn: "$hsncolumn", unitcolumn: "$unitcolumn",
+                            discountcolumn: "$discountcolumn", roundoff: "$roundoff",
+                            discountype: "$discountype", companyid: "$companyid", branchid: "$branchid"
+                        },
+                        itemsSold: { $push: { productname: "$invoiceDetail.productname",discount:"$invoiceDetail.discount", qty: "$invoiceDetail.qty", productid: "$invoiceDetail.productid", name: "$MP.productname", rate: "$invoiceDetail.rate", amount: "$invoiceDetail.amount" } }
+                    }
+                },
+
+
+                {
+                    $project: {
+                        _id: 0,
+
+                        invoiceno: "$_id.invoiceno",
+                        invoiceDetail: "$itemsSold",
+                        "customer": "$_id.customer",
+                        invoicedate: "$_id.invoicedate",
+                        gstdetail: "$_id.gstdetail",
+                        subtotal: "$_id.subtotal",
+                        total: "$_id.total",
+
+
+
+                        "companyid": "$_id.companyid",
+                        "branchid": "$_id.branchid",
+                    }
+                }
+            ])
+            .then((data) => {
+
+                let salesdata = {
+                    invoice: data,
+
+                }
+                salesbilldata.push(salesdata)
+
+               
+
+                let bindvalues = salesbilldata[0];
+
+                console.log(bindvalues.invoice[0].invoiceDetail)
+                var htmlcontent = `
+                <html>
+                <head></head>
+                <body>
+               
+                <label style="margin-left: 20%;font-size: 23px;font-weight: 800;">A.K. Ahamed Modern Rice Mill</label><br>
+              <div style="margin-left: 10%;font-size: 15px;font-weight: 800;">
+               40/2,Mannarpalayam Road,Allikuttai (Po),Salem - 3. Ph :9487158740
+               </div>
+               <div style="margin-left: 30%;font-size: 15px;font-weight: 800;">GSTIN : 33AAFFA2346C1Z5</div>
+               <hr style="width:100%;"></hr>
+              <table>
+              <tr>
+              <td>Invoice No:</td> 
+              <td>{{invoice.0.invoiceno}}</td>
+              <td style="width:44%"></td>
+              <td>Invoice Date :</td> 
+              <td> {{invoice.0.invoicedate}}</td>
+              </tr>
+              </table>
+              <table>
+              <tr>
+              <td>Customer Name :</td> 
+              
+              <td>{{invoice.0.customer.0.name}}</td>
+              <td></td> 
+              <td></td>
+              <td> </td>
+              </tr>
+             
+              </table>
+<br>
+             <table style="width:100%">
+             <thead>
+             <tr style="background-color:#9a9a9a;">
+             <th style="text-align: center;width:40%">Product Name</th>
+             <th style="text-align: center;width:10%">Qty</th>
+             <th style="text-align: center;width:10%">Rate</th>
+             <th style="text-align: center;width:10%">Discount</th>
+             <th style="text-align: center;width:10%">Amount</th>
+             </tr>
+             </thead>
+             <tbody>
+             <tr {{invoice.0.invoiceDetail}}>
+             <td style="text-align: center">{{productname}}</td>
+             <td style="text-align: center">{{qty}}</td>
+             <td style="text-align: center">{{rate}}</td>
+             <td style="text-align: center">{{discount}}</td>
+             <td style="text-align: center">{{amount}}</td>
+             </tr {{/invoice.0.invoiceDetail}}>
+             </tbody>
+
+             </table>
+            
+             <hr style="width:100%;color:black"></hr>
+             <table>
+             <tr>
+             <td style="width:430px">
+             </td>
+           
+            
+             
+             <td>
+             SubTotal:
+             </td>
+             <td style="width:15px"></td>
+             <td>
+             {{invoice.0.total}}
+             </td>
+             </tr>
+             <tr>
+             <td style="width:430px">
+             </td>
+           
+            
+             
+             <td >
+             Total:
+             </td>
+             <td style="width:15px"></td>
+             <td>
+             {{invoice.0.total}}
+             </td>
+             </tr>
+             </table>
+             <hr style="width:100%;color:black"></hr>
+             
+             <table style="margin-top:70%">
+             <tr><td style="width:200px"></td><td style="text-align: center">Thank you For Purchasing!!</td></tr>
+             
+             </table>
+             
+                </body>
+                </html>
+                `;
+
+
+
+                htmlcontent = mark.up(htmlcontent, bindvalues);
+
+                filepath = 'invoice' + (new Date()).toString("yyyyMMddHHMMss") + '.pdf';
+                pdf.create(htmlcontent, { format: 'A6' }).toFile('./public/appfiles/salespdf/' + filepath, function (err, res) {
+                    if (err) return console.log(err);
+
+                });
+
+                console.log(filepath)
+
+
+
+                return res.status(200).send(filepath)
+
+
+            })
+
 
 
 

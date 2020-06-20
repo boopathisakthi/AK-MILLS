@@ -89,7 +89,7 @@ function Rowappend() {
                 row = row + '<td><input disabled="disabled" type="text" class="availableqty form-control form-control input-no-border"></input></td>';
                 break
             case 'Qty':
-                row = row + '<td><input onblur="Cal_Amount()" type="text" class="qty numerickey form-control form-control input-no-border"></input><input type="hidden" class="hfdetailsysid input-no-border"></input><input class="productid input-no-border" type="hidden"></input><input type="hidden" class="hfqty"></input><input type="hidden" class="hfproductname"></input></td>';
+                row = row + '<td><input onblur="Cal_Amount()" type="text" class="qty numerickey form-control form-control input-no-border"></input><input type="hidden" class="hfdetailsysid input-no-border"></input><input class="productid input-no-border" type="hidden"></input><input type="hidden" class="hfqty"></input><input type="hidden" class="hfproductname"></input><input type="hidden" class="hfcategoryid"></input></td>';
                 break
             case 'UNIT':
                 row = row + '<td  class="td-nopad" style="width:100px"><select class="form-control form-control ddlunit input-no-border"></select></td>';
@@ -97,7 +97,7 @@ function Rowappend() {
             case 'Rate':
                 row = row + '<td class="td-nopad"><input type="text" onkeyup="Cal_Amount()" onkeydown="Cal_Amount()" class=" form-control numerickey form-control rate input-no-border"></td>';
                 break
-            case 'DISCOUNT%Rs':
+            case 'DISCOUNTRs%':
                 row = row + '<td class="td-nopad"><input type="text"  onkeyup="Cal_Amount()" onkeydown="Cal_Amount()" value="0" class="form-control numerickey discountvalue form-control input-no-border"></td>';
                 break
             case 'Amount':
@@ -135,7 +135,7 @@ function Rowappend() {
                         $('.qty', this).val(v.qty);
                         $('.rate', this).val(v.rate);
                         $('.amount', this).val(v.amount);
-                        $('.availableqty',this).val(v.availableqty);
+                        $('.availableqty', this).val(v.availableqty);
                         $('.hfdetailsysid', this).val(v._id);
                         $('.discountvalue', this).val(v.discount == undefined ? "0" : v.discount);
                         BindddlDataele($('.ddlunit', this), '/master/unitdropdown/', v.unitid == undefined ? "0" : v.unitid)
@@ -186,7 +186,7 @@ function Add_Row() {
     $('#detailsTable').append(row);
     return false;
 }
-var Tabledata=[];
+var Tabledata = [];
 function clear(row) {
 
     var sno = parseInt($(row).find('.sno').text()) + 1;
@@ -196,6 +196,7 @@ function clear(row) {
     $(row).find('.typeahead').append(`<input class="form-control ddl" onblur="getproductdetails(this)"  type="text" dir="ltr" placeholder="Enter Productname">`);
     $(row).find('.hfdetailsysid').val("");
     $(row).find('.hfproductname').val("");
+    $(row).find('.hfcategoryid').val("");
     $("td input:text", row).val("");
     $('td .lbldel', row).attr("style", "display: none;");
     $("td button[type=button]", row).val('Delete');
@@ -215,7 +216,7 @@ function Addthead() {
     var amount = `Amount`;
     var hsn = ($("#chhsn").is(":checked") ? 1 : 0) ? `<th>HSN/SAC</th>` : '';
     var unit = ($("#chunit").is(":checked") ? true : false) ? `<th>UNIT</th>` : '';
-    var discount = ($("#chdiscount").is(":checked") ? true : false) ? `<th>DISCOUNT<select id="ddldiscount" class="discount"  ><option value="percentage">%<option><option  value="rupee">Rs<option></select></th>` : '';
+    var discount = ($("#chdiscount").is(":checked") ? true : false) ? `<th>DISCOUNT<select id="ddldiscount" class="discount"><option value="rupee">Rs</option><option value="percentage">%<option></select></th>` : '';
     var settings = `<a class="nav-link dropdown-toggle" data-toggle="modal" data-target="#kt_modal_4"><i class="flaticon2-gear"></i></i></a>`
     var head = "<th>S.No</th><th>Product</th>" + hsn + "<th>AvailableQty</th><th>Qty</th>" + unit + "<th>Rate</th>" + discount + "<th>" + amount + "</th><th>" + settings + "</th>"; // add resources
     $("#detailsTable thead tr").append(head);
@@ -224,12 +225,12 @@ function Addthead() {
 }
 
 function Changetable() {
-    Tabledata=[];
+    Tabledata = [];
     $('#detailsTable tbody tr').each(function (i, e) {
         if ($('.productid', this).val() != '') {
 
-            let detail ={
-                availableqty:$('.availableqty',this).val(),
+            let detail = {
+                availableqty: $('.availableqty', this).val(),
                 productid: $('.productid', this).val(),
                 qty: $('.qty', this).val(),
                 rate: $('.rate', this).val(),
@@ -304,6 +305,8 @@ function getproductdetails(ctrl) {
         $(ctrl).closest('tr').find('.qty').val(1);
         $(ctrl).closest('tr').find('.rate').val(productdetails[0].salesprice);
         $(ctrl).closest('tr').find('.hsc').val(productdetails[0].hsnorsac_code);
+
+        $(ctrl).closest('tr').find('.hfcategoryid').val(productdetails[0].categoryid);
         $(ctrl).closest('tr').find('.productid').val(productdetails[0].id);
         $(ctrl).closest('tr').find('.hfproductname').val($(ctrl).val())
         $('.attributedetails').empty()
@@ -383,7 +386,7 @@ function Cal_Amount() {
     $('.gstdetails').empty();
     $("table.table-bordered thead tr th ").each(function () {
         switch ($(this).text()) {
-            case 'DISCOUNT%Rs':
+            case 'DISCOUNTRs%':
                 discount = $('.discount').val();
                 break
 
@@ -436,8 +439,8 @@ function Cal_Amount() {
     }
 
 }
-
 function save_process() {
+    let saveprocess = "true";
     let CustomerDetail = [];
     let invoiceDetail = [];
     let PaymentDetails = [];
@@ -463,16 +466,18 @@ function save_process() {
 
     $('#detailsTable tbody tr').each(function (i, e) {
         if ($('.productid', this).val()) {
-            if ($('.productid', this).val() != '') {
+            if ($('.productid', this).val() != '' && $('.hfcategoryid', this).val() != '') {
 
-                if (parseInt($('.qty', this).val()) >= parseInt($('.availableqty', this).val())) {
-
+                if (parseInt($('.qty', this).val()) > parseInt($('.availableqty', this).val())) {
+                    saveprocess = "false";
                     toastr.error('Please Check and give Valid Input');
                     return false;
                 }
+
                 let detail = {
-                    productname: $('.hfproductname').val(),
+                    productname: $('.hfproductname', this).val(),
                     productid: $('.productid', this).val(),
+                    categoryid: $('.hfcategoryid', this).val(),
                     qty: $('.qty', this).val(),
                     saleqty: $('.hfqty', this).val(),
                     rate: $('.rate', this).val(),
@@ -495,60 +500,67 @@ function save_process() {
     })
     let PayModeDetails = [];
     let detail = {
-        paidfrom: '5eb63777182c7e03c4a3958b',
+        paidfrom: '5ee08225f3dd74330066241e',
         referencemode: 'Cash',
         amount: $('#txtpayamount').val(),
     }
     PayModeDetails.push(detail);
+
     if (invoiceDetail.length == 0) {
         toastr.error('Invalid invoice Deatil Unable to Process');
         return false;
     }
+    else {
+        var data = {
+            _id: $('#hf_id').val(),
+            invoiceno: $('#hfinvoiceno').val(),
+            invoicedate: Converdate($('#txtinvoicedate').val()),
+            reference: $('#txtreference').val(),
+            customerid: $('#hfcustomerid').val(),
+            invoiceDetail: invoiceDetail,
+            subtotal: $('#subtotal').text(),
+            roundoff: $('#txtrounoffvalue').val(),
+            roundofftype: $('#ddlroundofftype').val(),
+            actualtotal: $('#txtactualtotal').val(),
+            paidamount: $('#txtpayamount').val(),
+            balance: $('#lblbalance').text(),
+            total: $('#txttotal').text(),
+            hsncolumn: $("#chhsn").is(":checked") ? 1 : 0,
+            unitcolumn: $("#chunit").is(":checked") ? 1 : 0,
+            discountcolumn: $("#chdiscount").is(":checked") ? 1 : 0,
+            discountype: $("#ddldiscount").val(),
+            taxtype: $("#taxtype").val(),
+            note: $('#txtnote').val(),
+            CustomerDetail: CustomerDetail,
+            gstdetail: Gstdetail,
+            PaymodeDetail: PayModeDetails,
+            transdate: $('#txtinvoicedate').val(),
+            note: $('#txtnote').val(),
+            termsandconditions: $('#txttermsandcondition').val(),
+        }
+        if (saveprocess == "true") {
+            insertupdate(data, '/sales/insertupdate');
+        }
 
-    var data = {
-        _id: $('#hf_id').val(),
-        invoiceno: $('#hfinvoiceno').val(),
-        invoicedate: Converdate($('#txtinvoicedate').val()),
 
-        reference: $('#txtreference').val(),
-        customerid: $('#hfcustomerid').val(),
-        invoiceDetail: invoiceDetail,
-        subtotal: $('#subtotal').text(),
-        roundoff: $('#txtrounoffvalue').val(),
-        roundofftype: $('#ddlroundofftype').val(),
-        actualtotal: $('#txtactualtotal').val(),
-        paidamount: $('#txtpayamount').val(),
-        balance: $('#lblbalance').text(),
-        total: $('#txttotal').text(),
-        hsncolumn: $("#chhsn").is(":checked") ? 1 : 0,
-        unitcolumn: $("#chunit").is(":checked") ? 1 : 0,
-        discountcolumn: $("#chdiscount").is(":checked") ? 1 : 0,
-        discountype: $("#ddldiscount").val(),
-        taxtype: $("#taxtype").val(),
-        note: $('#txtnote').val(),
-        CustomerDetail: CustomerDetail,
-        gstdetail: Gstdetail,
-        PaymodeDetail: PayModeDetails,
-        transdate: $('#txtinvoicedate').val(),
-        note: $('#txtnote').val(),
-        termsandconditions: $('#txttermsandcondition').val(),
     }
 
-    insertupdate(data, '/sales/insertupdate');
-    // alert($('#hfsupplierid').val())
+
+
+
+
+
+
 
 }
-
 function afterinsertupdatefunction(res) {
-
-
-
     cleardata();
-    btnprint(res.data._id);
+    getbob_invoice(res.data._id);
     getsalesno();
-    amountdateils()
-}
+    amountdateils();
+    
 
+}
 function LoadData() {
     $('#gvsaleslist').dataTable().fnDestroy();
     var table = $('#gvsaleslist');
@@ -601,7 +613,7 @@ function LoadData() {
                     : '';
 
                 return `<div class="btn-group ptb-5">
-                    <button type="button" onclick='btnprint("` + value[0] + `")' class="btn btn-sm btn-outline-success">
+                    <button type="button" onclick='getbob_invoice("` + value[0] + `")' class="btn btn-sm btn-outline-success">
                         Print
                     </button>
                   
@@ -648,7 +660,6 @@ function LoadData() {
     });
 
 }
-
 function Close() {
     // cleardata();
     $('.list').show();
@@ -657,7 +668,6 @@ function Close() {
     LoadData();
     amountdateils();
 }
-
 function Show() {
 
     $('.list').hide();
@@ -668,17 +678,15 @@ function Show() {
     getsalesno();
     bidpaymode('.ddlpaymode', '/master/banklistddl');
 }
-
 function saveexit() {
     save_process();
     Close();
 }
-
 function cleardata() {
     $('#hf_id').val('');
-   
+    $('#txtpayamount').val("0")
     $('#txttotal').text("0")
-    $('#subtotal').text("0.00")
+    $('#txtsubtotal').text("0.00")
     $('#hfcustomerid').val('5ede58eb85c16929acfcb3b6')
     $('#txtcustomer').val('Walkin')
     $('#txtreference').val("");
@@ -688,9 +696,10 @@ function cleardata() {
         $('.qty', this).val('');
         $('.availableqty', this).val('');
         $('.rate', this).val('');
-        $('.discount', this).val('');
+        $('.discountvalue', this).val('0');
         $('.amount', this).val('');
         $('.hfdetailsysid', this).val('');
+        $('.hfcategoryid', this).val('');
     })
     $('.supplierdetails').hide();
     $('.gstdetails').empty();
@@ -698,11 +707,35 @@ function cleardata() {
     $('#txtnote').val('');
     $('#txttermsandcondition').val('');
     $('#hf_balancepayment').val('0');
+
    
   
+    productnameArray = '';
+    $.ajax({
+        url: '/master/productsdetail/',
+        dataType: "json",
+        type: "get",
+        success: function (data) {
+            productnameArray = data;
+            if (id) {
+                ProductTypeheadMethod(id);
+            }
+
+        },
+        error: function (response) {
+            var parsed = JSON.parse(response.responseText);
+            Error_Msg(parsed.Message);
+            d.resolve();
+        },
+        failure: function (response) {
+            var parsed = JSON.parse(response.responseText);
+            Error_Msg(parsed.Message);
+            d.resolve();
+        }
+    });
+
+
 }
-
-
 function btnreceipt_process(id) {
 
     try {
@@ -798,7 +831,6 @@ function btnreceipt_process(id) {
     }
 
 }
-
 function bidpaymode(element, Url) {
 
     paymode = '';
@@ -826,7 +858,6 @@ function bidpaymode(element, Url) {
 
     }
 }
-
 function save_payment_process() {
     swal.fire({
         title: 'Are you sure?',
@@ -974,7 +1005,6 @@ function Companystate() {
         }
     });
 }
-
 function pagerolebasedaction() {
     let data = {
         pagename: 'Sales Entry'
@@ -1060,4 +1090,30 @@ function send_mail_process() {
         }
 
     })
+}
+function getbob_invoice(_id) {
+    try {
+        $.ajax({
+            type: "GET",
+            url: '/sales/getinvoicewithbob/' + _id,
+            success: function (data) {
+
+
+                setTimeout(function () {
+                   // var win = window.open('http://localhost:3000/appfiles/salespdf/' + data + '', '_blank');
+                   var win = window.open('http://localhost:3000/appfiles/salespdf/' + data + '', "myWindow", 'width=800,height=600');
+                   
+                }, 3000)
+//"ignore_watch" : ["node_modules", "public/appfiles"]
+
+            },
+            error: function (errormessage) {
+                toastr.error(errormessage.responseText);
+            }
+        })
+        return false
+    } catch (err) {
+        throw new err;
+    }
+
 }

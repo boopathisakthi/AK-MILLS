@@ -21,12 +21,12 @@ module.exports = {
                         name: req.body.name,
                         mobile: req.body.mobile,
                         email: req.body.email,
-                        branchid: req.body.branchid,
+                      
                         username: req.body.username,
                         password: req.body.password,
                         profilepic: req.files[0] == undefined ? req.body.profilepic : "/appfiles/userimages/" + req.files[0].originalname,
                         roleid: req.body.roleid,
-                        //   branchid: req.session.branchid,
+                        branchid: req.session.branchid,
                         companyid: req.session.companyid
                     })
                         .then((data1) => {
@@ -59,62 +59,45 @@ module.exports = {
                         });
                 })
         } else {
-            console.log(req.body.BranchDetail)
-            let BranchDetailClient = req.body.BranchDetail.toString().split(',');
-            let branchdetail = [];
-            Promise.resolve(BranchDetailClient).then(each((ele) => {
-                let branch = {
-                    branchid: ele
-                }
-                branchdetail.push(branch)
-            })).then((data)=>{
-                console.log(branchdetail)
-                UserCreation.create({
-                    name: req.body.name,
-                    mobile: req.body.mobile,
-                    email: req.body.email,
-                    username: req.body.username,
-                    branchid: req.body.branchid,
-                    password: req.body.password,
-                    profilepic: req.files[0] == undefined ? req.body.profilepic : "/appfiles/userimages/" + req.files[0].originalname,
-                    roleid: req.body.roleid,
-                    BranchDetail: branchdetail,
-                    companyid: req.session.companyid
-                }).then((data) => {
-                    logger.log('info', 'logjson{ page : UserCreation,' +
-                        'Acion : Insert,' +
-                        'Process : Success,' +
-                        '_id:' + data._id + ',' +
-                        'userid : ' + req.session.usrid + ',' +
-                        'branchid : ' + req.session.branchid + ',' +
-                        'companyid : ' + req.session.companyid + ',' +
-                        'datetime: ' + (new Date()).toString("yyyy-MM-dd HH:MM:ss" + '}')
-                    );
-                    return res.status(200).send({
-                        status: 'success',
-                        message: 'User Added Successfully',
-                        data
-                    })
-                }).catch((error) => {
-                    logger.log('error', 'logjson{ page : UserCreation,' +
-                        'Acion : Insert,' +
-                        'Process : Faield,' +
-                        '_id:null,' +
-                        'userid : ' + req.session.usrid + ',' +
-                        'branchid : ' + req.session.branchid + ',' +
-                        'companyid : ' + req.session.companyid + ',' +
-                        error +
-                        'datetime: ' + (new Date()).toString("yyyy-MM-dd HH:MM:ss" + '}')
-                    );
-                    return res.status(400).send({
-                        status: 'Error',
-                        message: error
-                    })
+            UserCreation.create({
+                name: req.body.name,
+                mobile: req.body.mobile,
+                email: req.body.email,
+                username: req.body.username,
+                password: req.body.password,
+                profilepic: req.files[0] == undefined ? req.body.profilepic : "/appfiles/userimages/" + req.files[0].originalname,
+                roleid: req.body.roleid,
+                branchid: req.session.branchid,
+                companyid: req.session.companyid
+            }).then((data) => {
+                logger.log('info', 'logjson{ page : UserCreation,' +
+                    'Acion : Insert,' +
+                    'Process : Success,' +
+                    '_id:' + data._id + ',' +
+                    'userid : ' + req.session.usrid + ',' +
+                    'branchid : ' + req.session.branchid + ',' +
+                    'companyid : ' + req.session.companyid + ',' +
+                    'datetime: ' + (new Date()).toString("yyyy-MM-dd HH:MM:ss" + '}')
+                );
+                return res.status(200).send({
+                    status: 'success',
+                    message: 'User Added Successfully',
+                    data
                 })
-
+            }).catch((error) => {
+                logger.log('error', 'logjson{ page : UserCreation,' +
+                    'Acion : Insert,' +
+                    'Process : Faield,' +
+                    '_id:null,' +
+                    'userid : ' + req.session.usrid + ',' +
+                    'branchid : ' + req.session.branchid + ',' +
+                    'companyid : ' + req.session.companyid + ',' +
+                    error +
+                    'datetime: ' + (new Date()).toString("yyyy-MM-dd HH:MM:ss" + '}')
+                )
             })
-         
-         
+
+
         }
 
     },
