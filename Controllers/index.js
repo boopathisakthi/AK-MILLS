@@ -4,7 +4,7 @@ const usercreation = require('./Adminpanel/usercreationController');
 const Role = require('./Adminpanel/roleController');
 // const Company=require('./Adminpanel/CompanyController');
 const Branch=require('./Adminpanel/Branchcontroller');
-const RoleMapping=require('./Adminpanel/rolemappingcontroller');
+const RoleMapping=require('./Adminpanel/rolemappingController');
 //Master Controler
 const Bank=require('./Master/BankController');
 
@@ -19,12 +19,12 @@ const subcategory=require('./Master/subcategorycontroller');
 
 const Category=require('./Master/CategoryController');
 const custsub=require('./Master/custsubController');
-const Product=require('./Master/productController');
+const Product=require('./Master/productcontroller');
 const expanse=require('./Master/expanseController');
 
 const expansemain=require('./Master/expensemaincontroller');
 
-const Attribute=require('./Master/AttributeController');
+const Attribute=require('./Master/Attributecontroller');
 const unit=require('./Master/unitController');
 
 
