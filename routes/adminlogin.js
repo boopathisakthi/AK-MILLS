@@ -50,7 +50,8 @@ router.post('/login', function (req, res) {
             })
             .catch((error) => { res.status(400).send(error) });
 
-    } catch (e) {
+    } 
+    catch (e) {
 
         return res.status(400).send(e)
     }

@@ -21,7 +21,16 @@
     <div class="kt-container  kt-container--fluid  kt-grid__item kt-grid__item--fluid mt-4">
         <!-- begin:: Content -->
         <h1>Stock Report</h1>
+        <div class="row">
+            <div class="col-md-11">
 
+            </div>
+            <div class="col-md-1">
+                <button class="btn btn-success" onclick="loadstockdownload()"><i
+                        class="fa fa-download"></i></button>
+            </div>
+        </div>
+      
         <table class="table text-center table-sm table-striped- table-bordered table-hover table-checkable"
             id="gvstocklist">
             <thead>
@@ -46,22 +55,52 @@
     <%include ../templates/js/commonjs.ejs%>
 
 
-   
-  
+
+
     <script>
         $(document).ready(function () {
 
             loadstock();
-           
+
         });
-      
+
         function loadstock() {
             var data = [];
             data[0] = "name";
             data[1] = "minimumqty";
             data[2] = "availbleqty";
-          
+
             bindReportdata("#gvstocklist", "/stock/stockreport", data)
+        }
+        function loadstockdownload() {
+          
+         
+            $.ajax({
+                "url": '/download_stocklist',
+                "type": "POST",
+                "datatype": "json",
+               
+                success: function (data) {
+                    setTimeout(function () {
+                        var win = window.open('http://localhost:3000/appfiles/productpdf/' + data + '', 'Download', "myWindow", 'width=800,height=600');
+                        //  var win = window.open('file:///E:/Boopathi Sakthi/Projects/AKMILL File/productpdf/productreport20200618080641.pdf','Download', "myWindow", 'width=800,height=600');
+
+                    }, 3000)
+
+                },
+                error: function (response) {
+                    var parsed = JSON.parse(response.responseText);
+                    Error_Msg(parsed.Message);
+                    d.resolve();
+                },
+                failure: function (response) {
+                    var parsed = JSON.parse(response.responseText);
+                    Error_Msg(parsed.Message);
+                    d.resolve();
+                }
+
+            })
+
         }
     </script>
 </body>

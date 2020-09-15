@@ -89,6 +89,23 @@ else
 
 
 })
+router.get('/purchasesummaryreport',function(req,res,next){
+  if(req.session.usrid){
+    let roledetails = '';
+    RoleMappingModal.find({ roleid: req.session.roleid }).then((data) => {
+        roledetails = data;
+        branchid = req.session.branchid;
+        res.render('./report/purchasesummaryreport', { roledetails: roledetails ,branchid:branchid});
+    })
+
+  }
+else
+  res.render('./Adminpanel/login/login', { title: 'Login' });
+
+
+
+})
+
 router.post('/gstpurchasereport',Gstreport.purchaselist);
 router.post('/gstzeropurchasereport',Gstreport.purchasegstzerolist);
 router.post('/gstsalesreport',Gstreport.saleslist);
@@ -108,4 +125,10 @@ router.post('/getsalesreturnamount',Excelreport.salesreturnamount);
 
 router.post('/getpurchasereturn',Excelreport.purchasereturnlist);
 router.post('/getpurchasereturnamount',Excelreport.purchasereturnamount);
+
+router.post('/dueamountcustomers',Excelreport.dueamountcustomers);
+
+router.post('/download_stocklist',Excelreport.download_stocklist);
+router.post('/purchasesummarydownload',Excelreport.purchasesummarydownload);
+
 module.exports = router;

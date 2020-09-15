@@ -4,16 +4,16 @@ $(document).ready(function () {
     var end = moment().endOf('month');
     $('#txtdaterange').val(start.format('DD-MM-YYYY') + ' / ' + end.format('DD-MM-YYYY'));
     loaddashboard();
-   
-    
+
+
 });
 
 function loaddashboard() {
 
-    totalprofit()
-    totalsales()
-    totalpurchase()
-    totalexpense()
+  //  totalprofit()
+   // totalsales()
+    //totalpurchase()
+   // totalexpense()
     totalcustomer()
     totalsupplier()
     saleschart();
@@ -27,7 +27,9 @@ function loaddashboard() {
     top3salesproduct();
     saleslist();
     purchaselist()
-    top3expenses()
+    //   top3expenses()
+    top10salesproduct();
+    incomemusthfirmethod()
 
 }
 
@@ -397,7 +399,7 @@ function totalsales() {
             else {
 
                 $('#lblsales').text(parseFloat(data[0].totalsales).toFixed(2))
-                $('#lblsales_income_expense').text(parseFloat(data[0].totalsales).toFixed(2))
+              //  $('#lblsales_income_expense').text(parseFloat(data[0].totalsales).toFixed(2))
             }
 
 
@@ -491,14 +493,14 @@ function totalexpense() {
                         if (expensedata.length == 0) {
 
                             $('#lblexpense').text("0");
-                            $('#lblexpense_income_expense').text(parseFloat(parseFloat(purchasedata[0].totalpurchase)).toFixed(2))
+                         //   $('#lblexpense_income_expense').text(parseFloat(parseFloat(purchasedata[0].totalpurchase)).toFixed(2))
                         }
                         else {
 
                             $('#lblexpense').text(parseFloat(expensedata[0].totalamt).toFixed(2));
 
 
-                            $('#lblexpense_income_expense').text(parseFloat(parseFloat(expensedata[0].totalamt) + parseFloat(purchasedata[0].totalpurchase)).toFixed(2))
+                          //  $('#lblexpense_income_expense').text(parseFloat(parseFloat(expensedata[0].totalamt) + parseFloat(purchasedata[0].totalpurchase)).toFixed(2))
                             // $('#lblprofit').text(parseFloat(profitamt).toFixed(2));
                         }
 
@@ -540,7 +542,7 @@ function totalprofit() {
 
 
                 $('#lblprofit').text(parseFloat(data.data).toFixed(2));
-                $('#lblrevenue_income_expense').text(parseFloat(data.data).toFixed(2))
+             //   $('#lblrevenue_income_expense').text(parseFloat(data.data).toFixed(2))
             }
 
 
@@ -1205,12 +1207,12 @@ function top3expenses() {
                 piechartlables.push(data.expensedata[0].name, data.expensedata[1].name)
                 $('#expense1').html(data.expensedata[0].name)
                 $('#expense2').html(data.expensedata[1].name)
-              
+
 
                 $('#expense1amount').html(data.expensedata[0].expenseamount)
                 $('#expense2amount').html(data.expensedata[1].expenseamount)
-               
-               
+
+
                 $('#expense3').hide()
                 $('#expense3bullet').hide()
                 top3expenseschart(piechartvalues, piechartlables)
@@ -1221,13 +1223,13 @@ function top3expenses() {
                 piechartvalues.push(parseFloat((data.expensedata[0].expenseamount / total) * 100).toFixed(2))
                 piechartlables.push(data.expensedata[0].name, data)
                 $('#expense1').html(data.expensedata[0].name)
-               
-              
+
+
 
                 $('#expense1amount').html(data.expensedata[0].expenseamount)
-               
-               
-               
+
+
+
                 $('#expense2').hide()
                 $('#expense3').hide()
                 $('#expense3bullet').hide()
@@ -1976,4 +1978,71 @@ function incomevsexpensechart(Monthnames, Expenses, Incomes, largestamount, smal
             }
         }
     });
+}
+function top10salesproduct() {
+    let daterange_from_to = $('#txtdaterange').val().split('/');
+
+    let data = {
+        fromdate: Converdate(moment(moment(daterange_from_to[0], 'DD-MM-YYYY')).format("DD-MM-YYYY")),
+        todate: Converdate(moment(moment(daterange_from_to[1], 'DD-MM-YYYY')).format("DD-MM-YYYY")),
+    }
+    $.ajax({
+        url: '/dashboard/top10sellingproducts',
+        dataType: "json",
+        type: "post",
+        data: data,
+        success: function (data) {
+            console.log(data)
+            console.log(data.salesproductdetails[0])
+            console.log(data.salesproductdetails[0].name)
+            $('#gvtop10productlist tbody').empty();
+
+
+            $.each(data.salesproductdetails, (i, v) => {
+                let sno = i + 1
+                let row = '';
+                row = `<tr>
+                <td >`+ sno + `</td>
+                <td> `+ v.name + `</td>
+                <td >`+ v.saleqty + `</td>
+                </tr>`;
+                $('#gvtop10productlist tbody').append(row);
+            })
+
+        }
+    })
+
+}
+function incomemusthfirmethod() {
+    let daterange_from_to = $('#txtdaterange').val().split('/');
+
+    let data = {
+        fromdate: Converdate(moment(moment(daterange_from_to[0], 'DD-MM-YYYY')).format("DD-MM-YYYY")),
+        todate: Converdate(moment(moment(daterange_from_to[1], 'DD-MM-YYYY')).format("DD-MM-YYYY")),
+    }
+    $.ajax({
+        url: '/dashboard/profit_musthifr_method2',
+        dataType: "json",
+        type: "post",
+        data: data,
+        success: function (data) {
+            var totalpurchasenew= 0;
+            var totalsalesnew= 0;
+            var totalclosingstocknew= 0;
+            $.each(data, (i, v) => {
+               
+                totalpurchasenew = totalpurchasenew +  (v.purchaseprice * v.openingstock);
+                totalsalesnew = totalsalesnew + (v.salesprice * v.salesqty);
+                totalclosingstocknew = totalclosingstocknew + (v.purchaseprice * v.closingstock)
+            })
+           
+           
+            
+            $('#lblexpense_income_expense').text(parseFloat(totalpurchasenew).toFixed(2))   
+            $('#lblsales_income_expense').text(parseFloat(totalsalesnew+totalclosingstocknew).toFixed(2)) 
+            $('#lblrevenue_income_expense').text(parseFloat((totalsalesnew+totalclosingstocknew)-totalpurchasenew).toFixed(2)) 
+              
+        }
+    })
+
 }

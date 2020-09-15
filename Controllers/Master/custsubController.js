@@ -3,7 +3,7 @@ var customer = mongoose.model('mastercustomer');
 var supplier = mongoose.model('mastersupplier');
 module.exports = {
     insercustomer(req, res) {
-        customer.findOne({ mobile: req.body.mobile })
+        customer.findOne({ name: req.body.name })
             .then(cust => {
                 if (cust) {
                     return res.status(400).send('this customer already exist')
@@ -32,7 +32,7 @@ module.exports = {
 
             if (req.body.pagetype == 'customer') {
 
-                customer.findOne({ mobile: req.body.mobile })
+                customer.findOne({ name: req.body.name })
                     .then(cust => {
                         if (cust) {
                             return res.status(400).send('this customer already exist')
@@ -57,7 +57,6 @@ module.exports = {
                             shippingaddress: req.body.shippingaddress,
                             shippingstate: req.body.shippingstate == '' ? 'TN' : req.body.shippingstate,
                             shippingpincode: req.body.shippingpincode,
-
                             companyid: req.session.companyid,
                             branchid: req.session.branchid,
                             createdby: req.session.usrid,
@@ -72,7 +71,7 @@ module.exports = {
                     })
             } else if (req.body.pagetype == 'supllier') {
                 console.log('---------------supplier----------------------')
-                supplier.findOne({ mobile: req.body.mobile }
+                supplier.findOne({ name: req.body.name }
                 )
                     .then(sub => {
                         if (sub) {
@@ -195,9 +194,7 @@ module.exports = {
     list(req, res) {
         // var queryString = url.parse(req.url, true);
         // var urlparms = queryString.query;
-
         var orderby = {};
-
         if (req.body['order[0][column]'] == '0') {
             if (req.body['order[0][dir]'] == 'asc') {
                 orderby = { $sort: { _id: -1 } };
@@ -256,7 +253,6 @@ module.exports = {
                     companyid: new mongoose.Types.ObjectId(req.session.companyid),
                     branchid: new mongoose.Types.ObjectId(req.session.branchid)
                 }
-
             };
         }
         else {
@@ -564,7 +560,7 @@ module.exports = {
                     shippingstate: 1,
                     customertype: 1,
                     email: 1,
-                    mobile:1,
+                    mobile: 1,
                     shippingaddress: 1,
                     billingaddress: 1,
                     gstin: 1,

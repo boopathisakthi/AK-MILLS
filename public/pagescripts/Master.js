@@ -28,7 +28,7 @@ function Converdate(date) {
     day = dateSplit[0];
     var today = new Date();
     var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
-
+   
     var dateTime = year + '-' + month + '-' + day + ' ' + time;
     //alert(dateTime);
     return dateTime;

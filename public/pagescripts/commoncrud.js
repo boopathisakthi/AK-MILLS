@@ -1,7 +1,4 @@
-
-
 function insertupdate(fieldvalue, url) {
-
     $.ajax({
         url: url,
         data: JSON.stringify(fieldvalue),
@@ -14,7 +11,14 @@ function insertupdate(fieldvalue, url) {
                 afterinsertupdatefunction(result);
             }
             else {
-                toastr.error(result.message);
+                if(result.status=='sessionfailed')
+                {
+                    window.location.href='/';
+                }
+                else
+                {
+                    toastr.error(result.message);
+                }
             }
         },
         error: function (errormessage) {
@@ -23,7 +27,6 @@ function insertupdate(fieldvalue, url) {
     });
     return false
 }
-
 function editassignvalue(uri) {
 
     try {
@@ -53,7 +56,6 @@ function editassignvalue(uri) {
 
     }
 }
-
 function deletedata(uri) {
 
 
@@ -112,7 +114,6 @@ function deletedata(uri) {
 
     )
 };
-
 function binddatareportwithdata(tablename, uri, data, FilterParameter) {
 
     var datacount = data.length;

@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 //mongodb://localhost:27017/zims
 // mongodb://208.109.8.9:27017/zims
-mongoose.connect('mongodb://localhost:27017/zims', { 
+mongoose.connect('mongodb://localhost:27017/akmills3', { 
     useNewUrlParser: true,
     useUnifiedTopology: true 
 }, 

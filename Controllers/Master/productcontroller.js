@@ -26,9 +26,9 @@ module.exports = {
                             taxinclusive: req.body.taxinclusive || data.taxinclusive,
                             salesprice: req.body.salesprice || data.salesprice,
                             purchaseprice: req.body.purchaseprice || data.purchaseprice,
-                         //   mrp: req.body.mrp || data.mrp,
+                            //   mrp: req.body.mrp || data.mrp,
                             taxid: req.body.taxid || data.taxid,
-                          //  hsnorsac_code: req.body.hsnorsac_code || data.hsnorsac_code,
+                            //  hsnorsac_code: req.body.hsnorsac_code || data.hsnorsac_code,
                             categoryid: req.body.categoryid || data.categoryid,
                             // subcategoryid: req.body.subcategoryid || data.subcategoryid,
                             minimumstock: req.body.minimumstock || data.minimumstock,
@@ -91,9 +91,9 @@ module.exports = {
                             taxinclusive: req.body.taxinclusive,
                             salesprice: req.body.salesprice,
                             purchaseprice: req.body.purchaseprice,
-                          //  mrp: req.body.mrp,
+                            //  mrp: req.body.mrp,
                             taxid: req.body.taxid,
-                           // hsnorsac_code: req.body.hsnorsac_code,
+                            // hsnorsac_code: req.body.hsnorsac_code,
                             categoryid: req.body.categoryid,
                             // subcategoryid: req.body.subcategoryid,
                             minimumstock: req.body.minimumstock,
@@ -264,17 +264,129 @@ module.exports = {
                         }
                     },
                     {
-                        $project: {
-                            "_id": {
-                                $concat: [{ $toString: "$_id" }, " - ", { $toString: "$roledetails.edit" }, "-", { $toString: "$roledetails.delete" }]
+                        $lookup: {
+                            from: "sales",
+                            "let": { "productid": "$_id" },
+                            "pipeline": [
+                                {
+                                    $unwind: "$invoiceDetail"
+                                },
+                                {
+                                    "$match": {
+                                        isdeleted: 0,
+                                        "$expr": {
+                                            $and: [
+                                                { $eq: ["$invoiceDetail.productid", "$$productid"] },
+                                            ]
+                                        },
+                                    }
+                                }],
+                            as: "salesdetail"
+                        }
+                    },
+                    {
+                        $lookup: {
+                            from: "salereturns",
+                            "let": { "productid": "$_id" },
+                            "pipeline": [
+                                {
+                                    $unwind: "$invoiceReturnDetail"
+                                },
+                                {
+                                    "$match": {
+                                        isdeleted: 0,
+                                        "$expr": {
+                                            $and: [
+                                                { $eq: ["$invoiceReturnDetail.productid", "$$productid"] },
+                                            ]
+                                        },
+                                    }
+                                }],
+                            as: "salesreturndetail"
+                        }
+                    },
+                    {
+                        $lookup: {
+                            from: "purchases",
+                            "let": { "productid": "$_id" },
+                            "pipeline": [
+                                {
+                                    $unwind: "$purchaseDetail"
+                                },
+                                {
+                                    "$match": {
+                                        isdeleted: 0,
+                                        "$expr": {
+                                            $and: [
+                                                { $eq: ["$purchaseDetail.productid", "$$productid"] },
+                                            ]
+                                        },
+                                    }
+                                }],
+                            as: "purchasedetail"
+                        }
+                    },
+                    {
+                        $lookup: {
+                            from: "purchasereturns",
+                            "let": { "productid": "$_id" },
+                            "pipeline": [
+                                {
+                                    $unwind: "$purchaseRetrunDetail"
+                                },
+                                {
+                                    "$match": {
+                                        isdeleted: 0,
+                                        "$expr": {
+                                            $and: [
+                                                { $eq: ["$purchaseRetrunDetail.productid", "$$productid"] },
+                                            ]
+                                        },
+                                    }
+                                }],
+                            as: "purchasereturndetail"
+                        }
+                    },
+                    {
+                        $group:
+                        {
+                            _id: {
+                                _id: "$_id",
+                                productname: "$productname",
+                                itemcode: "$itemcode",
+                                type: "$type",
+                                roleedit: "$roledetails.edit",
+                                roledelete: "$roledetails.delete",
+                                purchaseprice: "$purchaseprice",
+                                openingstock: "$openingstock",
+                                salesqty: { $sum: "$salesdetail.invoiceDetail.qty" },
+                                salesreturnqty: { $sum: "$salesreturndetail.invoiceReturnDetail.qty" },
+                                purchaseqty: { $sum: "$purchasedetail.purchaseDetail.qty" },
+                                purchasereturnqty: { $sum: "$purchasereturndetail.purchaseRetrunDetail.qty" },
 
 
                             },
-                            "productname": 1,
-                            "itemcode": 1,
-                            "type": 1,
+
+                        }
+                    },
+                    {
+                        $project: {
+                            _id: 0,
+                            "_iddd": {
+                                $concat: [{ $toString: "$_id._id" }, " - ", { $toString: "$_id.roleedit" }, "-", { $toString: "$_id.roledelete" }]
+                            },
+                            "productname": "$_id.productname",
+                            "itemcode": "$_id.itemcode",
+                            "type": "$_id.type",
+                            openingstock: {
+                                $subtract: [
+                                    { $add: ["$_id.openingstock", { $subtract: ["$_id.purchaseqty", "$_id.purchasereturnqty"] }] },
+                                    { $add: [{ $subtract: ["$_id.salesqty", "$_id.salesreturnqty"] }] },
+
+                                ]
+                            },
                             // availbleqty: { $subtract: [{ '$add': [{ "$sum": '$stockprocessdetails.openingstock' }, { "$sum": '$stockprocessdetails.purchaseqty' }, { "$sum": '$stockprocessdetails.stock_received' }] }, { '$add': [{ "$sum": '$stockprocessdetails.salesqty' }, { "$sum": '$stockprocessdetails.stock_transfer' }] }] },
-                            "openingstock": { $subtract: [{ '$add': [{ "$sum": '$stockprocessdetails.openingstock' }, { "$sum": '$stockprocessdetails.purchaseqty' }, { "$sum": '$stockprocessdetails.stock_received' }] }, { '$add': [{ "$sum": '$stockprocessdetails.salesqty' }, { "$sum": '$stockprocessdetails.stock_transfer' }] }] },
+                            // "openingstock": { $subtract: [{ '$add': [{ "$sum": '$stockprocessdetails.openingstock' }, { "$sum": '$stockprocessdetails.purchaseqty' }, { "$sum": '$stockprocessdetails.stock_received' }] }, { '$add': [{ "$sum": '$stockprocessdetails.salesqty' }, { "$sum": '$stockprocessdetails.stock_transfer' }] }] },
                             // { $add: [ "$stockinhand, "$openingstock" ] } 
                         }
                     },
@@ -282,7 +394,7 @@ module.exports = {
                     { "$limit": Number(urlparms.length) },
                 ],
                     function (err, results) {
-
+                        console.log(results)
                         if (err) {
                             console.log('error while getting results' + err);
                             return;
@@ -415,9 +527,7 @@ module.exports = {
                 as: "tax"
             }
         },
-
         {
-
             $lookup: {
                 from: "stockprocessdetails",
                 "let": { "id": "$_id" },
@@ -436,24 +546,135 @@ module.exports = {
             }
         },
         {
+            $lookup: {
+                from: "sales",
+                "let": { "productid": "$_id" },
+                "pipeline": [
+                    {
+                        $unwind: "$invoiceDetail"
+                    },
+                    {
+                        "$match": {
+                            isdeleted: 0,
+                            "$expr": {
+                                $and: [
+                                    { $eq: ["$invoiceDetail.productid", "$$productid"] },
+                                ]
+                            },
+                        }
+                    }],
+                as: "salesdetail"
+            }
+        },
+        {
+            $lookup: {
+                from: "salereturns",
+                "let": { "productid": "$_id" },
+                "pipeline": [
+                    {
+                        $unwind: "$invoiceReturnDetail"
+                    },
+                    {
+                        "$match": {
+                            isdeleted: 0,
+                            "$expr": {
+                                $and: [
+                                    { $eq: ["$invoiceReturnDetail.productid", "$$productid"] },
+                                ]
+                            },
+                        }
+                    }],
+                as: "salesreturndetail"
+            }
+        },
+        {
+            $lookup: {
+                from: "purchases",
+                "let": { "productid": "$_id" },
+                "pipeline": [
+                    {
+                        $unwind: "$purchaseDetail"
+                    },
+                    {
+                        "$match": {
+                            isdeleted: 0,
+                            "$expr": {
+                                $and: [
+                                    { $eq: ["$purchaseDetail.productid", "$$productid"] },
+                                ]
+                            },
+                        }
+                    }],
+                as: "purchasedetail"
+            }
+        },
+        {
+            $lookup: {
+                from: "purchasereturns",
+                "let": { "productid": "$_id" },
+                "pipeline": [
+                    {
+                        $unwind: "$purchaseRetrunDetail"
+                    },
+                    {
+                        "$match": {
+                            isdeleted: 0,
+                            "$expr": {
+                                $and: [
+                                    { $eq: ["$purchaseRetrunDetail.productid", "$$productid"] },
+                                ]
+                            },
+                        }
+                    }],
+                as: "purchasereturndetail"
+            }
+        },
+        {
+            $group:
+            {
+                _id: {
+                    _id: "$_id",
+                    productname: "$productname",
+                    hsnorsac_code:"$hsnorsac_code",
+                    purchaseprice:"$purchaseprice",
+                    salesprice:"$salesprice",
+                    unitid:"$unitid",
+                    openingstock: "$openingstock",
+                    categoryid:"$categoryid",
+
+                    salesqty: { $sum: "$salesdetail.invoiceDetail.qty" },
+                    salesreturnqty: { $sum: "$salesreturndetail.invoiceReturnDetail.qty" },
+                    purchaseqty: { $sum: "$purchasedetail.purchaseDetail.qty" },
+                    purchasereturnqty: { $sum: "$purchasereturndetail.purchaseRetrunDetail.qty" },
+
+                    previous_salesqty: { $sum: "$previous_salesdetail.invoiceDetail.qty" },
+                    previous_salesreturnqty: { $sum: "$previous_salesreturndetail.invoiceReturnDetail.qty" },
+                    previous_purchaseqty: { $sum: "$previous_purchasedetail.purchaseDetail.qty" },
+                    previous_purchasereturnqty: { $sum: "$previous_purchasereturndetail.purchaseRetrunDetail.qty" },
+                },
+
+            }
+        },
+        {
             $project: {
                 _id: 0,
-                id: "$_id",
-                name: "$productname",
+                id: "$_id._id",
+                name: "$_id.productname",
                 hsnorsac_code: 1,
-                purchaseprice: 1,
-                salesprice: 1,
-                unitid: 1,
-                stockprocessdetails: 1,
-                categoryid:1,
-                //  "availbleqty": { '$add': ['$openingstock', '$stockinhand'] },
-                availbleqty: { $subtract: [{ '$add': [{ "$sum": '$stockprocessdetails.openingstock' }, { "$sum": '$stockprocessdetails.purchaseqty' }, { "$sum": '$stockprocessdetails.stock_received' }] }, { '$add': [{ "$sum": '$stockprocessdetails.salesqty' }, { "$sum": '$stockprocessdetails.stock_transfer' }] }] },
-                "attributes.type": 1,
-                "attributes.attributename": 1,
-                "tax.taxname": 1,
-                "tax.sgst": 1,
-                "tax.cgst": 1,
-                "tax.igst": 1
+                purchaseprice: "$_id.purchaseprice",
+                salesprice: "$_id.salesprice",
+                unitid: "$_id.unitid",
+              
+                categoryid: "$_id.categoryid",
+              
+                availbleqty:  {
+                    $subtract: [
+                        { $add: ["$_id.openingstock", { $subtract: ["$_id.purchaseqty", "$_id.purchasereturnqty"] }] },
+                        { $add: [{ $subtract: ["$_id.salesqty", "$_id.salesreturnqty"] }] },
+
+                    ]
+                },
+              
 
             }
         }
@@ -463,15 +684,17 @@ module.exports = {
     },
     itemcodeno(req, res) {
         Product.countDocuments({ isdeleted: 0 })
-        .then((data) => {
-            console.log(data)
-            res.status(200).send({ itemcode: data == 0 ? parseInt(1000) + 1 : parseInt(1000) + data + 1 })
-        }
-        )
-        .catch((error) =>{
-            console.log(error)
-            res.status(400).send(error)} )
+            .then((data) => {
+                console.log(data)
+                res.status(200).send({ itemcode: data == 0 ? parseInt(1000) + 1 : parseInt(1000) + data + 1 })
+            }
+            )
+            .catch((error) => {
+                console.log(error)
+                res.status(400).send(error)
+            })
 
-      
+
     },
 }
+//12

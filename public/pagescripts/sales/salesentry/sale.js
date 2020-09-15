@@ -481,7 +481,7 @@ function save_process() {
                     qty: $('.qty', this).val(),
                     saleqty: $('.hfqty', this).val(),
                     rate: $('.rate', this).val(),
-                    discount: $('.discount', this).val(),
+                    discount: $('.discountvalue', this).val(),
                     amount: $('.amount', this).val()
                 }
                 if ($('.hfdetailsysid', this).val() != '') {
@@ -553,12 +553,13 @@ function save_process() {
 
 
 }
+
 function afterinsertupdatefunction(res) {
     cleardata();
     getbob_invoice(res.data._id);
     getsalesno();
     amountdateils();
-    
+
 
 }
 function LoadData() {
@@ -588,7 +589,7 @@ function LoadData() {
 
             { data: '_id', responsivePriority: -1 },
         ],
-        order: [0, "desc"],
+        order: [1, "desc"],
         dom: '<"top" f>rt<"bottom"<"row"<"col-md-2"l><"col-md-3"i><"col-md-4"p>>><"clear">',
         columnDefs: [{
             targets: -1,
@@ -708,8 +709,8 @@ function cleardata() {
     $('#txttermsandcondition').val('');
     $('#hf_balancepayment').val('0');
 
-   
-  
+
+
     productnameArray = '';
     $.ajax({
         url: '/master/productsdetail/',
@@ -1096,15 +1097,14 @@ function getbob_invoice(_id) {
         $.ajax({
             type: "GET",
             url: '/sales/getinvoicewithbob/' + _id,
+            async: true,
             success: function (data) {
-
-
                 setTimeout(function () {
-                   // var win = window.open('http://localhost:3000/appfiles/salespdf/' + data + '', '_blank');
-                   var win = window.open('http://localhost:3000/appfiles/salespdf/' + data + '', "myWindow", 'width=800,height=600');
-                   
+                    // var win = window.open('http://localhost:3000/appfiles/salespdf/' + data + '', '_blank');
+                    var win = window.open('http://localhost:3000/appfiles/salespdf/' + data + '', "myWindow", 'width=800,height=600');
+                    alert(win)
                 }, 3000)
-//"ignore_watch" : ["node_modules", "public/appfiles"]
+
 
             },
             error: function (errormessage) {

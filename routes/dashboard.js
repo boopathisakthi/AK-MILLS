@@ -34,6 +34,9 @@ router.post('/dashboard/purchaselist',Dashboard.purchaselist);
 
 router.post('/dashboard/incomevsexpense',Dashboard.incomevsexpense);
 
+router.post('/dashboard/top10sellingproducts',Dashboard.top10productsales);
+router.post('/dashboard/profit_musthifr_method2',Dashboard.profit_musthifr_method);
+
 
 
 

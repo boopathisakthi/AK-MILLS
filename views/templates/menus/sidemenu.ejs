@@ -243,13 +243,13 @@
                             <% }  %>
                             <% } %>
                             <% for(var i=0; i < roledetails.length; i++) { %>
-                                <% if(roledetails[i].pagename == 'Sales Report' && roledetails[i].viewrights == true ) {%>
-                                <li class="kt-menu__item " aria-haspopup="true"><a href="/salesreturnreport"
-                                        class="kt-menu__link "><i
-                                            class="kt-menu__link-bullet kt-menu__link-bullet--line"><span></span></i><span
-                                            class="kt-menu__link-text">Sales Return</span></a></li>
-                                <% }  %>
-                                <% } %>
+                            <% if(roledetails[i].pagename == 'Sales Report' && roledetails[i].viewrights == true ) {%>
+                            <li class="kt-menu__item " aria-haspopup="true"><a href="/salesreturnreport"
+                                    class="kt-menu__link "><i
+                                        class="kt-menu__link-bullet kt-menu__link-bullet--line"><span></span></i><span
+                                        class="kt-menu__link-text">Sales Return</span></a></li>
+                            <% }  %>
+                            <% } %>
 
                             <% for(var i=0; i < roledetails.length; i++) { %>
                             <% if(roledetails[i].pagename == 'Purchase Report' && roledetails[i].viewrights == true ) {%>
@@ -262,14 +262,23 @@
                             <% } %>
 
                             <% for(var i=0; i < roledetails.length; i++) { %>
-                                <% if(roledetails[i].pagename == 'Purchase Report' && roledetails[i].viewrights == true ) {%>
-                                <li class="kt-menu__item " aria-haspopup="true"><a href="/purchasereturnreport"
-                                        class="kt-menu__link "><i
-                                            class="kt-menu__link-bullet kt-menu__link-bullet--line"><span></span></i><span
-                                            class="kt-menu__link-text">PurchaseReturn Report</span></a></li>
-    
-                                <% }  %>
-                                <% } %>
+                            <% if(roledetails[i].pagename == 'Purchase Report' && roledetails[i].viewrights == true ) {%>
+                            <li class="kt-menu__item " aria-haspopup="true"><a href="/purchasereturnreport"
+                                    class="kt-menu__link "><i
+                                        class="kt-menu__link-bullet kt-menu__link-bullet--line"><span></span></i><span
+                                        class="kt-menu__link-text">PurchaseReturn </span></a></li>
+
+                            <% }  %>
+                            <% } %>
+                            <% for(var i=0; i < roledetails.length; i++) { %>
+                            <% if(roledetails[i].pagename == 'Purchase Report' && roledetails[i].viewrights == true ) {%>
+                            <li class="kt-menu__item " aria-haspopup="true"><a href="/purchasesummaryreport"
+                                    class="kt-menu__link "><i
+                                        class="kt-menu__link-bullet kt-menu__link-bullet--line"><span></span></i><span
+                                        class="kt-menu__link-text">Stock Value </span></a></li>
+
+                            <% }  %>
+                            <% } %>
 
                             <% for(var i=0; i < roledetails.length; i++) { %>
                             <% if(roledetails[i].pagename == 'Stock Record' && roledetails[i].viewrights == true ) {%>
@@ -294,7 +303,7 @@
                                     class="kt-menu__link "><i
                                         class="kt-menu__link-bullet kt-menu__link-bullet--line"><span></span></i><span
                                         class="kt-menu__link-text">Customer Outstanding</span></a></li>
-                                     
+
                             <% }  %>
                             <% } %>
 
@@ -304,7 +313,7 @@
                     </div>
                 </li>
                 <% if (roledetails[0].roleid=='5e2a94260962271c344bdcfa') { %>
-                    <li class="kt-menu__item  kt-menu__item--submenu" aria-haspopup="true"
+                <li class="kt-menu__item  kt-menu__item--submenu" aria-haspopup="true"
                     data-ktmenu-submenu-toggle="hover"><a href="javascript:;" class="kt-menu__link kt-menu__toggle"><i
                             class="kt-menu__link-icon flaticon2-gear"></i><span
                             class="kt-menu__link-text">Settings</span><span class="kt-menu__link-badge"></span><i
@@ -324,7 +333,7 @@
                                         class="kt-menu__link-bullet kt-menu__link-bullet--line"><span></span></i><span
                                         class="kt-menu__link-text">Role Map</span></a>
                             </li>
-                            
+
 
 
 
@@ -333,15 +342,15 @@
                     </div>
                 </li>
 
-                   
-                    <%} else { %>
-                       
-                    <% } %>
-               
-              
-                   
-               
-                
+
+                <%} else { %>
+
+                <% } %>
+
+
+
+
+
 
 
 

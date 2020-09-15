@@ -39,257 +39,271 @@ module.exports = {
             .catch((error) => res.status(400).send(error));
     },
     invoiceno(req, res) {
+
         sales.aggregate([
             {
                 $match: {
-                    isdeleted: 0,
+                    // isdeleted: 0,
                     companyid: new mongoose.Types.ObjectId(req.session.companyid),
                     branchid: new mongoose.Types.ObjectId(req.session.branchid)
                 }
             },
+
             { $count: "myCount" }
         ])
             .then((data) => {
 
-                res.status(200).send({ billno: 'INV' + (data.length == 0 ? 1 : data[0].myCount + 1) })
+                res.status(200).send({ status: 'success', billno: 'INV' + (data.length == 0 ? 1 : data[0].myCount + 1) })
             })
             .catch((error) => res.status(400).send(error))
+
+
     },
     insert(req, res) {
-        if (req.body._id) {
-            sales.findById(req.body._id)
-                .then(data => {
-                    if (!data) {
-                        return res.status(404).send({
-                            message: 'Data Not Found',
-                        });
-                    }
+        if (req.session.companyid) {
+            if (req.body._id) {
+                sales.findById(req.body._id)
+                    .then(data => {
+                        if (!data) {
+                            return res.status(404).send({
+                                message: 'Data Not Found',
+                            });
+                        }
 
-                    return data.updateOne({
-                        invoiceno: req.body.invoiceno,
-                        invoicedate: req.body.invoicedate,
-                        duedate: req.body.duedate,
-                        creditdays: req.body.creditdays,
-                        reference: req.body.reference,
-                        customerid: req.body.customerid,
-                        subtotal: req.body.subtotal,
-                        roundoff: req.body.roundoff,
-                        roundofftype: req.body.roundofftype,
-                        actualtotal: req.body.actualtotal,
-                        payamount: req.body.payamount,
-                        balance: req.body.balance,
-                        total: req.body.total,
-                        invoiceDetail: req.body.invoiceDetail,
-                        gstdetail: req.body.gstdetail,
-                        CustomerDetail: req.body.CustomerDetail,
-                        hsncolumn: req.body.hsncolumn,
-                        unitcolumn: req.body.unitcolumn,
-                        discountcolumn: req.body.discountcolumn,
-                        discountype: req.body.discountype,
-                        taxtype: req.body.taxtype,
-                        salesrep: req.body.salesrep,
-                        companyid: req.session.companyid,
-                        branchid: req.session.branchid,
-                        modifiedby: req.session.userid,
-                        note: req.body.note,
-                        termsandconditions: req.body.termsandconditions,
-                    })
-                        .then((data5) => {
+                        return data.updateOne({
+                            invoiceno: req.body.invoiceno,
+                            invoicedate: req.body.invoicedate,
+                            duedate: req.body.duedate,
+                            creditdays: req.body.creditdays,
+                            reference: req.body.reference,
+                            customerid: req.body.customerid,
+                            subtotal: req.body.subtotal,
+                            roundoff: req.body.roundoff,
+                            roundofftype: req.body.roundofftype,
+                            actualtotal: req.body.actualtotal,
+                            payamount: req.body.payamount,
+                            balance: req.body.balance,
+                            total: req.body.total,
+                            invoiceDetail: req.body.invoiceDetail,
+                            gstdetail: req.body.gstdetail,
+                            CustomerDetail: req.body.CustomerDetail,
+                            hsncolumn: req.body.hsncolumn,
+                            unitcolumn: req.body.unitcolumn,
+                            discountcolumn: req.body.discountcolumn,
+                            discountype: req.body.discountype,
+                            taxtype: req.body.taxtype,
+                            salesrep: req.body.salesrep,
+                            companyid: req.session.companyid,
+                            branchid: req.session.branchid,
+                            modifiedby: req.session.userid,
+                            note: req.body.note,
+                            termsandconditions: req.body.termsandconditions,
+                        })
+                            .then((data5) => {
 
-                            Promise.resolve(data.invoiceDetail).then(each((ele) =>
-                                req.body.invoiceDetail.forEach((update) => {
-                                    if (ele.productid == update.productid) {
-                                        console.log(ele.productid)
-                                        StockProcessDetails.findOne({ isdeleted: 0, productid: ele.productid, branchid: req.session.branchid })
-                                            .then((data2) => {
-                                                console.log(data2)
-                                                if (!data2) {
+                                Promise.resolve(data.invoiceDetail).then(each((ele) =>
+                                    req.body.invoiceDetail.forEach((update) => {
+                                        if (ele.productid == update.productid) {
+                                            console.log(ele.productid)
+                                            StockProcessDetails.findOne({ isdeleted: 0, productid: ele.productid, branchid: req.session.branchid })
+                                                .then((data2) => {
+                                                    console.log(data2)
+                                                    if (!data2) {
 
-                                                    StockProcessDetails.create({
-                                                        productid: ele.productid,
-                                                        openingstock: 0,
-                                                        salesqty: parseInt(ele.qty),
-                                                        stock_transfer: 0,
-                                                        stock_received: 0,
-                                                        purchaseqty: 0,
-                                                        branchid: req.session.branchid,
-                                                        companyid: req.session.companyid,
-                                                        createdby: req.session.usrid,
-                                                        createddate: (new Date()).toString("yyyy-MM-dd HH:MM:ss"),
-                                                        isdeleted: '0'
-                                                    }).then((data7) => { })
-                                                }
-                                                else {
-                                                    if (ele._id == update._id) {
-                                                        data2.updateOne({
-                                                            salesqty: (parseInt(data2.salesqty) - parseInt(ele.qty)) + parseInt(update.qty)
-                                                        }).then((data1) => { })
+                                                        StockProcessDetails.create({
+                                                            productid: ele.productid,
+                                                            openingstock: 0,
+                                                            salesqty: parseInt(ele.qty),
+                                                            stock_transfer: 0,
+                                                            stock_received: 0,
+                                                            purchaseqty: 0,
+                                                            branchid: req.session.branchid,
+                                                            companyid: req.session.companyid,
+                                                            createdby: req.session.usrid,
+                                                            createddate: (new Date()).toString("yyyy-MM-dd HH:MM:ss"),
+                                                            isdeleted: '0'
+                                                        }).then((data7) => { })
                                                     }
                                                     else {
-                                                        data2.updateOne({
-                                                            salesqty: parseInt(data2.salesqty) + parseInt(update.qty)
-                                                        }).then((data1) => { })
+                                                        if (ele._id == update._id) {
+                                                            data2.updateOne({
+                                                                salesqty: (parseInt(data2.salesqty) - parseInt(ele.qty)) + parseInt(update.qty)
+                                                            }).then((data1) => { })
+                                                        }
+                                                        else {
+                                                            data2.updateOne({
+                                                                salesqty: parseInt(data2.salesqty) + parseInt(update.qty)
+                                                            }).then((data1) => { })
 
+                                                        }
                                                     }
-                                                }
 
-                                            })
+                                                })
 
-                                    }
+                                        }
+                                    })
+                                ))
+
+
+                                logger.log('info', 'logjson{ page : Sales, Acion : Update,Process : Success,userid : ' + req.session.usrid + ',companyid :' + req.session.companyid + ',datetime: ' + (new Date()).toString("yyyy-MM-dd HH:MM:ss" + '}'));
+                                res.status(200).send({
+                                    status: 'success',
+                                    message: 'record Updated  successfully',
+
                                 })
-                            ))
+                            })
+                    })
+                    .catch(err => res.status(400).send(err))
+            } else {
+                console.log('---Insert process----')
+                console.log(req.body.CustomerDetail)
 
+                sales.create({
+                    invoiceno: req.body.invoiceno,
+                    invoicedate: req.body.invoicedate,
+                    duedate: req.body.duedate,
+                    creditdays: req.body.creditdays,
+                    reference: req.body.reference,
+                    customerid: req.body.customerid,
+                    subtotal: req.body.subtotal,
+                    roundoff: req.body.roundoff,
+                    roundofftype: req.body.roundofftype,
+                    actualtotal: req.body.actualtotal,
+                    payamount: req.body.paidamount,
+                    balance: req.body.balance,
+                    total: req.body.total,
+                    invoiceDetail: req.body.invoiceDetail,
+                    gstdetail: req.body.gstdetail,
+                    CustomerDetail: req.body.CustomerDetail,
+                    hsncolumn: req.body.hsncolumn,
+                    unitcolumn: req.body.unitcolumn,
+                    discountcolumn: req.body.discountcolumn,
+                    discountype: req.body.discountype,
+                    taxtype: req.body.taxtype,
+                    salesrep: req.body.salesrep,
+                    note: req.body.note,
+                    termsandconditions: req.body.termsandconditions,
+                    companyid: req.session.companyid,
+                    branchid: req.session.branchid,
+                    createdby: req.session.usrid,
+                    createddate: (new Date()).toString("yyyy-MM-dd HH:MM:ss"),
+                    isdeleted: '0'
+                }).then((data) => {
+                    let PaymentDetail = [];
+                    let detail = {
+                        trans_id: data._id,
+                        trans_no: req.body.invoiceno,
+                        payedamount: req.body.paidamount,
+                        balance: req.body.balance,
+                        trans_date: req.body.transdate,
+                    }
+                    PaymentDetail.push(detail)
+                    Promise.resolve(req.body.invoiceDetail).then(each((ele) => {
 
-                            logger.log('info', 'logjson{ page : Sales, Acion : Update,Process : Success,userid : ' + req.session.usrid + ',companyid :' + req.session.companyid + ',datetime: ' + (new Date()).toString("yyyy-MM-dd HH:MM:ss" + '}'));
-                            res.status(200).send({
-                                status: 'success',
-                                message: 'record Updated  successfully',
+                        StockProcessDetails.findOne({ isdeleted: 0, productid: ele.productid, branchid: req.session.branchid })
+                            .then((data2) => {
+
+                                if (!data2) {
+
+                                    StockProcessDetails.create({
+                                        productid: ele.productid,
+                                        openingstock: 0,
+                                        salesqty: parseInt(ele.qty),
+                                        stock_transfer: 0,
+                                        stock_received: 0,
+                                        purchaseqty: 0,
+                                        branchid: req.session.branchid,
+                                        companyid: req.session.companyid,
+                                        createdby: req.session.usrid,
+                                        createddate: (new Date()).toString("yyyy-MM-dd HH:MM:ss"),
+                                        isdeleted: '0'
+                                    }).then((data7) => { })
+                                }
+                                else {
+                                    data2.updateOne({
+                                        salesqty: parseInt(data2.salesqty) + parseInt(ele.qty)
+                                    }).then((data1) => { })
+
+                                }
 
                             })
-                        })
-                })
-                .catch(err => res.status(400).send(err))
-        } else {
-            console.log('---Insert process----')
-            console.log(req.body.CustomerDetail)
 
-            sales.create({
-                invoiceno: req.body.invoiceno,
-                invoicedate: req.body.invoicedate,
-                duedate: req.body.duedate,
-                creditdays: req.body.creditdays,
-                reference: req.body.reference,
-                customerid: req.body.customerid,
-                subtotal: req.body.subtotal,
-                roundoff: req.body.roundoff,
-                roundofftype: req.body.roundofftype,
-                actualtotal: req.body.actualtotal,
-                payamount: req.body.paidamount,
-                balance: req.body.balance,
-                total: req.body.total,
-                invoiceDetail: req.body.invoiceDetail,
-                gstdetail: req.body.gstdetail,
-                CustomerDetail: req.body.CustomerDetail,
-                hsncolumn: req.body.hsncolumn,
-                unitcolumn: req.body.unitcolumn,
-                discountcolumn: req.body.discountcolumn,
-                discountype: req.body.discountype,
-                taxtype: req.body.taxtype,
-                salesrep: req.body.salesrep,
-                note: req.body.note,
-                termsandconditions: req.body.termsandconditions,
-                companyid: req.session.companyid,
-                branchid: req.session.branchid,
-                createdby: req.session.usrid,
-                createddate: (new Date()).toString("yyyy-MM-dd HH:MM:ss"),
-                isdeleted: '0'
-            }).then((data) => {
-                let PaymentDetail = [];
-                let detail = {
-                    trans_id: data._id,
-                    trans_no: req.body.invoiceno,
-                    payedamount: req.body.paidamount,
-                    balance: req.body.balance,
-                    trans_date: req.body.transdate,
-                }
-                PaymentDetail.push(detail)
-                Promise.resolve(req.body.invoiceDetail).then(each((ele) => {
+                    }
 
-                    StockProcessDetails.findOne({ isdeleted: 0, productid: ele.productid, branchid: req.session.branchid })
-                        .then((data2) => {
+                    ))
 
-                            if (!data2) {
-
-                                StockProcessDetails.create({
-                                    productid: ele.productid,
-                                    openingstock: 0,
-                                    salesqty: parseInt(ele.qty),
-                                    stock_transfer: 0,
-                                    stock_received: 0,
-                                    purchaseqty: 0,
-                                    branchid: req.session.branchid,
+                    if (parseInt(req.body.paidamount) > 0) {
+                        //balance payment bill no
+                        Payment.aggregate([
+                            {
+                                $match: { type: "customer" }
+                            },
+                            { $count: "myCount" }
+                        ])
+                            .then((paymentcount) => {
+                                console.log(paymentcount)
+                                let billno = paymentcount.length == 0 ? 1 : paymentcount[0].myCount + 1
+                                //payment entry
+                                Payment.create({
+                                    billno: 'RE' + billno,
+                                    billdate: req.body.invoicedate,
+                                    type: 'customer',
+                                    typeid: req.body.customerid,
+                                    paidamount: req.body.paidamount,
+                                    PaymentDetail: PaymentDetail,
+                                    PaymodeDetail: req.body.PaymodeDetail,
                                     companyid: req.session.companyid,
+                                    branchid: req.session.branchid,
                                     createdby: req.session.usrid,
                                     createddate: (new Date()).toString("yyyy-MM-dd HH:MM:ss"),
-                                    isdeleted: '0'
-                                }).then((data7) => { })
-                            }
-                            else {
-                                data2.updateOne({
-                                    salesqty: parseInt(data2.salesqty) + parseInt(ele.qty)
-                                }).then((data1) => { })
+                                    isdeleted: '0',
+                                    entrythrough: 'sales'
+                                }).then((datarr) => {
+                                    console.log('insert agi tholda')
+                                })
+                                    .catch((err) => res.status(400).send(err))
 
-                            }
-
-                        })
-
-                }
-
-                ))
-
-                if (parseInt(req.body.paidamount) > 0) {
-                    //balance payment bill no
-                    Payment.aggregate([
-                        {
-                            $match: { type: "customer" }
-                        },
-                        { $count: "myCount" }
-                    ])
-                        .then((paymentcount) => {
-                            console.log(paymentcount)
-                            let billno = paymentcount.length == 0 ? 1 : paymentcount[0].myCount + 1
-                            //payment entry
-                            Payment.create({
-                                billno: 'RE' + billno,
-                                billdate: req.body.invoicedate,
-                                type: 'customer',
-                                typeid: req.body.customerid,
-                                paidamount: req.body.paidamount,
-                                PaymentDetail: PaymentDetail,
-                                PaymodeDetail: req.body.PaymodeDetail,
-                                companyid: req.session.companyid,
-                                branchid: req.session.branchid,
-                                createdby: req.session.usrid,
-                                createddate: (new Date()).toString("yyyy-MM-dd HH:MM:ss"),
-                                isdeleted: '0',
-                                entrythrough: 'sales'
-                            }).then((datarr) => {
-                                console.log('insert agi tholda')
                             })
-                                .catch((err) => res.status(400).send(err))
+                    }
+                    console.log('---payment detail insert completed----')
 
-                        })
-                }
-                console.log('---payment detail insert completed----')
+                    // console.log('---SMS Sending Process completed----')
+                    // msg91.send(req.body.CustomerDetail[0].mobile, "Thanks For Shopping in Zerobugz your invoice no is "+req.body.invoiceno+" And Bill Amount is "+req.body.total+"", function (err, response) {
+                    //     if (err) {
+                    //         res.status(400).send({
+                    //             status: 'Error',
+                    //             message: err
+                    //         })
+                    //         return null
+                    //     }
 
-                // console.log('---SMS Sending Process completed----')
-                // msg91.send(req.body.CustomerDetail[0].mobile, "Thanks For Shopping in Zerobugz your invoice no is "+req.body.invoiceno+" And Bill Amount is "+req.body.total+"", function (err, response) {
-                //     if (err) {
-                //         res.status(400).send({
-                //             status: 'Error',
-                //             message: err
-                //         })
-                //         return null
-                //     }
+                    // });
 
-                // });
-
-                logger.log('info', 'logjson{ page : Sales, Acion : Insert,Process : Success,userid : ' + req.session.usrid + ',companyid :' + req.session.companyid + ',datetime: ' + (new Date()).toString("yyyy-MM-dd HH:MM:ss" + '}'));
-                return res.status(200).send({
-                    status: 'success',
-                    message: 'record added successfully',
-                    data,
-                })
-
-
-            })
-                .catch((error) => {
-                    res.status(400).send({
-                        status: 'Error',
-                        message: error
+                    logger.log('info', 'logjson{ page : Sales, Acion : Insert,Process : Success,userid : ' + req.session.usrid + ',companyid :' + req.session.companyid + ',datetime: ' + (new Date()).toString("yyyy-MM-dd HH:MM:ss" + '}'));
+                    return res.status(200).send({
+                        status: 'success',
+                        message: 'record added successfully',
+                        data,
                     })
+
+
                 })
+                    .catch((error) => {
+                        res.status(400).send({
+                            status: 'Error',
+                            message: error
+                        })
+                    })
+            }
         }
+        else {
+
+            res.status(200).send({
+
+                status: 'sessionfailed',
+            })
+        }
+
 
     },
     list(req, res) {
@@ -446,7 +460,7 @@ module.exports = {
 
     },
     testlist(req, res) {
-        console.log('test')
+
         sales.aggregate(
             [
                 {
@@ -1608,7 +1622,7 @@ module.exports = {
                             discountcolumn: "$discountcolumn", roundoff: "$roundoff",
                             discountype: "$discountype", companyid: "$companyid", branchid: "$branchid"
                         },
-                        itemsSold: { $push: { productname: "$invoiceDetail.productname",discount:"$invoiceDetail.discount", qty: "$invoiceDetail.qty", productid: "$invoiceDetail.productid", name: "$MP.productname", rate: "$invoiceDetail.rate", amount: "$invoiceDetail.amount" } }
+                        itemsSold: { $push: { productname: "$invoiceDetail.productname", discount: "$invoiceDetail.discount", qty: "$invoiceDetail.qty", productid: "$invoiceDetail.productid", name: "$MP.productname", rate: "$invoiceDetail.rate", amount: "$invoiceDetail.amount" } }
                     }
                 },
 
@@ -1640,7 +1654,7 @@ module.exports = {
                 }
                 salesbilldata.push(salesdata)
 
-               
+
 
                 let bindvalues = salesbilldata[0];
 
@@ -1650,50 +1664,55 @@ module.exports = {
                 <head></head>
                 <body>
                
-                <label style="margin-left: 20%;font-size: 23px;font-weight: 800;">A.K. Ahamed Modern Rice Mill</label><br>
-              <div style="margin-left: 10%;font-size: 15px;font-weight: 800;">
-               40/2,Mannarpalayam Road,Allikuttai (Po),Salem - 3. Ph :9487158740
+                <label style="margin-left: 10%;font-size: 15px;font-weight: 800;">A.K. Ahamed Modern Rice Mill</label><br>
+              <div style="margin-left: 22%;font-size: 12px;font-weight: 800;">
+               40/2,Mannarpalayam Road,
+              
+               
                </div>
-               <div style="margin-left: 30%;font-size: 15px;font-weight: 800;">GSTIN : 33AAFFA2346C1Z5</div>
+               <div style="margin-left: 22%;font-size: 12px;font-weight: 800;">
+               Allikuttai (Po),Salem - 3.
+               </div>
+               <div style="margin-left: 10%;font-size: 15px;font-weight: 800;">GSTIN : 33AAFFA2346C1Z5</div>
                <hr style="width:100%;"></hr>
               <table>
               <tr>
-              <td>Invoice No:</td> 
-              <td>{{invoice.0.invoiceno}}</td>
-              <td style="width:44%"></td>
-              <td>Invoice Date :</td> 
-              <td> {{invoice.0.invoicedate}}</td>
+              <td style="font-size: 12px;">Invoice No:</td> 
+              <td style="font-size: 12px;">{{invoice.0.invoiceno}}</td>
+              <td style="width:5%"></td>
+              <td style="font-size: 12px;" >Invoice Date :</td> 
+              <td style="font-size: 12px;"> {{invoice.0.invoicedate}}</td>
               </tr>
               </table>
               <table>
               <tr>
-              <td>Customer Name :</td> 
+              <td style="font-size: 12px;">Customer Name :</td> 
               
-              <td>{{invoice.0.customer.0.name}}</td>
+              <td style="font-size: 12px;">{{invoice.0.customer.0.name}}</td>
               <td></td> 
               <td></td>
               <td> </td>
               </tr>
              
               </table>
-<br>
+
              <table style="width:100%">
              <thead>
-             <tr style="background-color:#9a9a9a;">
-             <th style="text-align: center;width:40%">Product Name</th>
-             <th style="text-align: center;width:10%">Qty</th>
-             <th style="text-align: center;width:10%">Rate</th>
-             <th style="text-align: center;width:10%">Discount</th>
-             <th style="text-align: center;width:10%">Amount</th>
+             <tr >
+             <th style="text-align: center;width:40%;font-size: 12px;">Product Name</th>
+             <th style="text-align: center;width:10%;font-size: 12px;">Qty</th>
+             <th style="text-align: center;width:10%;font-size: 12px;">Rate</th>
+             <th style="text-align: center;width:10%;font-size: 12px;">Discount</th>
+             <th style="text-align: center;width:10%;font-size: 12px;">Amount</th>
              </tr>
              </thead>
              <tbody>
              <tr {{invoice.0.invoiceDetail}}>
-             <td style="text-align: center">{{productname}}</td>
-             <td style="text-align: center">{{qty}}</td>
-             <td style="text-align: center">{{rate}}</td>
-             <td style="text-align: center">{{discount}}</td>
-             <td style="text-align: center">{{amount}}</td>
+             <td style="text-align: center;font-size: 12px;">{{productname}}</td>
+             <td style="text-align: center;font-size: 12px;">{{qty}}</td>
+             <td style="text-align: center;font-size: 12px;">{{rate}}</td>
+             <td style="text-align: center;font-size: 12px;">{{discount}}</td>
+             <td style="text-align: center;font-size: 12px;">{{amount}}</td>
              </tr {{/invoice.0.invoiceDetail}}>
              </tbody>
 
@@ -1707,11 +1726,11 @@ module.exports = {
            
             
              
-             <td>
+             <td style="font-size: 12px;">
              SubTotal:
              </td>
-             <td style="width:15px"></td>
-             <td>
+             <td style="width:15px;font-size: 12px;"></td>
+             <td style="font-size: 12px;">
              {{invoice.0.total}}
              </td>
              </tr>
@@ -1721,19 +1740,19 @@ module.exports = {
            
             
              
-             <td >
+             <td style="font-size: 12px;">
              Total:
              </td>
-             <td style="width:15px"></td>
-             <td>
+             <td ></td>
+             <td style="width:15px;font-size:12px">
              {{invoice.0.total}}
              </td>
              </tr>
              </table>
              <hr style="width:100%;color:black"></hr>
              
-             <table style="margin-top:70%">
-             <tr><td style="width:200px"></td><td style="text-align: center">Thank you For Purchasing!!</td></tr>
+             <table>
+             <tr><td style="width:20px;"></td><td style="font-size: 12px;">Thank you For Purchasing.Visit Again !!</td></tr>
              
              </table>
              
@@ -1746,16 +1765,20 @@ module.exports = {
                 htmlcontent = mark.up(htmlcontent, bindvalues);
 
                 filepath = 'invoice' + (new Date()).toString("yyyyMMddHHMMss") + '.pdf';
-                pdf.create(htmlcontent, { format: 'A6' }).toFile('./public/appfiles/salespdf/' + filepath, function (err, res) {
-                    if (err) return console.log(err);
+               
+                    pdf.create(htmlcontent, { format: 'A7' }).toFile('./public/appfiles/salespdf/' + filepath, function (err, res) {
+                        if (err) {
+                            return console.log(err)
+                        }
+                    });
+                   
+                    return res.status(200).send(filepath)
 
-                });
-
-                console.log(filepath)
+               
 
 
 
-                return res.status(200).send(filepath)
+
 
 
             })

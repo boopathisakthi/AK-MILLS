@@ -18,7 +18,7 @@ global.gsttype={data:[
     { _id:'Overseas',	name :	'Overseas' },
     { _id:'SpecialEconomicZone',	name :	'SpecialEconomicZone' },
 ]}
-global.state ={ data : [
+global.state ={data :[
     { _id:'AN',	name :	'Andaman and Nicobar Islands' },
     { _id:'AP',	name :	'Andhra Pradesh' },
     { _id:'AR',	name :	'Arunachal Pradesh' },

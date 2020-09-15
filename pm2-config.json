@@ -1,11 +1,13 @@
 {
     "apps" : [
         {
-            "name"        : "AKMILLS",
             "script"      : "app.js",
             "watch": true,
-            "ignore_watch" : ["node_modules", "public/appfiles/"]
-            
+            "ignore_watch" : ["node_modules", "public/appfiles"],
+            "watch_options": {
+                "followSymlinks": false
+              },
+            "name"        : "AKMILLS"
         }
     ]
 }

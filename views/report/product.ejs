@@ -72,7 +72,7 @@
 
 
             <div class="col-md-1">
-                <button class="btn btn-primary" onclick="loadpurchase()"><i class="fa fa-search"></i></button>
+                <button class="btn btn-primary" onclick="loadstock()"><i class="fa fa-search"></i></button>
 
             </div>
           
@@ -198,6 +198,9 @@
                 "data": FilterParameter,
                 success: function (data) {
                     if (data.length !== 0) {
+                        $('#txtrice').text(0);
+                        $('#txtkarka').text(0);
+                        $('#txttotal').text(0);
                         let total = 0;
                         $.each(data, function (i, v) {
                             if (v.categoryid == '5e3beae63e841a2db8a00467') {

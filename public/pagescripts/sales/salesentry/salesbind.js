@@ -4,6 +4,7 @@ function getsalesno() {
         type: "GET",
         url: '/sales/invoiceno',
         success: function (data) {
+            
             $('.lblinvoiceno').html(data.billno)
             $('#hfinvoiceno').val(data.billno)
         },
@@ -120,6 +121,7 @@ function assignvalue(data) {
         if (j <= 2) {
             $('#detailsTable tbody tr').each(function (i, e) {
                 if (j == i) {
+                    alert(v.discount)
                     let productdetails = productnameArray.filter(element => element.id == v.productid);
                     BindddlDataele($('.ddlunit', this), '/master/unitdropdown/', v.unitid)
                     $('.hfproductname',this).val(productdetails[0].name);
@@ -130,7 +132,7 @@ function assignvalue(data) {
                     $('.hfqty', this).val(v.qty);
                     $('.availableqty', this).val(parseInt(productdetails[0].availbleqty));
                     $('.rate', this).val(v.rate);
-                    $('.discount', this).val(v.discount);
+                    $('.discountvalue', this).val(v.discount);
                     $('.amount', this).val(v.amount);
                     $('.hfdetailsysid', this).val(v._id);
                 }
