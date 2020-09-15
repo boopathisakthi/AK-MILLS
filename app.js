@@ -12,6 +12,7 @@ global.mongoose = require('mongoose');
 global.db= require('./config/db');
 global.url = require('url');
 global.date=require("datejs");
+const port=3000;
 
 var indexRouter = require('./routes/index');
 var CompanyRouter = require('./routes/company');
@@ -72,7 +73,7 @@ app.use(function(req, res, next) {
   });
 
 // listen for requests
-app.listen(3000, () => {
+app.listen(port, () => {
     console.log("Server is listening on port 3000");
 });
 
