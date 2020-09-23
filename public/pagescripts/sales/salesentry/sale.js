@@ -211,7 +211,6 @@ function clear(row) {
     $(row).find('.productid').val("");
     BindddlData($(row).find('.ddlunit'), '/master/unitdropdown/')
 }
-
 function Addthead() {
     var amount = `Amount`;
     var hsn = ($("#chhsn").is(":checked") ? 1 : 0) ? `<th>HSN/SAC</th>` : '';
@@ -223,7 +222,6 @@ function Addthead() {
     Rowappend();
     //  BindSelect2('.ddl', '/master/productdropdown');
 }
-
 function Changetable() {
     Tabledata = [];
     $('#detailsTable tbody tr').each(function (i, e) {
@@ -292,7 +290,6 @@ function DeleteRow(ctrl) {
     Cal_Amount();
     Cal_Balance();
 }
-
 function getproductdetails(ctrl) {
 
     let productdetails = productnameArray.filter(element => element.name == $(ctrl).val())
@@ -331,14 +328,12 @@ function getproductdetails(ctrl) {
         toastr.error('Duplicate Product Invalid to Process')
     }
 }
-
 function Deletecolumn() {
 
     // $('#detailsTable th:nth-child(4),#detailsTable td:nth-child(4)').remove();
     var someRow = "<th>text1</th><th>text2</th>"; // add resources
     $("#detailsTable thead tr").append(someRow);
 }
-
 function attributedetails(ctrl) {
     $.ajax({
         url: '/master/productdetails/' + $(ctrl).closest('tr').find('.ddl').val(),
@@ -553,7 +548,6 @@ function save_process() {
 
 
 }
-
 function afterinsertupdatefunction(res) {
     cleardata();
     getbob_invoice(res.data._id);
@@ -563,9 +557,24 @@ function afterinsertupdatefunction(res) {
 
 }
 function LoadData() {
+    let daterange_from_to = $('#txtdaterange').val().split('/');
+   
+    if(daterange_from_to==''){
+        var FilterParameter = {
+            fdate: '',
+            tdate: '',
+        };
+    }
+    else{
+        var FilterParameter = {
+            fdate: Converdate(moment(moment(daterange_from_to[0], 'DD-MM-YYYY')).format("DD-MM-YYYY")),
+            tdate: Converdate(moment(moment(daterange_from_to[1], 'DD-MM-YYYY')).format("DD-MM-YYYY")),
+    
+        };
+    }
+   
     $('#gvsaleslist').dataTable().fnDestroy();
     var table = $('#gvsaleslist');
-    //let sno=0;
     // begin first table
     table.DataTable({
         responsive: true,
@@ -577,7 +586,16 @@ function LoadData() {
             [5, 10, 25, 50, 100],
             [5, 10, 25, 50, 100]
         ],
-        ajax: '/sales/list',
+        
+        ajax:{
+            "url":  '/sales/list',
+            "type": "POST",
+            "datatype": "json",
+            "data":FilterParameter
+
+        },
+        
+        
         columns: [
             // { data: 'sno', },
             { data: 'invoicedate', name: 'invoicedate' },
@@ -586,7 +604,6 @@ function LoadData() {
             { data: 'total', name: 'total' },
             { data: 'balancedueamount', name: 'balancedueamount' },
             { data: 'status', name: 'status' },
-
             { data: '_id', responsivePriority: -1 },
         ],
         order: [1, "desc"],
@@ -604,8 +621,6 @@ function LoadData() {
                 </li>
                   `
                     : '';
-
-
                 let deletebutton = $.trim(value[2]) == 'true' ? `
                <li class="kt-nav__item">
                <a class="kt-nav__link" onclick='btndeletesales("` + value[0] + `")'><i class="kt-nav__link-icon flaticon-delete"></i><span class="kt-nav__link-text">Delete</span></a>
@@ -617,20 +632,17 @@ function LoadData() {
                     <button type="button" onclick='getbob_invoice("` + value[0] + `")' class="btn btn-sm btn-outline-success">
                         Print
                     </button>
-                  
                     <button type="button"
                         class="btn btn-sm btn-outline-success dropdown-toggle dropdown-toggle-split"
                         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <span class="sr-only">Print</span>
                     </button>
-                  
                     <div class="dropdown-menu" style="">
                     <ul class="kt-nav">
                   `+ editbutton + `
                   
                     <li class="kt-nav__item">
                         <a class="kt-nav__link" onclick='btnreceipt_process("` + value[0] + `")'><i class="kt-nav__link-icon  la la-rupee"></i> <span class="kt-nav__link-text">Receipt</span></a> 
-                       
                     </li>
                     <li class="kt-nav__item">
                     <a class="kt-nav__link" onclick='btnsendmail_process("` + value[0] + `")'><i class="kt-nav__link-icon  la la-send"></i> <span class="kt-nav__link-text">Send</span></a> 
@@ -1102,7 +1114,7 @@ function getbob_invoice(_id) {
                 setTimeout(function () {
                     // var win = window.open('http://localhost:3000/appfiles/salespdf/' + data + '', '_blank');
                     var win = window.open('http://localhost:3000/appfiles/salespdf/' + data + '', "myWindow", 'width=800,height=600');
-                    alert(win)
+                  //  alert(win)
                 }, 3000)
 
 

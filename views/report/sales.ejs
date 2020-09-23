@@ -97,10 +97,42 @@
                             </span>
                         </div>
                         <div class="kt-widget25__item">
+                            <i class="la la-rupee kt-widget25__number"></i><span id="txtdoll"
+                                class="kt-widget25__number">0</span>
+                            <div class="progress m-progress--sm">
+                                <div class="progress-bar kt-bg-danger" role="progressbar" style="width: 39%;"
+                                    aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                            <span class="kt-widget25__desc">
+                                Doll
+                            </span>
+                        </div>
+                       
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row list">
+            <div class="col-md-12">
+                <div class="kt-widget25 mt-0">
+
+                    <div class="kt-widget25__items mt-0">
+                        <div class="kt-widget25__item">
+                            <i class="la la-rupee kt-widget25__number"></i><span id="txtappalam"
+                                class="kt-widget25__number">0</span>
+                            <div class="progress m-progress--sm">
+                                <div class="progress-bar kt-bg-success" role="progressbar" style="width: 39%;"
+                                    aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                            <span class="kt-widget25__desc">
+                                Appalam
+                            </span>
+                        </div>
+                        <div class="kt-widget25__item">
                             <i class="la la-rupee kt-widget25__number"></i> <span id="txttotal"
                                 class="kt-widget25__number">0</span>
                             <div class="progress m-progress--sm">
-                                <div class="progress-bar kt-bg-primary" role="progressbar" style="width: 54%;"
+                                <div class="progress-bar kt-bg-warning" role="progressbar" style="width: 54%;"
                                     aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
                             </div>
                             <span class="kt-widget25__desc">
@@ -108,15 +140,6 @@
                             </span>
                         </div>
 
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="row list">
-            <div class="col-md-8">
-                <div class="kt-widget25 mt-0">
-
-                    <div class="kt-widget25__items mt-0">
 
 
                         <div class="kt-widget25__item">
@@ -130,7 +153,24 @@
                                 Sales Return
                             </span>
                         </div>
-                        <div class="kt-widget25__item" style="margin-left: 15px;">
+                      
+
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row list">
+            <div class="col-md-3">
+                <div class="kt-widget25 mt-0">
+
+                    <div class="kt-widget25__items mt-0">
+                     
+
+
+
+                        <div class="kt-widget25__item" >
                             <i class="la la-rupee kt-widget25__number"></i> <span id="txttotalpending"
                                 class="kt-widget25__number">0</span>
                             <div class="progress m-progress--sm">
@@ -141,6 +181,7 @@
                                 Credit Sales
                             </span>
                         </div>
+                      
 
 
 
@@ -148,6 +189,7 @@
                 </div>
             </div>
         </div>
+     
         <div class="row">
             <div class="col-md-3">
                 <div class="kt_daterangepicker_6">
@@ -416,12 +458,24 @@
                         $('#txttotal').text(0);
                         let total = 0;
                         $.each(data, function (i, v) {
+                            console.log(v.categoryid)
                             if (v.categoryid == '5e3beae63e841a2db8a00467') {
                                 $('#txtrice').text(parseFloat(v.amount).toFixed(2));
                                 total = total + v.amount;
                             }
-                            else {
+                            else if(v.categoryid == '5e4d1553d638c718b81afcf5') {
                                 $('#txtkarka').text(parseFloat(v.amount).toFixed(2));
+                                total = total + v.amount;
+                            }
+                            else if(v.categoryid == '5f68368997d7d04bac421d63')
+                            {
+                                
+                                $('#txtdoll').text(parseFloat(v.amount).toFixed(2));
+                                total = total + v.amount;
+                            }
+                            else if(v.categoryid == '5f6839d997d7d04bac421d65')
+                            {
+                                $('#txtappalam').text(parseFloat(v.amount).toFixed(2));
                                 total = total + v.amount;
                             }
                         })
@@ -511,7 +565,7 @@
         function closemodal() {
             $('#customerpendingmadal').modal('hide')
         }
-       function salesreturnlist() {
+        function salesreturnlist() {
             let daterange_from_to = $('#txtdaterange').val().split('/');
             var FilterParameter = {
                 fdate: Converdate(moment(moment(daterange_from_to[0], 'DD-MM-YYYY')).format("DD-MM-YYYY")),

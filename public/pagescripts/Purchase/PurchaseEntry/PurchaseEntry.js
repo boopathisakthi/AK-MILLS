@@ -1,21 +1,1067 @@
-  <Card>
-            <img className="card-Image-top" width="100%" height="210px" src="data:image/jpeg;base64,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"></img>
-            <CardBody>
-              <CardTitle>{this.state.productarray[0].name}</CardTitle>
-              <CardSubtitle>$88555</CardSubtitle>
-            </CardBody>
-          </Card>
-          <Card>
-            <img className="card-Image-top" width="100%" height="210px" src="data:image/jpeg;base64,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"></img>
-            <CardBody>
-              <CardTitle>shshhs</CardTitle>
-              <CardSubtitle>$88555</CardSubtitle>
-            </CardBody>
-          </Card>
-          <Card>
-            <img className="card-Image-top" width="100%" height="210px" src="data:image/jpeg;base64,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"></img>
-            <CardBody>
-              <CardTitle>shshhs</CardTitle>
-              <CardSubtitle>$88555</CardSubtitle>
-            </CardBody>
-          </Card>
+$(document).ready(function () {
+  amountdateils()
+  localStorage.clear();
+  var currentDate = new Date();
+  $("#txtpurchasedate").datepicker().datepicker("setDate", currentDate);
+  BindddlData('#ddlcompanystate', '/master/state');
+  $('#txtsupplier').val('Walkin');
+  $('#hfsupplierid').val('5ede58fb85c16929acfcb3b7');
+  Addthead();
+  typeHeadsupplier()
+  LoadData()
+  Close();
+  Getpurchaseno();
+
+  // validationsupplier();
+})
+
+function getproductname(id) {
+  // /master/productsdetail/
+  $.ajax({
+
+      url: '/master/productsdetail',
+      dataType: "json",
+      type: "get",
+      success: function (data) {
+
+          productnameArray = data;
+          ProductTypeheadMethod(id);
+      },
+      error: function (response) {
+          var parsed = JSON.parse(response.responseText);
+          Error_Msg(parsed.Message);
+          d.resolve();
+      },
+      failure: function (response) {
+          var parsed = JSON.parse(response.responseText);
+          Error_Msg(parsed.Message);
+          d.resolve();
+      }
+  });
+
+}
+var productnameArray = '';
+function ProductTypeheadMethod(id) {
+
+  var bestPictures = new Bloodhound({
+      datumTokenizer: Bloodhound.tokenizers.obj.whitespace('name'),
+      queryTokenizer: Bloodhound.tokenizers.whitespace,
+      // prefetch: moviedetails
+      local: productnameArray
+  });
+  $(id).typeahead(null, {
+      name: 'best-pictures',
+      display: 'name',
+      source: bestPictures,
+      templates: {
+          empty: [
+              `<button type="button" onclick="showproductentry()" class="btn btn-sm btn-secondary"><i class="fa fa-plus-circle"> Add Product</i></button>`
+          ].join('\n'),
+          suggestion: Handlebars.compile('<div><strong>{{name}}</strong></div>')
+      },
+
+  });
+
+}
+var Tabledata = [];
+function Rowappend() {
+
+  var row = '';
+  $("#detailsTable thead tr th").each(function () {
+
+      switch ($(this).text()) {
+
+          case 'S.No':
+              row = row + '<th style="width:10px"><label class="sno">1</label></th>';
+              break
+          case 'Product':
+              row = row + `<td class="td-nopad" style="width:200px">
+              <div class="typeahead">
+               <input class="form-control ddl" id="ddlproduct" type="text" dir="ltr" onblur="getproductdetails(this)"  placeholder="Enter Productname">
+              </div>
+              </td>`;
+              break
+
+          case 'Qty':
+              row = row + '<td><input onkeyup="Cal_Amount()" type="text" class="qty numerickey form-control form-control"></input><input type="hidden" class="hfdetailsysid"></input><input class="productid" type="hidden"></input><input type="hidden" class="hfproductname"></input><input type="hidden" class="hfcategoryid"></input></td>';
+              break
+          case 'UNIT':
+              row = row + '<td  class="td-nopad" style="width:100px"><select class="ddlunit form-control form-control"></select></td>';
+              break
+          case 'Rate':
+              row = row + `<td class="td-nopad">
+              <input type="hidden" class="hfoldpurchaseprice"/>
+              <input type="hidden" class="hfpurchase_productid"/>
+              <input type="text" onkeyup="Cal_Amount()"  class="rate form-control form-control rate"></td>`;
+              break
+
+          case 'DISCOUNTRs%':
+              row = row + '<td class="td-nopad"><input type="text" onkeyup="Cal_Amount()" value="0" class="form-control discountvalue form-control"></td>';
+              break
+          case 'Amount':
+              row = row + '<td class="td-nopad" ><input type="text"  disabled="disabled" value="0" class="amount form-control form-control"></td>';
+              break
+          default:
+              row = row + '<td><i class="la la-trash" onclick="DeleteRow(this)" style="margin-left: 30%"></i></td>';
+              break
+
+      }
+
+  });
+  $('#detailsTable').append('<tr>' + row + '</tr>');
+  for (i = 0; i < 2; i++) {
+      Add_Row();
+  }
+  var firstrow = $("#detailsTable .trbody tr").first();
+  // onblur="getproductdetails(this)"
+  $(firstrow).find('.typeahead').empty("");
+  $(firstrow).find('.typeahead').append(`<input class="form-control ddl" id="ddlproduct" onblur="getproductdetails(this)"  type="text" dir="ltr" placeholder="Enter Productname">`);
+  getproductname($(firstrow).find('.ddl'))
+  BindddlData($(firstrow).find('.ddlunit'), '/master/unitdropdown/')
+  getproductname($('.ddl'));
+  $('#detailsTable tbody tr').each(function (i, e) {
+      $('.sno', this).text(i + 1);
+  })
+  // alert(Tabledata.length)
+  if (Tabledata.length != 0) {
+      $.each(Tabledata, function (j, v) {
+          if (j <= 2) {
+              $('#detailsTable tbody tr').each(function (i, e) {
+                  if (j == i) {
+                      let productdetails = productnameArray.filter(element => element.id == v.productid);
+                      $('.ddl', this).val(productdetails[0].name);
+                      $('.productid', this).val(v.productid);
+                      $('.qty', this).val(v.qty);
+                      $('.rate', this).val(v.rate);
+                      $('.amount', this).val(v.amount);
+                      $('.hfdetailsysid', this).val(v._id);
+                      $('.discountvalue', this).val(v.discount == undefined ? "0" : v.discount);
+                      BindddlDataele($('.ddlunit', this), '/master/unitdropdown/', v.unitid == undefined ? "0" : v.unitid)
+
+                  }
+              })
+          } else {
+              let productdetails = productnameArray.filter(element => element.id == v.productid);
+              var row = $("#detailsTable .trbody tr").last().clone();
+              var sno = parseInt($(row).find('.sno').text()) + 1;
+              $(row).find('.sno').text(sno);
+
+              $(row).find('.typeahead').empty("");
+              $(row).find('.typeahead').append(`<input class="form-control ddl" onblur="getproductdetails(this)"  type="text" dir="ltr" placeholder="Enter Productname">`);
+              $(row).find('.hfdetailsysid').val("");
+              $("td input:text", row).val("");
+              $('td .lbldel', row).attr("style", "display: none;");
+              $("td button[type=button]", row).val('Delete');
+              $("td button[type=button]", row).attr("style", "display: block");
+              $(row).find('.discountvalue').val("0");
+              $(row).find('.amount').val("0");
+              $(row).find('.productid').val("");
+              $(row).find('.ddlunit').val("");
+              BindddlData($(row).find('.ddlunit'), '/master/unitdropdown/')
+              getproductname($(row).find('.ddl'))
+
+              $(row).find('.ddl').val(productdetails[0].name);
+              $(row).find('.qty').val(v.qty);
+              $(row).find('.rate').val(v.rate);
+              $(row).find('.discountvalue').val(v.discount);
+              $(row).find('.amount').val(v.amount);
+              $(row).find('.productid').val(v.productid);
+              $(row).find('.detailsysid').val(v._id);
+              $(row).find('.discountvalue', this).val(v.discount);
+              BindddlDataele($('.ddlunit', this), '/master/unitdropdown/', v.unitid)
+
+
+              $('#detailsTable').append(row);
+          }
+      })
+  }
+
+}
+function Add_Row() {
+  var row = $("#detailsTable .trbody tr").last().clone();
+  clear(row);
+  $('#detailsTable').append(row);
+  return false;
+}
+function clear(row) {
+
+  var sno = parseInt($(row).find('.sno').text()) + 1;
+  $(row).find('.sno').text(sno);
+  $(row).find('.sysid').val("");
+  $(row).find('.hfproductname').val("");
+  $(row).find('.typeahead').empty("");
+  $(row).find('.typeahead').append(`<input class="form-control ddl" onblur="getproductdetails(this)"  type="text" dir="ltr" placeholder="Enter Productname">`);
+  $(row).find('.hfdetailsysid').val("");
+  $(row).find('.hfcategoryid').val("");
+
+  $("td input:text", row).val("");
+  $('td .lbldel', row).attr("style", "display: none;");
+  $("td button[type=button]", row).val('Delete');
+  $("td button[type=button]", row).attr("style", "display: block");
+  $("td input[type=date]", row).val('');
+  $("td input[type=time]", row).val('');
+  getproductname($(row).find('.ddl'))
+  $(row).find('.discountvalue').val("0");
+  $(row).find('.amount').val("0");
+  $(row).find('.productid').val("");
+  $(row).find('.ddlunit').val("");
+  $(row).find('.salesprice').val("0");
+  $(row).find('.hfoldpurchaseprice').val("0");
+  $(row).find('.hfoldsalesprice').val("0");
+  $(row).find('.hfpurchase_productid').val("0");
+  BindddlData($(row).find('.ddlunit'), '/master/unitdropdown/')
+}
+function Addthead() {
+
+
+  var amount = `Amount`;
+
+  var unit = ($("#chunit").is(":checked") ? true : false) ? `<th>UNIT</th>` : '';
+  var discount = ($("#chdiscount").is(":checked") ? true : false) ? `<th>DISCOUNT<select id="ddldiscount" class="discount"  style="display:block;margin-left: 15px;height: 19px;"><option  value="rupee">Rs</option><option value="percentage">%<option></select></th>` : '';
+  var settings = `<a class="nav-link dropdown-toggle" data-toggle="modal" data-target="#kt_modal_4"><i class="flaticon2-gear"></i></i></a>`
+  var head = "<th>S.No</th><th>Product</th><th>Qty</th>" + unit + "<th>Rate</th>" + discount + "<th>" + amount + "</th><th>" + settings + "</th>"; // add resources
+  $("#detailsTable thead tr").append(head);
+
+
+  Rowappend();
+  Cal_Amount();
+
+
+  //  BindSelect2('.ddl', '/master/productdropdown');
+}
+function Changetable() {
+  $('#detailsTable tbody tr').each(function (i, e) {
+      if ($('.productid', this).val() != '') {
+
+          let detail = {
+
+              productid: $('.productid', this).val(),
+              qty: $('.qty', this).val(),
+              rate: $('.rate', this).val(),
+              discount: $('.discount', this).val(),
+              amount: $('.amount', this).val()
+          }
+          if ($('.hfdetailsysid', this).val() != '') {
+              detail._id = $('.hfdetailsysid', this).val()
+          }
+          if ($('.ddlunit', this).val() != undefined) {
+              detail.unitid = $('.ddlunit', this).val()
+          }
+          if ($('.discountvalue', this).val() != undefined) {
+              detail.discount = $('.discountvalue', this).val()
+          }
+          if ($('.hsc', this).val() != undefined) {
+
+              detail.hsn = $('.hsc', this).val()
+          }
+
+          Tabledata.push(detail);
+      }
+  })
+
+
+  $("#detailsTable").empty();
+  $("#detailsTable").append('<thead><tr></tr></thead><tbody class="trbody"></tbody>');
+  Addthead(Tabledata)
+  $('#kt_modal_4').modal('toggle');
+}
+
+function getproductdetails(ctrl) {
+
+  $('#hf_ctrl').val(ctrl)
+  let productdetails = productnameArray.filter(element => element.name == $(ctrl).val())
+
+  if (productdetails.length == 0 || productdetails.length == undefined || productdetails.length == '') {
+      toastr.error('product Details  not availble')
+  } else if (productdetails.length == 1) {
+      $(ctrl).closest('tr').find('.qty').focus();
+      $(ctrl).closest('tr').find('.rate').val(productdetails[0].purchaseprice);
+      $(ctrl).closest('tr').find('.hsc').val(productdetails[0].hsnorsac_code);
+      $(ctrl).closest('tr').find('.productid').val(productdetails[0].id);
+      $(ctrl).closest('tr').find('.ddlunit').val(productdetails[0].unitid);
+      $(ctrl).closest('tr').find('.salesprice').val(productdetails[0].salesprice);
+      $(ctrl).closest('tr').find('.hfoldsalesprice').val(productdetails[0].salesprice);
+      $(ctrl).closest('tr').find('.purchaseprice').val(productdetails[0].purchaseprice);
+      $(ctrl).closest('tr').find('.hfoldpurchaseprice').val(productdetails[0].purchaseprice);
+      $(ctrl).closest('tr').find('.hfpurchase_productid').val(productdetails[0].purchase_productid);
+
+      $(ctrl).closest('tr').find('.hfcategoryid').val(productdetails[0].categoryid)
+      $(ctrl).closest('tr').find('.hfproductname').val($(ctrl).val());
+      $('.attributedetails').empty();
+      var deatildesign = '';
+
+      if ($(ctrl).closest('tr').find('.sno').text() == $("#detailsTable tbody").find("tr").length) {
+          for (i = 0; i < 3; i++) {
+              Add_Row();
+          }
+      }
+  } else {
+      $('#hf_ctrl').val(ctrl)
+      toastr.error('Duplicate Product Invalid to Process')
+  }
+}
+function Deletecolumn() {
+
+  // $('#detailsTable th:nth-child(4),#detailsTable td:nth-child(4)').remove();
+  var someRow = "<th>text1</th><th>text2</th>"; // add resources
+  $("#detailsTable thead tr").append(someRow);
+}
+function attributedetails(ctrl) {
+  $.ajax({
+      url: '/master/productdetails/' + $(ctrl).closest('tr').find('.ddl').val(),
+      dataType: "json",
+      type: "get",
+      success: function (data) {
+          $('.productdetail').empty()
+          var deatildesign = '';
+          if (data.data[0].attributes) {
+              $.each(data.data[0].attributes, function (index, value) {
+                  switch (value.type) {
+                      case 'text':
+                          deatildesign = deatildesign + '<div class="row form-group"><label>' + value.attributename + '</label><input type="text" class="form-control form-control-sm" placeholder="enter ' + value.attributename + '"></div>'
+                  }
+              });
+              $(ctrl).closest('tr').find('.ddl').append(deatildesign)
+              $('#kt_modal_5').modal('toggle');
+          } else {
+              toastr.errormessage('there no attribute');
+          }
+      },
+      error: function (response) {
+          var parsed = JSON.parse(response.responseText);
+          Error_Msg(parsed.Message);
+          d.resolve();
+      },
+      failure: function (response) {
+          var parsed = JSON.parse(response.responseText);
+          Error_Msg(parsed.Message);
+          d.resolve();
+      }
+  });
+
+
+
+
+}
+
+function typeHeadsupplier() {
+  var bestPictures = new Bloodhound({
+      datumTokenizer: Bloodhound.tokenizers.obj.whitespace('name'),
+      queryTokenizer: Bloodhound.tokenizers.whitespace,
+      prefetch: '/master/supplierdopdown'
+  });
+  $('#txtsupplier').typeahead(null, {
+      name: 'best-pictures',
+      display: 'name',
+      source: bestPictures,
+      highlight: true,
+      width: '500px',
+      templates: {
+          empty: [
+              `<button type="button" onclick="showsupplier()" class="btn btn-sm btn-secondary"><i class="fa fa-plus-circle"> Add Supplier</i></button>`
+          ].join('\n'),
+          suggestion: Handlebars.compile('<div><strong>{{name}}</strong></div>'),
+      },
+  });
+
+
+}
+$('#txtsupplier').bind('typeahead:select', function (ev, suggestion) {
+
+  $('#hfsupplierid').val(suggestion.id)
+});
+var Gstdetail = [];
+
+function Cal_Amount() {
+  Gstdetail = [];
+  var discount = '';
+
+  total = 0;
+
+  $('.gstdetails').empty();
+  $("table.table-bordered thead tr th ").each(function () {
+      switch ($(this).text()) {
+          case 'DISCOUNT%Rs':
+              discount = $('.discount').val();
+              break
+
+      }
+  })
+  $('#detailsTable tbody tr').each(function (i, ele) {
+      if ($('.productid', this).val() != '') {
+
+          if (discount != undefined && discount != '') {
+
+              if (discount == 'percentage') {
+                  if ($('.discountvalue', this).val() <= 100) {
+                      if ($('.rate', this).val() != '' && $('.qty', this).val() != '') {
+                          $('.amount', this).val(parseFloat($('.rate', this).val()) * parseFloat($('.qty', this).val()))
+                          $('.amount', this).val(parseFloat($('.amount', this).val()) - (($('.discountvalue', this).val() / 100) * $('.amount', this).val()))
+                          $('.amount', this).val(parseFloat($('.amount', this).val()).toFixed(2))
+                      }
+                  } else {
+                      $('.discountvalue', this).val('0')
+                      toastr.error('discount percentage should be less or equal than 100')
+                      return false;
+                  }
+              } else {
+                  $('.amount', this).val(parseFloat($('.rate', this).val()) * parseFloat($('.qty', this).val()))
+                  $('.amount', this).val(parseFloat($('.amount', this).val()) - (parseFloat($('.discountvalue', this).val())))
+                  $('.amount', this).val(parseFloat($('.amount', this).val()).toFixed(2))
+              }
+          } else {
+              if ($('.rate', this).val() != '' && $('.qty', this).val() != '') {
+
+                  $('.amount', this).val(parseFloat($('.rate', this).val()) * parseFloat($('.qty', this).val()))
+                  $('.amount', this).val(parseFloat($('.amount', this).val()).toFixed(2))
+              }
+          }
+
+          total = parseFloat(total) + parseFloat($('.amount', this).val());
+      }
+  })
+
+
+
+
+  $('#txtsubtotal').text(parseFloat(total).toFixed(2))
+  $('#txttotal').text(parseFloat(total).toFixed(2))
+
+  $('#txtpayamount').val(parseFloat(total).toFixed(2))
+
+  if ($('#hf_id').val()) {
+      Cal_Balance()
+  }
+
+}
+
+function save_process() {
+  let PurchaseDeatil = [];
+  let SupplierDetail = [];
+  let PayModeDetails = [];
+
+  let ProductDetails = [];
+  let total = 0;
+  if ($('#hfsupplierid').val() == '') {
+      toastr.error('Invalid Supplier Deatils  Unable to Process');
+      return false;
+  }
+  let supplier_details = {
+      suppliername: $('#hfsuppliername').val(),
+      suppliertype: $('#hfsuppliertype').val(),
+      email: $('#hfemail').val(),
+      shippingaddress: $('#hfshippingaddress').val(),
+      billingaddress: $('#hfbillingaddress').val(),
+      gstin: $('#hfgstin').val(),
+      gsttype: $('#hfgsttype').val(),
+      gstno: $('#txtgstno').val()
+  }
+  SupplierDetail.push(supplier_details)
+
+  $('#detailsTable tbody tr').each(function (i, e) {
+      //  alert()
+
+      if ($('.productid', this).val() != '') {
+          if ($('.hfoldpurchaseprice', this).val() != $('.rate', this).val() || $('.hfoldsalesprice', this).val() != $('.salesprice', this).val()) {
+              var product = productnameArray.filter(ele => ele.id == $('.productid', this).val());
+
+              let productdetail = {
+                  purchaseprice: $('.rate', this).val(),
+                  categoryid: $('.hfcategoryid', this).val(),
+                  salesprice: $('.salesprice', this).val(),
+                  productid: $('.productid', this).val(),
+                  productname: product[0].name,
+                  unitid: product[0].unitid,
+                  hsnorsac_code: product[0].unitid,
+                  taxid: product[0].taxid
+
+              }
+
+              if ($('.discountvalue', this).val() != undefined) {
+                  productdetail.discount = $('.discountvalue', this).val()
+              }
+              if ($('.hsc', this).val() != undefined) {
+
+                  productdetail.hsnorsac_code = $('.hsc', this).val()
+              }
+              if ($('.hfoldsalesprice', this).val() != $('.salesprice', this).val()) {
+                  productdetail.saleschanged = 'changed';
+              }
+              if ($('.hfoldpurchaseprice', this).val() != $('.rate', this).val()) {
+                  productdetail.purchasechanged = 'changed';
+              }
+              ProductDetails.push(productdetail)
+          }
+          let detail = {
+              productid: $('.productid', this).val(),
+              categoryid: $('.hfcategoryid', this).val(),
+              productname: $('.hfproductname', this).val(),
+              qty: $('.qty', this).val(),
+              rate: $('.rate', this).val(),
+              discount: $('.discount', this).val(),
+              amount: $('.amount', this).val(),
+              purchase_productid: $('.hfpurchase_productid', this).val(),
+              salesprice: $('.salesprice', this).val(),
+          }
+          if ($('.hfdetailsysid', this).val() != '') {
+              detail._id = $('.hfdetailsysid', this).val()
+          }
+          if ($('.ddlunit', this).val() != undefined) {
+              detail.unitid = $('.ddlunit', this).val()
+          }
+          if ($('.discountvalue', this).val() != undefined) {
+              detail.discount = $('.discountvalue', this).val()
+          }
+          if ($('.hsc', this).val() != undefined) {
+
+              detail.hsn = $('.hsc', this).val()
+          }
+
+          PurchaseDeatil.push(detail);
+      }
+  })
+  if (PurchaseDeatil.length == 0) {
+      toastr.error('Invalid Purchase Deatil Unable to Process');
+      return false;
+  }
+
+  if (parseInt($('#txttotal').text()) <= 0) {
+      toastr.error('Inavalid  Deatil Unable to Process');
+      return false;
+  }
+
+  let detail = {
+      paidfrom: '5eb63777182c7e03c4a3958b',
+      referencemode: 'Cash',
+      amount: $('#txtpayamount').val(),
+
+  }
+  PayModeDetails.push(detail);
+
+
+  var data = {
+
+      _id: $('#hf_id').val(),
+      purchaseorderno: $('#lblpurchaseno').text(),
+      purchasedate: Converdate($('#txtpurchasedate').val()),
+
+      reference: $('#txtreference').val(),
+      supplierid: $('#hfsupplierid').val(),
+      purchaseDetail: PurchaseDeatil,
+      subtotal: $('#subtotal').text(),
+      roundofftype: $('#ddlroundofftype').val(),
+      roundoff: $('#txtrounoffvalue').val(),
+      actualtotal: $('#txtactualtotal').val(),
+      total: $('#txttotal').text(),
+      paidamount: $('#txtpayamount').val(),
+      balance: $('#lblbalance').text(),
+      hsncolumn: $("#chhsn").is(":checked") ? 1 : 0,
+      unitcolumn: $("#chunit").is(":checked") ? 1 : 0,
+      discountcolumn: $("#chdiscount").is(":checked") ? 1 : 0,
+      discountype: $("#ddldiscount").val(),
+      taxtype: $("#taxtype").val(),
+      note: $('#txtnote').val(),
+      PaymodeDetail: PayModeDetails,
+      transdate: $('#txtpurchasedate').val(),
+      gstdetail: Gstdetail,
+      SupplierDetail: SupplierDetail,
+      ProductDetails: ProductDetails
+  }
+  insertupdate(data, '/purchase/insertupdate');
+  //  alert(JSON.stringify(Gstdetail))
+
+}
+
+function afterinsertupdatefunction(result) {
+  Getpurchaseno();
+  cleardata();
+
+
+}
+
+function LoadData() {
+  $('#gvpurchaselist').dataTable().fnDestroy();
+  var table = $('#gvpurchaselist');
+  //let sno=0;
+  // begin first table
+  table.DataTable({
+      responsive: true,
+      searchDelay: 500,
+      processing: true,
+      serverSide: true,
+      pageLength: 5,
+      lengthMenu: [
+          [5, 10, 25, 50, 100],
+          [5, 10, 25, 50, 100]
+      ],
+      ajax: '/purchase/list',
+      columns: [
+          // { data: 'sno', },
+          { data: 'purchasedate', name: 'productname' },
+          { data: 'purchaseorderno', name: 'itemcode' },
+          { data: 'Supplier.name', name: 'type' },
+
+          { data: 'total', name: 'type' },
+
+          { data: '_id', responsivePriority: -1 },
+      ],
+      order: [0, "desc"],
+      dom: '<"top" f>rt<"bottom"<"row"<"col-md-2"l><"col-md-3"i><"col-md-4"p>>><"clear">',
+      columnDefs: [{
+          targets: -1,
+          title: 'Action',
+          orderable: false,
+          render: function (data, type, full, meta) {
+              let value = data.split('-');
+
+              let editbutton = $.trim(value[1]) == 'true' ? `
+           
+                  <button type="button" onclick='btneditpurchase("` + value[0] + `")' class="btn btn-sm btn-outline-success">
+                      Edit
+                  </button>
+            
+                `
+                  : '';
+
+              let deletebutton = value[2] == 'true' ? `
+              <li class="kt-nav__item">
+              <a class="kt-nav__link" onclick='btndeletepurchase("` + value[0] + `")'><i class="kt-nav__link-icon flaticon2-trash"></i><span class="kt-nav__link-text">Delete</span></a>
+              </li>
+             `: '';
+              console.log(deletebutton)
+              return `<div class="btn-group ptb-5">
+               `+ editbutton + `
+                  <button type="button"
+                      class="btn btn-sm btn-outline-success dropdown-toggle dropdown-toggle-split"
+                      data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      <span class="sr-only">Print</span>
+                  </button>
+                  <div class="dropdown-menu" style="">
+                  <ul class="kt-nav">
+                     `+ deletebutton + `
+                      <li class="kt-nav__item">
+                          <a class="kt-nav__link" onclick='btnpayment_process("` + value[0] + `")'><i class="kt-nav__link-icon  la la-rupee"></i> <span class="kt-nav__link-text">Payment</span></a> 
+                         
+                      </li>
+                  </ul>
+                   
+                   
+                  </div>
+                  </div>`;
+              // return `
+
+
+              //     <a onclick='btneditpurchase("` + data + `")' type="button" class="btn btn-sm btn-primary btn-icon  btn-icon btn-icon-sm" title="View / Edit" >
+              //       <i class ="la la-edit ic-white"></i>
+              //     </a>
+              //           <a onclick= 'btndeletepurchase("` + data + `")' type="button" class="btn btn-sm btn-delete-red btn-icon  btn-icon btn-icon-sm" title="Delete">
+
+              //       <i class ="la la-trash ic-white"></i>
+              //     </a>`;
+          },
+      },
+
+      ],
+  });
+  // table.on( 'order.dt search.dt', function () {
+  //     t.column(0, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
+  //         cell.innerHTML = i+1;
+  //     } );
+  // } ).draw();
+}
+
+function btneditpurchase(id) {
+  editassignvalue('/purchase/edit/' + id)
+}
+
+function btndeletepurchase(id) {
+
+  deletedata('/purchase/delete/' + id)
+}
+
+function afterdelete() {
+
+  LoadData();
+  amountdateils();
+}
+
+function assignvalue(data) {
+  $('.list').hide();
+  $('.entry').show();
+  if (data[0].discountcolumn == 1) {
+
+      $('#chdiscount').prop('checked', true);
+  }
+  if (data[0].unitcolumn == 1) {
+
+      $('#chunit').prop('checked', true);
+  }
+  if (data[0].hsncolumn == 1) {
+      $('#chhsn').prop('checked', true);
+  }
+  $("#detailsTable thead tr").empty('');
+  $("#detailsTable tbody").empty('');
+  Addthead();
+  $("#ddldiscount").val(data[0].discountype);
+  $("#taxtype").val(data[0].taxtype);
+  $('#hf_id').val(data[0]._id);
+  $('#txtpurchasedate').val(data[0].purchasedate);
+  $('#ddlduedays').val(data[0].creditdays);
+  //Cal_Duedate();
+  $('#txttotal').text(data[0].total)
+  $('#txtreference').val(data[0].reference)
+  $('#txtsupplier').typeahead('val', data[0].Supplier.name);
+  $('.supplierdetails').show();
+  $('#txtgstno').val(data[0].Supplier.gstin);
+  $('#ddlcompanystate').val(data[0].Supplier.billingstate);
+  $('#hfsupplierid').val(data[0].supplierid);
+  $('#lblpurchaseno').text(data[0].purchaseorderno)
+  $('#ddlroundofftype').val(data[0].roundofftype);
+  $('#txtrounoffvalue').val(data[0].roundoff)
+  $('#txtactualtotal').val(data[0].actualtotal)
+  $('#txtpayamount').val(data[0].payamount)
+  $('#lblbalance').text(data[0].dueamount)
+  $('#txtnote').val(data[0].note)
+  $('#hfsuppliername').val(data[0].Supplier.suppliername);
+  $('#hfsuppliertype').val(data[0].Supplier.customertype);
+  $('#hfemail').val(data[0].Supplier.email);
+  $('#hfshippingaddress').val(data[0].Supplier.shippingaddress);
+  $('#hfbillingaddress').val(data[0].Supplier.billingaddress);
+  $('#hfgstin').val(data[0].Supplier.gstin);
+  $('#hfgsttype').val(data[0].Supplier.gsttype);
+
+  $.each(data[0].purchaseDetail, function (j, v) {
+      if (j <= 2) {
+          $('#detailsTable tbody tr').each(function (i, e) {
+              if (j == i) {
+                  let productdetails = productnameArray.filter(element => element.id == v.productid);
+                  $('.ddl', this).val(productdetails[0].name);
+                  $('.productid', this).val(v.productid);
+                  $('.hfcategoryid', this).val(v.categoryid);
+                  $('.hfproductname', this).val(productdetails[0].name);
+                  $('.qty', this).val(v.qty);
+                  $('.rate', this).val(v.rate);
+                  $('.amount', this).val(v.amount);
+                  $('.hfdetailsysid', this).val(v._id);
+                  $('.discountvalue', this).val(v.discount);
+                  BindddlDataele($('.ddlunit', this), '/master/unitdropdown/', v.unitid)
+                  $('.salesprice', this).val(v.salesprice)
+                  $('.hsc', this).val(v.hsn);
+                  $('.hfoldsalesprice').val(v.salesprice);
+                  $('.hfoldpurchaseprice').val(v.purchaseprice);
+                  $('.hfpurchase_productid').val(v.purchase_productid);
+              }
+          })
+      } else {
+          let productdetails = productnameArray.filter(element => element.id == v.productid);
+          var row = $("#detailsTable .trbody tr").last().clone();
+          var sno = parseInt($(row).find('.sno').text()) + 1;
+          $(row).find('.sno').text(sno);
+
+          $(row).find('.typeahead').empty("");
+          $(row).find('.typeahead').append(`<input class="form-control ddl" onblur="getproductdetails(this)"  type="text" dir="ltr" placeholder="Enter Productname">`);
+          $(row).find('.hfdetailsysid').val("");
+          $("td input:text", row).val("");
+          $('td .lbldel', row).attr("style", "display: none;");
+          $("td button[type=button]", row).val('Delete');
+          $("td button[type=button]", row).attr("style", "display: block");
+          $(row).find('.discountvalue').val("0");
+          $(row).find('.amount').val("0");
+          $(row).find('.productid').val("");
+          $(row).find('.ddlunit').val("");
+          BindddlData($(row).find('.ddlunit'), '/master/unitdropdown/')
+          getproductname($(row).find('.ddl'))
+          $(row).find('.ddl').val(productdetails[0].name);
+          $(row).find('.hfproductname', this).val(productdetails[0].name);
+          $(row).find('.hfcategoryid').val(v.categoryid);
+          $(row).find('.qty').val(v.qty);
+          $(row).find('.rate').val(v.rate);
+          $(row).find('.discountvalue').val(v.discount);
+          $(row).find('.amount').val(v.amount);
+          $(row).find('.productid').val(v.productid);
+          $(row).find('.detailsysid').val(v._id);
+          $(row).find('.discountvalue', this).val(v.discount);
+          BindddlDataele($('.ddlunit', this), '/master/unitdropdown/', v.unitid)
+          $(row).find('.hsc', this).val(v.hsn);
+          $(row).find('.salesprice', this).val(v.salesprice);
+          $(row).find('.hfoldsalesprice').val(v.salesprice);
+          $(row).find('.hfoldpurchaseprice').val(v.purchaseprice);
+          $(row).find('.hfpurchase_productid').val(v.purchase_productid);
+          $('#detailsTable').append(row);
+      }
+  })
+  let balancepayment = 0;
+
+
+
+  Cal_Amount();
+}
+
+function Close() {
+  cleardata();
+  $('.list').show();
+  $('.entry').hide();
+  amountdateils();
+  LoadData();
+
+}
+
+function Show() {
+  $('.list').hide();
+  $('.entry').show();
+  $('#kt_modal_4').modal('toggle');
+  Getpurchaseno();
+  // $("#detailsTable").empty();
+  // $("#detailsTable").append('<thead><tr></tr></thead><tbody class="trbody"></tbody>');
+  // Addthead();
+  // BindddlData($('#ddlunit'), '/master/unitdropdown/')
+  Companystate()
+  bidpaymode('.ddlpaymode', '/master/banklistddl');
+
+}
+
+function saveexit() {
+  save_process();
+  Close();
+}
+
+function cleardata() {
+  $('#hf_id').val('');
+  $('#txtsupplier').val('Walkin');
+  $('#hfsupplierid').val('5ede58fb85c16929acfcb3b7');
+  $('#txttotal').text("0");
+  $('#subtotal').text("0");
+
+  $('#txtreference').val("");
+  $('#tblpayment tbody').find("tr:gt()").remove();
+  $('#tblpayment tbody tr').each(function (i, e) {
+
+
+      $('.ddltype', this).val('Cash').removeAttr("disabled");
+      $('.payamount', this).val('0').removeAttr("disabled");
+      $('.description', this).val('').removeAttr("disabled");
+      $('.hfpaymentid', this).val('').removeAttr("disabled");
+
+      ddleditpaymode($('.ddlpaymode', this), '/master/banklistddl', '5e71cedfb448ba375c84b94d')
+  })
+  $("#detailsTable thead tr").empty();
+  $("#detailsTable tbody").empty();
+
+  $('.supplierdetails').hide();
+
+  $('#ddlroundofftype').val('plus');
+  $('#txtrounoffvalue').val('0')
+  $('#txtactualtotal').val('0');
+  $('#chdiscount').prop('checked', true);
+  $('#chunit').prop('checked', false);
+  $('#chhsn').prop('checked', false);
+  $('#lblbalance').text('0');
+  $('#txtpayamount').val('0');
+  $('#txtnote').val('');
+  Tabledata = [];
+  localStorage.clear();
+  Addthead();
+  $('#hf_balancepayment').val('0');
+}
+
+function Getpurchaseno() {
+  $.ajax({
+      type: "GET",
+      url: '/purchase/purchaseno',
+      success: function (data) {
+
+          $('#lblpurchaseno').text('PE' + data.billno)
+      },
+      error: function (errormessage) {
+          toastr.error(errormessage.responseText);
+      }
+  })
+  return false
+}
+
+function DeleteRow(ctrl) {
+  var currentRow = $(ctrl).closest("tr");
+
+  if (parseInt($(currentRow).find('.sno').text()) <= 3) {
+      $(currentRow).find('.typeahead').empty("");
+      $(currentRow).find('.typeahead').append(`<input class="form-control ddl" onblur="getproductdetails(this)"  type="text" dir="ltr" placeholder="Enter Productname">`);
+      $(currentRow).find('.hfdetailsysid').val("");
+      $("td input:text", $(currentRow)).val("");
+      $('td .lbldel', $(currentRow)).attr("style", "display: none;");
+      $("td button[type=button]", $(currentRow)).val('Delete');
+      $("td button[type=button]", $(currentRow)).attr("style", "display: block");
+      $("td input[type=date]", $(currentRow)).val('');
+      $("td input[type=time]", $(currentRow)).val('');
+      getproductname($(currentRow).find('.ddl'))
+      $(currentRow).find('.discountvalue').val("0");
+      $(currentRow).find('.amount').val("0");
+      $(currentRow).find('.productid').val("");
+      $(currentRow).find('.ddlunit').val("");
+      BindddlData($(currentRow).find('.ddlunit'), '/master/unitdropdown/')
+  } else {
+
+      $(ctrl).closest('tr').remove();
+      $('#detailsTable tbody tr').each(function (i, e) {
+
+
+          $('.sno', this).text(i + 1);
+      })
+
+  }
+  Cal_Amount();
+  Cal_Balance();
+}
+
+function Fn_OverallDiscount_Cal() {
+  $('#txttotal').text(parseFloat($('#txttotal').text() - $('#txtoveralldiscount').val()).toFixed(2))
+}
+function showsupplier() {
+  $('#customermadal').modal('show');
+  var validationsupplier = function () {
+      $("#formcustsub").validate({
+          // define validation rules
+          rules: {
+              name: {
+                  required: true
+              },
+              mobile: {
+                  required: true
+              },
+          },
+          //display error alert on form submit
+          invalidHandler: function (event, validator) {
+              swal.fire({
+                  "title": "",
+                  "text": "There are some errors in your submission. Please correct them.",
+                  "type": "error",
+                  "confirmButtonClass": "btn btn-secondary",
+                  "onClose": function (e) {
+                      console.log('on close event fired!');
+                  }
+              });
+
+              event.preventDefault();
+          },
+
+          submitHandler: function (form) {
+              swal.fire({
+                  title: 'Are you sure?',
+                  text: "You won't be save this file!",
+                  type: 'warning',
+                  showCancelButton: true,
+                  confirmButtonText: 'Yes, Save it!',
+                  cancelButtonText: 'No, cancel!',
+                  reverseButtons: true
+              }).then(function (result) {
+                  if (result.value) {
+                      var data = {
+                          name: $('#txtname').val(),
+                          mobile: $('#txtmobile').val(),
+                          pagetype: "supllier",
+                          id: "",
+                      };
+                      $.ajax({
+                          url: '/master/custsup',
+                          data: JSON.stringify(data),
+                          type: 'post',
+                          contentType: "application/json;charset=utf-8",
+                          dataType: "json",
+                          success: function (result) {
+                              if (result.status == 'success') {
+                                  toastr.success(result.message);
+                                  $('#txtname').val(''),
+                                      $('#txtmobile').val(''),
+                                      $('#hfsupplierid').val(result.data._id);
+                                  $('#txtsupplier').val(result.data.name);
+                                  $('#hfsuppliername').val(result.data.name);
+                                  $('#customermadal').modal('hide');
+                              } else {
+                                  toastr.error(result.message);
+                              }
+                          },
+                          error: function (errormessage) {
+                              toastr.error(errormessage.responseText);
+                          }
+                      })
+
+                      return false
+
+                  } else if (result.dismiss === 'cancel') {
+                      swal.fire(
+                          'Cancelled',
+                          'Your data is safe :)',
+                          'error'
+                      )
+                  }
+              })
+          }
+      });
+  }
+}
+function Cal_Roundoff() {
+  if ($('#ddlroundofftype').val() == "plus") {
+      let nettotal = parseFloat($('#txtsubtotal').text()) + parseFloat($('#txtrounoffvalue').val())
+      $('#txttotal').text(parseFloat(nettotal).toFixed(2))
+      $('#txtpayamount').val(parseFloat(nettotal).toFixed(2))
+      Cal_Balance()
+  } else {
+      let nettotal = parseFloat($('#txtsubtotal').text()) - parseFloat($('#txtrounoffvalue').val())
+      $('#txttotal').text(parseFloat(nettotal).toFixed(2))
+      $('#txtpayamount').val(parseFloat(nettotal).toFixed(2))
+      Cal_Balance()
+  }
+
+}
+function Cal_Balance() {
+
+  // $('#txtpayamount').val(parseFloat(parseFloat(total) + parseFloat($('#hf_balancepayment').val() == '' ? '0' : $('#hf_balancepayment').val())).toFixed(2))
+  $('#lblbalance').text((parseFloat($('#txttotal').text()) - parseFloat($('#txtpayamount').val())))
+
+}
+function amountdateils() {
+  $.ajax({
+      url: '/purchase/amountdateils',
+      success: function (data) {
+
+          $('#lblpurchaseamount').text(parseFloat(data[0].totalpurchase).toFixed(2))
+          $('#lbltotalpaidamount').text(parseFloat(data[0].totalpay).toFixed(2))
+          $('#lbltotaldueamount').text(parseFloat(data[0].dueamount).toFixed(2))
+          $('#lbltotaloverdueamount').text(parseFloat(data[0].overdue).toFixed(2))
+      }
+
+  })
+
+}
+function Add_paymentRow() {
+  var row = $("#tblpayment tbody tr").last().clone();
+  // clear(row);
+  $(row).find('.payamount').val('0');
+  $(row).find('.description').val('0');
+  $(row).find('.description').val('0');
+  $(row).find('.hfpaymentid').val('');
+  bidpaymode($(row).find('.ddlpaymode'), '/master/banklistddl');
+  $('#tblpayment').append(row);
+  return false;
+}
+function Companystate() {
+  $.ajax({
+      url: '/Adminpanel/companystate',
+      dataType: "json",
+      type: "get",
+      success: function (data) {
+
+          $('#hf_companystate').val(data[0].state)
+      },
+      error: function (response) {
+          var parsed = JSON.parse(response.responseText);
+          Error_Msg(parsed.Message);
+          d.resolve();
+      },
+      failure: function (response) {
+          var parsed = JSON.parse(response.responseText);
+          Error_Msg(parsed.Message);
+          d.resolve();
+      }
+  });
+}
+

@@ -11,6 +11,7 @@ var each = require('promise-each');
 const path = require("path");
 const pdf = require('html-pdf');
 const mark = require('markup-js');
+const moment = require('moment');
 
 
 require('../../config/logger');
@@ -307,33 +308,65 @@ module.exports = {
 
     },
     list(req, res) {
-        console.log(req.url);
-        var queryString = url.parse(req.url, true);
-        var urlparms = queryString.query;
-        // console.log(urlparms);
-        var searchStr = {
-            isdeleted: 0,
-            companyid: new mongoose.Types.ObjectId(req.session.companyid),
-            branchid: new mongoose.Types.ObjectId(req.session.branchid)
-        };
+        console.log('----------------------------Start----------------------------');
+        console.log(req.body.fdate);
+        console.log(req.body.tdate);
+       
+        if(req.body.fdate)
+        {
+            var fromDate = moment(req.body.fdate).add(0, 'days').format("YYYY-MM-DD");
+            var toDate = moment(req.body.tdate).add(0, 'days').format("YYYY-MM-DD");
+            console.log(fromDate)
+            var searchStr = {
+                isdeleted: 0,
+                companyid: new mongoose.Types.ObjectId(req.session.companyid),
+                branchid: new mongoose.Types.ObjectId(req.session.branchid),
+                invoicedate: {
+                    $gte: new Date(fromDate + "T00:00:00.000Z"),
+                    $lte: new Date(toDate + "T23:59:59.999Z")
+                }
+            };
+            var match={
+                $match: {
+                    isdeleted: 0,
+                    companyid: new mongoose.Types.ObjectId(req.session.companyid),
+                    branchid: new mongoose.Types.ObjectId(req.session.branchid),
+                    invoicedate: {
+                        $gte: new Date(fromDate + "T00:00:00.000Z"),
+                        $lte: new Date(toDate + "T23:59:59.999Z")
+                    }
+                }
+            }
+        }
+        else{
+            var searchStr = {
+                isdeleted: 0,
+                companyid: new mongoose.Types.ObjectId(req.session.companyid),
+                branchid: new mongoose.Types.ObjectId(req.session.branchid)
+            };
+            var match={
+                $match: {
+                    isdeleted: 0,
+                    companyid: new mongoose.Types.ObjectId(req.session.companyid),
+                    branchid: new mongoose.Types.ObjectId(req.session.branchid),
+                   
+                }
+            }
+        }
+      
         var recordsTotal = 0;
         var recordsFiltered = 0;
-        sales.count({ isdeleted: 0 }, function (err, c) {
+        sales.count(searchStr, function (err, c) {
             recordsTotal = c;
             console.log('total count ' + c);
             sales.count(searchStr, function (err, c) {
                 recordsFiltered = c;
-                console.log('record fliter count ' + c);
-                console.log('start ' + urlparms.start);
-                console.log('length ' + urlparms.length);
+                // console.log('record fliter count ' + c);
+                // console.log('start ' + urlparms.start);
+                // console.log('length ' + urlparms.length);
                 sales.aggregate(
-                    [{
-                        $match: {
-                            isdeleted: 0,
-                            companyid: new mongoose.Types.ObjectId(req.session.companyid),
-                            branchid: new mongoose.Types.ObjectId(req.session.branchid)
-                        }
-                    },
+                    [
+                        match,
                     {
 
                         $lookup: {
@@ -412,7 +445,7 @@ module.exports = {
 
 
                             },
-                            "invoicedate": { $dateToString: { format: "%Y-%m-%d", date: "$invoicedate" } },
+                            "invoicedate": { $dateToString: { format: "%d-%m-%Y", date: "$invoicedate" } },
                             "reference": 1,
                             "duedate": { $dateToString: { format: "%Y-%m-%d", date: "$duedate" } },
                             "customer.name": 1,
@@ -436,8 +469,14 @@ module.exports = {
                             'balancedueamount': { $subtract: ['$total', { "$sum": '$receiptpayment.PaymentDetail.payedamount' }] }
                         },
                     },
-                    { "$skip": Number(urlparms.start), },
-                    { "$limit": Number(urlparms.length) },
+                    { "$skip": Number(req.body.start), },
+                    { "$limit": Number(req.body.length) },
+                    // {
+                    //     "$sort":{
+                    //         "invoiceno": -1 //Sort by Date Added DESC
+                    //     }
+                    // }
+                   
                     ],
                     function (err, results) {
 
@@ -447,7 +486,7 @@ module.exports = {
                         }
                         // console.log(results)
                         var data = JSON.stringify({
-                            "draw": urlparms.draw,
+                            "draw": req.body.draw,
                             "recordsFiltered": recordsFiltered,
                             "recordsTotal": recordsTotal,
                             "data": results

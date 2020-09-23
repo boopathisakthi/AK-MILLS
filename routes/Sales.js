@@ -77,7 +77,7 @@ router.get('/receiptentry', function (req, res, next) {
 });
 router.get('/sales/invoiceno', Salescontroller.invoiceno);
 router.post('/sales/insertupdate', Salescontroller.insert);
-router.get('/sales/list', Salescontroller.list);
+router.post('/sales/list', Salescontroller.list);
 router.get('/sales/testlist/:_id', Salescontroller.testlist);
 router.get('/sales/edit/:_id', Salescontroller.edit);
 router.post('/sales/delete/:_id', Salescontroller.delete);

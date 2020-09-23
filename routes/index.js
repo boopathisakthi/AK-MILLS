@@ -264,7 +264,19 @@ router.get('/stocktransfer', function (req, res, next) {
 });
 // master Category router
 router.get('/category', function (req, res, next) {
-    res.render('./Master/Category/index.ejs', { title: 'Category' });
+    if (req.session.usrid) {
+        RoleMappingModal.find({ roleid: req.session.roleid }).then((data) => {
+            let roledetails = '';
+            roledetails = data;
+            branchid=req.session.branchid;
+            res.render('./Master/Category/index.ejs', { roledetails: roledetails,branchid:branchid });
+           // res.render('./sales/SalesEntry/index.ejs', { roledetails: roledetails,branchid:branchid });
+        })
+    }
+
+    else
+        res.render('./Adminpanel/login/login', { title: 'Login' });
+   
 });
 // master subcategory router
 router.get('/subcategory', function (req, res, next) {

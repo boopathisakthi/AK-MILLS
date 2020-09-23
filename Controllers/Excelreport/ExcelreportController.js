@@ -1383,6 +1383,8 @@ module.exports = {
 
     },
     salescategorywise(req, res) {
+        console.log(req.body.fdate)
+        console.log(req.body.tdate)
         var fromDate = moment(req.body.fdate).add(0, 'days').format("YYYY-MM-DD");
         var toDate = moment(req.body.tdate).add(0, 'days').format("YYYY-MM-DD");
         sales.aggregate([
