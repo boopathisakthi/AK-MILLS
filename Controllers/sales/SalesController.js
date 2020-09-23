@@ -441,9 +441,7 @@ module.exports = {
                     {
                         $project: {
                             "_id": {
-                                $concat: [{ $toString: "$_id" }, " - ", { $toString: "$roledetails.edit" }, "-", { $toString: "$roledetails.delete" }]
-
-
+                                $concat: [{ "$toString": "$_id" }, " - ", { "$toString": "$roledetails.edit" }, "-", { "$toString": "$roledetails.delete" }]
                             },
                             "invoicedate": { $dateToString: { format: "%d-%m-%Y", date: "$invoicedate" } },
                             "reference": 1,
