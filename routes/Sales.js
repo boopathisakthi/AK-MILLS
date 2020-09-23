@@ -17,7 +17,7 @@ router.get('/sales', function (req, res, next) {
             let roledetails = '';
             roledetails = data;
             branchid=req.session.branchid;
-            res.render('./sales/SalesEntry/index.ejs', { roledetails: roledetails,branchid:branchid });
+            res.render('./Sales/SalesEntry/index.ejs', { roledetails: roledetails,branchid:branchid });
 
 
         })
@@ -34,7 +34,7 @@ router.get('/salesorder', function (req, res, next) {
             let roledetails = '';
             roledetails = data;
             branchid=req.session.branchid;
-            res.render('./sales/Salesorder/index.ejs', { roledetails: roledetails,branchid:branchid });
+            res.render('./Sales/Salesorder/index.ejs', { roledetails: roledetails,branchid:branchid });
 
 
         })
@@ -51,7 +51,7 @@ router.get('/salereturn', function (req, res, next) {
             let roledetails = '';
             roledetails = data;
             branchid=req.session.branchid;
-            res.render('./sales/Salesreturn/index.ejs', { roledetails: roledetails ,branchid:branchid});
+            res.render('./Sales/Salesreturn/index.ejs', { roledetails: roledetails ,branchid:branchid});
 
         })
     }

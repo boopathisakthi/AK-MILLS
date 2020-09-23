@@ -234,7 +234,7 @@ router.get('/product', function (req, res, next) {
         RoleMappingModal.find({ roleid: req.session.roleid }).then((data) => {
             roledetails = data;
             branchid = req.session.branchid;
-            res.render('./Master/Product/index.ejs', { roledetails: roledetails, branchid: branchid });
+            res.render('./Master/product/index.ejs', { roledetails: roledetails, branchid: branchid });
 
         })
     }
