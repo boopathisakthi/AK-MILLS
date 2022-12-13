@@ -17,7 +17,7 @@
     "datejs": "^1.0.0-rc3",
     "ejs": "^3.0.1",
     "ejs-locals": "^1.0.2",
-    "express": "^4.17.1",
+    "express": "^4.17.3",
     "express-session": "^1.17.0",
     "html-pdf": "^2.2.0",
     "http-errors": "^1.7.3",
